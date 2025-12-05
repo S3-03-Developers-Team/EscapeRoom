@@ -1,0 +1,49 @@
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"c96c72b4-aa93-4890-a6e4-8c45e1674a16\" name=\"Changes\" comment=\"\">\n      <change afterPath=\"$PROJECT_DIR$/.idea/misc.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\n      <map>\n        <entry key=\"$PROJECT_DIR$\" value=\"dev\" />\n      </map>\n    </option>\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;associatedIndex&quot;: 0\n}</component>\n  <component name=\"ProjectId\" id=\"36NWu4ATZkDzGSxExjSKaQo3PMf\" />\n  <component name=\"ProjectLevelVcsManager\">\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\n  </component>\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\"><![CDATA[{\n  \"keyToString\": {\n    \"ModuleVcsDetector.initialDetectionPerformed\": \"true\",\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\n    \"RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager\": \"true\",\n    \"RunOnceActivity.git.unshallow\": \"true\",\n    \"last_opened_file_path\": \"/Users/rafaeldicandia/ItAcademy/Escape_Room/EscapeRoom\",\n    \"settings.editor.selected.configurable\": \"preferences.pluginManager\"\n  }\n}]]></component>\n  <component name=\"RunManager\">\n    <configuration default=\"true\" type=\"JetRunConfigurationType\">\n      <module name=\"EscapeRoom\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration default=\"true\" type=\"KotlinStandaloneScriptRunConfigurationType\">\n      <module name=\"EscapeRoom\" />\n      <option name=\"filePath\" />\n      <method v=\"2\" />\n    </configuration>\n  </component>\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"c96c72b4-aa93-4890-a6e4-8c45e1674a16\" name=\"Changes\" comment=\"\" />\n      <created>1764847728579</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1764847728579</updated>\n    </task>\n    <servers />\n  </component>\n</project>
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision b87cf20b424b59a1046cc869f4d71d90ce9ad7a6)
++++ b/.idea/workspace.xml	(date 1764922287119)
+@@ -4,10 +4,7 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="c96c72b4-aa93-4890-a6e4-8c45e1674a16" name="Changes" comment="">
+-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-    </list>
++    <list default="true" id="c96c72b4-aa93-4890-a6e4-8c45e1674a16" name="Changes" comment="Revert &quot;docker con&quot;&#10;&#10;This reverts commit 3cf1e52f4d4dac0169b882b2e959b4214275d567." />
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+@@ -38,6 +35,7 @@
+     "RunOnceActivity.ShowReadmeOnStart": "true",
+     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+     "RunOnceActivity.git.unshallow": "true",
++    "git-widget-placeholder": "DBConnection",
+     "last_opened_file_path": "/Users/rafaeldicandia/ItAcademy/Escape_Room/EscapeRoom",
+     "settings.editor.selected.configurable": "preferences.pluginManager"
+   }
+@@ -63,6 +61,19 @@
+       <option name="presentableId" value="Default" />
+       <updated>1764847728579</updated>
+     </task>
++    <task id="LOCAL-00001" summary="Revert &quot;docker con&quot;&#10;&#10;This reverts commit 3cf1e52f4d4dac0169b882b2e959b4214275d567.">
++      <option name="closed" value="true" />
++      <created>1764922212808</created>
++      <option name="number" value="00001" />
++      <option name="presentableId" value="LOCAL-00001" />
++      <option name="project" value="LOCAL" />
++      <updated>1764922212808</updated>
++    </task>
++    <option name="localTasksCounter" value="2" />
+     <servers />
+   </component>
++  <component name="VcsManagerConfiguration">
++    <MESSAGE value="Revert &quot;docker con&quot;&#10;&#10;This reverts commit 3cf1e52f4d4dac0169b882b2e959b4214275d567." />
++    <option name="LAST_COMMIT_MESSAGE" value="Revert &quot;docker con&quot;&#10;&#10;This reverts commit 3cf1e52f4d4dac0169b882b2e959b4214275d567." />
++  </component>
+ </project>
+\ No newline at end of file
