@@ -17,9 +17,9 @@ services:
     ports:
       - "3307:3306"
     volumes:
-      # Persistencia de datos
+      # Volumen para persistencia de datos (tipo 'named volume')
       - db_data:/var/lib/mysql
-      - # ✅ NUEVO: Mapeo para ejecutar scripts de inicialización
+      # Volumen para scripts de inicialización (tipo 'bind mount')
       - ./db/init:/docker-entrypoint-initdb.d
     networks:
       - app_network
