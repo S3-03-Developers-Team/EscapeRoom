@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  # 1. Servicio de la Base de Datos (MySQL)
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    # **INSTRUCCIÓN CLAVE** para cargar variables desde el archivo .env
+    env_file:
+      - .env
+    environment:
+      # Credenciales cargadas desde el archivo .env
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3307:3306"
+    volumes:
+      # Persistencia de datos
+      - db_data:/var/lib/mysql
+      - # ✅ NUEVO: Mapeo para ejecutar scripts de inicialización
+      - ./db/init:/docker-entrypoint-initdb.d
+    networks:
+      - app_network
+    restart: always
+
+  # 2. Servicio de la Aplicación Java
+  app:
+    image: eclipse-temurin:21-jre-alpine
+    container_name: java_app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - app_network
+    environment:
+      # La URL de la DB también usa las variables
+      DB_URL: jdbc:mysql://db:3306/${DB_DATABASE}?autoReconnect=true&useSSL=false
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      # Montar el JAR/código de la aplicación (ajusta si la ruta es diferente)
+      - ./:/app
+    #command: java -jar /app/app.jar
+    command: sh -c "echo 'Servicio Java en espera. Listo para la compilación.' && sleep infinity"
+
+
+
+# Configuración de Redes y Volúmenes
+networks:
+  app_network:
+    driver: bridge
+
+volumes:
+  db_data:
