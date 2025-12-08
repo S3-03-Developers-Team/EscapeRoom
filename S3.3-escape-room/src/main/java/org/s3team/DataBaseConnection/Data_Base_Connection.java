@@ -3,7 +3,7 @@ package org.s3team.DataBaseConnection;
 import java.sql.Connection;
 
 public interface Data_Base_Connection {
-    void openConnecttion();
+    void openConnection();
     Connection getConnection();
-    void closeConnecttion();
+    void closeConnection();
 }
