@@ -43,8 +43,8 @@ services:
     volumes:
       # Montar el JAR/código de la aplicación (ajusta si la ruta es diferente)
       - ./:/app
-    #command: java -jar /app/app.jar
-    command: sh -c "echo 'Servicio Java en espera. Listo para la compilación.' && sleep infinity"
+      - ./target/S3.3-escape-room-1.0-SNAPSHOT.jar:/app/app.jar
+    command: java -jar /app/app.jar
 
 
 
