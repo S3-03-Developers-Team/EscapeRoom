@@ -41,8 +41,6 @@ services:
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
     volumes:
-      # Montar el JAR/código de la aplicación (ajusta si la ruta es diferente)
-      - ./:/app
       - ./target/S3.3-escape-room-1.0-SNAPSHOT.jar:/app/app.jar
     command: java -jar /app/app.jar
 
