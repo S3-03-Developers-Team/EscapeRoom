@@ -19,7 +19,10 @@ public class Main {
 
             System.out.println("Database Connection Status: SUCCESS!");
             System.out.println("JDBC Connection Object: " + conn);
-            
+
+            // Aquí iría el resto de la lógica de tu aplicación
+
+
         } catch (RuntimeException e) {
             System.err.println("FATAL ERROR: Application failed to initialize due to connection failure.");
             System.err.println("Check DB container status, network, and credentials.");
