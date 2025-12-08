@@ -16,23 +16,21 @@ public class MySQL_Data_Base_Connection implements Data_Base_Connection {
 
     private MySQL_Data_Base_Connection() throws SQLException, IOException, IllegalStateException {
         getDatabaseProperties();
+        this.connection = null;
 
-        try {
-            if (url == null || user == null || password == null) {
-                throw new IllegalStateException("\"Database connection properties (DB_URL, DB_USER, DB_PASSWORD) are missing \" +\n" +
-                        "                    \"from environment variables. Check your .env file and docker-compose.yaml.\"");
-            }
-            this.connection = DriverManager.getConnection(url, user, password);
-            System.out.println("Successful connection to MySQL.");
-        } catch (SQLException e) {
-            throw new RuntimeException("Error connecting to the database", e);
-        }
     }
 
 
-    public static MySQL_Data_Base_Connection getInstance() throws SQLException, IOException {
+    public static synchronized MySQL_Data_Base_Connection getInstance() throws SQLException, IOException {
         if (instance == null) {
-            instance = new MySQL_Data_Base_Connection();
+            try {
+
+                instance = new MySQL_Data_Base_Connection();
+                instance.openConnection();
+            } catch (SQLException e) {
+                throw new RuntimeException("Error connecting to the database", e);
+            }
+
         }
         return instance;
     }
@@ -47,27 +45,37 @@ public class MySQL_Data_Base_Connection implements Data_Base_Connection {
 
     @Override
     public void openConnection() {
+        try {
+            if (this.connection == null || this.connection.isClosed()) {
+                System.out.println("Connection is closed or null. Attempting to re-establish connection...");
+                if (url == null || user == null || password == null) {
+                    throw new IllegalStateException("\"Database connection properties (DB_URL, DB_USER, DB_PASSWORD) are missing \" +\n" +
+                            "                    \"from environment variables. Check your .env file and docker-compose.yaml.\"");
+                }
+                this.connection = DriverManager.getConnection(url, user, password);
+                System.out.println("Successful connection to MySQL.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error connecting to the database", e);
+        }
 
 
     }
 
     public Connection getConnection() {
-        return connection;
+        return this.connection;
     }
 
     @Override
     public void closeConnection() {
-        if(connection!=null){
-            try{
+        if (connection != null) {
+            try {
                 connection.close();
-            }catch (SQLException e){
+            } catch (SQLException e) {
                 throw new RuntimeException("Error closing connection to data base", e);
-
             }
         }
 
     }
-
-
 
 }
