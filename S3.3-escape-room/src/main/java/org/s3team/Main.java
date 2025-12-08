@@ -19,13 +19,7 @@ public class Main {
 
             System.out.println("Database Connection Status: SUCCESS!");
             System.out.println("JDBC Connection Object: " + conn);
-
-            // Aquí iría el resto de la lógica de tu aplicación
-
-            // 3. Dejar el programa en ejecución si es un servidor (Opcional, pero necesario si no tienes un servidor web)
-            // Si este es un simple programa de consola, se cerrará después de esto.
-            // Si tu aplicación es un servidor web, puedes usar un bucle infinito o esperar llamadas HTTP aquí.
-
+            
         } catch (RuntimeException e) {
             System.err.println("FATAL ERROR: Application failed to initialize due to connection failure.");
             System.err.println("Check DB container status, network, and credentials.");
