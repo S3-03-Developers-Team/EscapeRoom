@@ -11,29 +11,83 @@ public class MainMenuController {
             try {
                 System.out.print("Welcome to Fantastic Escape Rooms");
 
-                System.out.println("Opción,Funcionalidad\n" +
-                        "1,\"Gestión de Inventario (Salas, Pistas, Objetos)\"\n" +
-                        "2,Gestión de Ventas (Tickets e Ingresos)\n" +
-                        "3,Gestión de Notificaciones y Usuarios\n" +
-                        "0,Salir de la aplicación");
+                System.out.println("\n" +
+                        "1- Inventory Manager\n" +
+                        "2- Sales Manager\n" +
+                        "3- Notification Manager\n" +
+                        "0- Exit Application");
                 int option = SCANNER.nextInt();
 
                 switch (option) {
                     case 1:
-                        System.out.println("Changing to Invetory Menu");
+                        System.out.println("Changing to Invetory Menu...");
+                        InventoryMenu();
                         break;
 
                     case 2:
-                        System.out.println("Changing to Sales Menu");
+                        System.out.println("Changing to Sales Menu...");
+                        SalesMenu();
                         break;
 
                     case 3:
-                        System.out.println("Changing to Notification Menu");
+                        System.out.println("Changing to Notification Menu...");
+                        NotificationMenu();
                         break;
 
                     case 0:
 
                         System.out.println("Exiting");
+                        break;
+
+                    default:
+                        System.out.println("Invalid option");
+                        break;
+                }
+
+            } catch (
+                    java.util.InputMismatchException e) {
+            }
+
+        }
+        SCANNER.close();
+    }
+
+    private void NotificationMenu() {
+    }
+
+    private void SalesMenu() {
+    }
+
+    public void InventoryMenu() {
+        while (!exit) {
+            try {
+                System.out.print("Inventory Manager");
+
+                System.out.println("\n" +
+                        "1- Add New Item\n" +
+                        "2- Remove Item\n" +
+                        "3- Display Inventory\n" +
+                        "4- Display Total Value"+
+                        "0- Go back\n");
+                int option = SCANNER.nextInt();
+
+                switch (option) {
+                    case 1:
+                        System.out.println("Calling servi");
+                        break;
+
+                    case 2:
+                        System.out.println("Changing to Sales Menu...");
+                        break;
+
+                    case 3:
+                        System.out.println("Changing to Notification Menu...");
+                        break;
+
+                    case 0:
+
+                        System.out.println("Returning to Main Menu");
+
                         break;
 
                     default:
@@ -52,5 +106,49 @@ public class MainMenuController {
 
     }
 
+    // Dentro de la clase MainMenuController
 
+    private void addItemMenu() {
+        boolean addItemMenuExit = false;
+        int option;
+
+        while (!addItemMenuExit) {
+
+            // 1. Mostrar las opciones del Sub-Menú de Adición
+            System.out.println("\n--- ADD NEW ITEM ---");
+            System.out.println("1. Add New Room");
+            System.out.println("2. Add Hint");
+            System.out.println("3. Add Decoration Object");
+            System.out.println("0. Go Back to Inventory Menu");
+            System.out.println("--------------------");
+
+            try {
+                System.out.print("Choose item type to add: ");
+                option = SCANNER.nextInt();
+
+                switch (option) {
+                    case 1:
+                       // Método para añadir una Sala
+                        break;
+                    case 2:
+                        // Método para añadir una Pista
+                        break;
+                    case 3:
+                        // Método para añadir un Objeto de Decoración
+                        break;
+                    case 0:
+                        addItemMenuExit = true; // Lógica para salir
+                        System.out.println("Returning to Inventory Menu...");
+                        break;
+                    default:
+                        System.out.println("❌ Invalid option. Please choose a number from 0 to 3.");
+                        break;
+                }
+
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("⛔ Input Error: Please enter a valid number.");
+                SCANNER.nextLine(); // Línea OBLIGATORIA para limpiar el buffer
+            }
+        }
+    }
 }
