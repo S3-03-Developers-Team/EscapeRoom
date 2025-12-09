@@ -11,7 +11,11 @@ public class MainMenuController {
             try {
                 System.out.print("Welcome to Fantastic Escape Rooms");
 
-                // Capturamos el número entero de la opción
+                System.out.println("Opción,Funcionalidad\n" +
+                        "1,\"Gestión de Inventario (Salas, Pistas, Objetos)\"\n" +
+                        "2,Gestión de Ventas (Tickets e Ingresos)\n" +
+                        "3,Gestión de Notificaciones y Usuarios\n" +
+                        "0,Salir de la aplicación");
                 int option = SCANNER.nextInt();
 
                 switch (option) {
