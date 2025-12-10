@@ -59,7 +59,8 @@ public class MainMenuController {
     }
 
     public void InventoryMenu() {
-        while (!exit) {
+        boolean exitInventory = false;
+        while (!exitInventory) {
             try {
                 System.out.print("Inventory Manager");
 
@@ -67,27 +68,36 @@ public class MainMenuController {
                         "1- Add New Item\n" +
                         "2- Remove Item\n" +
                         "3- Display Inventory\n" +
-                        "4- Display Total Value"+
+                        "4- Display Total Value" +
                         "0- Go back\n");
                 int option = SCANNER.nextInt();
 
                 switch (option) {
                     case 1:
-                        System.out.println("Calling servi");
+                        System.out.println("Calling service");
+                        addItemMenu();
                         break;
 
                     case 2:
-                        System.out.println("Changing to Sales Menu...");
+                        System.out.println("Calling service");
+                        //removeItem();
                         break;
 
                     case 3:
-                        System.out.println("Changing to Notification Menu...");
+                        System.out.println("Calling service");
+                        //displayInventory();
+                        break;
+
+                    case 4:
+
+                        System.out.println("Calling service");
+                        //displayTotalValue();
                         break;
 
                     case 0:
 
                         System.out.println("Returning to Main Menu");
-
+                        exitInventory = true;
                         break;
 
                     default:
@@ -106,7 +116,6 @@ public class MainMenuController {
 
     }
 
-    // Dentro de la clase MainMenuController
 
     private void addItemMenu() {
         boolean addItemMenuExit = false;
@@ -114,7 +123,7 @@ public class MainMenuController {
 
         while (!addItemMenuExit) {
 
-            // 1. Mostrar las opciones del Sub-Menú de Adición
+
             System.out.println("\n--- ADD NEW ITEM ---");
             System.out.println("1. Add New Room");
             System.out.println("2. Add Hint");
@@ -128,7 +137,7 @@ public class MainMenuController {
 
                 switch (option) {
                     case 1:
-                       // Método para añadir una Sala
+                        // Método para añadir una Sala
                         break;
                     case 2:
                         // Método para añadir una Pista
@@ -137,17 +146,17 @@ public class MainMenuController {
                         // Método para añadir un Objeto de Decoración
                         break;
                     case 0:
-                        addItemMenuExit = true; // Lógica para salir
+                        addItemMenuExit = true;
                         System.out.println("Returning to Inventory Menu...");
                         break;
                     default:
-                        System.out.println("❌ Invalid option. Please choose a number from 0 to 3.");
+                        System.out.println("Invalid option. Please choose a number from 0 to 3.");
                         break;
                 }
 
             } catch (java.util.InputMismatchException e) {
-                System.out.println("⛔ Input Error: Please enter a valid number.");
-                SCANNER.nextLine(); // Línea OBLIGATORIA para limpiar el buffer
+                System.out.println("Input Error: Please enter a valid number.");
+                SCANNER.nextLine();
             }
         }
     }
