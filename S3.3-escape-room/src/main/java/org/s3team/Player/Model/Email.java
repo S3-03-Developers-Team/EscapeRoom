@@ -2,6 +2,7 @@ package org.s3team.Player.Model;
 
 import org.s3team.Exceptions.ValidationException;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,18 +30,22 @@ public record Email(String email) {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return false;
+    public String toString() {
+        return "Email{" +
+                "email='" + email + '\'' +
+                '}';
     }
 
     @Override
-    public String toString() {
-        return "";
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Email email1 = (Email) o;
+        return Objects.equals(email, email1.email);
     }
 
     @Override
     public int hashCode() {
-        return 0;
+        return Objects.hashCode(email);
     }
 }
 
