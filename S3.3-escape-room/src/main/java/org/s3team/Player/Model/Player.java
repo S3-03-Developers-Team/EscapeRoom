@@ -8,7 +8,7 @@ public class Player implements Subscriber {
     private final Id<Player> id;
     private final Name name;
     private final Email email;
-    private boolean subscribed;
+    private final boolean subscribed;
 
 
     public Player(Id<Player> id, Name name, Email email, boolean subscribed) {
@@ -46,8 +46,9 @@ public class Player implements Subscriber {
     @Override
     public String toString() {
         return "Player{" +
-                "name=" + name +
-                ", email='" + email + '\'' +
+                "id=" + id +
+                ", name=" + name +
+                ", email=" + email +
                 ", subscribed=" + subscribed +
                 '}';
     }
@@ -56,5 +57,4 @@ public class Player implements Subscriber {
     public void notification(String message) {
         System.out.println("NOTIFICATION to " + name + ":" + message);
     }
-
 }
