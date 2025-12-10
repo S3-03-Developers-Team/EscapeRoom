@@ -1,6 +1,8 @@
 package org.s3team;
 
 import org.s3team.DataBaseConnection.MySQL_Data_Base_Connection;
+import org.s3team.Menu.MainMenuController;
+
 import java.sql.Connection;
 
 public class Main {
@@ -30,5 +32,8 @@ public class Main {
             // Salida con código de error para que Docker sepa que falló el inicio
             System.exit(1);
         }
+
+        MainMenuController startApp = new MainMenuController();
+        startApp.startApplication();
     }
 }
