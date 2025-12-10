@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface CrudDao<T> {
 
-    void save(T entity);
+    T save(T entity);
 
     Optional<T> findById(Id<T> id);
 
