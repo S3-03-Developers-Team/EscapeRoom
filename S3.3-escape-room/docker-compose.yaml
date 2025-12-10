@@ -41,7 +41,8 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
     volumes:
       - ./target/S3.3-escape-room-1.0-SNAPSHOT.jar:/app/app.jar
-    command: sh -c "sleep 10 && java -jar /app/app.jar"
+    # TEMPORAL: Cambiar el command para debug
+    command: sh -c "sleep 15 && java -jar /app/app.jar"
 
 
 
