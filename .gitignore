@@ -1,69 +1,38 @@
+# Archivos de Build y Binarios de Maven
+########################################
 target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-check-report.html
+dependency-check-report.xml
 
-### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/
+# Directorios de IDEs (IntelliJ IDEA, Eclipse, NetBeans)
+########################################
+# IntelliJ IDEA
+.idea/
 *.iws
 *.iml
 *.ipr
-.idea/
 out/
 
-# Java build files
-*.class
-*.jar
-*.war
-*.ear
-
-
-### Eclipse ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
-.vscode/
-
-### Mac OS ###
-.DS_Store
-
+# Directorios Generados por la App (Logs, Temp, Configuracion)
+########################################
 # Logs
-*.loggi
+*.log
 
-# System files
-.DS_Store
-Thumbs.db
+# Archivos de Configuracion
+.env
+.env.*
+application*.properties
+application*.yml
 
-# Maven
-.mvn/
-!/.mvn/wrapper/maven-wrapper.jar
+# Java/Clases
+########################################
+*.class
 
-# Your custom ignore rule
-src/main/java/org/example/
-src/test/java/org/example/
-src/main/java/com/example/
-src/test/java/com/example/
-
-echo "" >> .gitignore
-echo "# JetBrains IDE files" >> .gitignore
-echo ".idea/" >> .gitignore
-echo "*.iml" >> .gitignore
+# Directorios Temporales
+# Ignorar el .gitkeep si lo estás usando solo para directorios vacíos
+*.gitkeep
