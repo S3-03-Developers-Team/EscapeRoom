@@ -1,6 +1,6 @@
 package org.s3team.decoration.service;
 
-import org.s3team.decoration.dao.DecorationDao;
+import org.s3team.decoration.dao.DecorationDaoImpl;
 import org.s3team.decoration.model.Decoration;
 import org.s3team.decoration.model.Material;
 
@@ -8,19 +8,19 @@ import java.util.List;
 
 public class DecorationService {
 
-    private final DecorationDao decorationDao;
+    private final DecorationDaoImpl decorationDaoImpl;
 
     public DecorationService() {
-        this.decorationDao = new DecorationDao();
+        this.decorationDaoImpl = new DecorationDaoImpl();
     }
 
     public void createDecoration(Decoration newDecoration) {
 
         int targetRoomId = newDecoration.getRoomId();
-        List<Decoration> existingDecorations = decorationDao.findByRoomId(targetRoomId);
+        List<Decoration> existingDecorations = decorationDaoImpl.findByRoomId(targetRoomId);
 
         if (existingDecorations.isEmpty()) {
-            decorationDao.save(newDecoration);
+            decorationDaoImpl.save(newDecoration);
             System.out.println("SUCCESS: First item added. Room " + targetRoomId + " is now a " + newDecoration.getMaterial() + " room.");
 
         } else {
@@ -29,7 +29,7 @@ public class DecorationService {
             Material newMaterial = newDecoration.getMaterial();
 
             if (existingMaterial == newMaterial) {
-                decorationDao.save(newDecoration);
+                decorationDaoImpl.save(newDecoration);
                 System.out.println("SUCCESS: Material matches (" + existingMaterial + "). Saved.");
             } else {
                 String errorMessage = "RULE VIOLATION: Room " + targetRoomId +
@@ -42,6 +42,6 @@ public class DecorationService {
     }
 
     public List<Decoration> getAllDecorations() {
-        return decorationDao.findAll();
+        return decorationDaoImpl.findAll();
     }
 }
