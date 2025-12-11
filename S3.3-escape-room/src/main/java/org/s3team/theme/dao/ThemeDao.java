@@ -15,4 +15,7 @@ public interface ThemeDao extends CrudDao<Theme> {
     default Theme getById(Id<Theme> id){
         return findById(id).orElseThrow(() -> new ThemeNotFoundException("Theme with ID " + id + " was not found"));
     }
+    default Theme getByName(Name name){
+        return findByName(name).orElseThrow(() -> new ThemeNotFoundException("Theme with name " + name + "was not found"));
+    }
 }
