@@ -22,8 +22,8 @@ USE `escape_room` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `escape_room`.`certificate` (
   `id_certificate` INT NOT NULL AUTO_INCREMENT,
-  `type` ENUM('') NOT NULL,
-  `reward` VARCHAR(45) NULL DEFAULT NULL,
+  `type` ENUM('ROOM_COMPLETED', 'TIME_CHALLENGE', 'NO_HINTS_CHALLENGE', 'SPECIAL_ACHIEVEMENT') NOT NULL,
+  `reward` VARCHAR(200) NULL DEFAULT NULL,
   PRIMARY KEY (`id_certificate`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
@@ -67,10 +67,10 @@ DEFAULT CHARACTER SET = utf8mb3;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `escape_room`.`clue` (
   `id_clue` INT NOT NULL AUTO_INCREMENT,
-  `type` ENUM('') NOT NULL,
+  `type` ENUM('TEXT', 'OBJECT', 'SOUND') NOT NULL,
   `clue_description` VARCHAR(200) NOT NULL,
   `price` DECIMAL(10,2) NOT NULL,
-  `theme_id` INT NULL,
+  `theme_id` INT NOT NULL,
   `room_id` INT NOT NULL,
   PRIMARY KEY (`id_clue`),
   INDEX `fk_clue_themes_idx` (`theme_id` ASC) VISIBLE,
