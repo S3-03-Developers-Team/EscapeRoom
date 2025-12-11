@@ -1,8 +1,8 @@
-package org.s3team.service;
+package org.s3team.decoration.service;
 
-import org.s3team.common.dao.DecorationDao;
-import org.s3team.common.valueobject.Decoration;
-import org.s3team.common.valueobject.Material;
+import org.s3team.decoration.dao.DecorationDao;
+import org.s3team.decoration.model.Decoration;
+import org.s3team.decoration.model.Material;
 
 import java.util.List;
 

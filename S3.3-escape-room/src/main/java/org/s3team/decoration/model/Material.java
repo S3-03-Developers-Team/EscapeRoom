@@ -1,4 +1,4 @@
-package org.s3team.common.valueobject;
+package org.s3team.decoration.model;
 
 public enum Material {
     WOOD,

@@ -1,9 +1,10 @@
-package org.s3team.common.dao;
+package org.s3team.decoration.dao;
 
 import org.s3team.DataBaseConnection.MySQL_Data_Base_Connection;
-import org.s3team.common.valueobject.Decoration;
+import org.s3team.common.dao.CrudDao;
+import org.s3team.decoration.model.Decoration;
 import org.s3team.common.valueobject.Id;
-import org.s3team.common.valueobject.Material;
+import org.s3team.decoration.model.Material;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
