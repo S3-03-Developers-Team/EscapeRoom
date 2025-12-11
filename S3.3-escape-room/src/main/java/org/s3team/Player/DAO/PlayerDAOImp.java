@@ -5,27 +5,27 @@ import org.s3team.DataBaseConnection.MySQL_Data_Base_Connection;
 import org.s3team.Exceptions.DataBaseConnectionException;
 import org.s3team.Player.Model.Player;
 import org.s3team.common.valueobject.Id;
-import org.s3team.room.model.Room;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-public class PlayerDAOImp implements PlayerDAO<Player, Integer> {
+public class PlayerDAOImp implements PlayerDAO {
 
-    private final Data_Base_Connection dataBaseConnection;
+    private final Connection dataBaseConnection;
 
     public PlayerDAOImp() {
         try {
-            this.dataBaseConnection = MySQL_Data_Base_Connection.getInstance();
+            this.dataBaseConnection = MySQL_Data_Base_Connection.getInstance().getConnection();
 
         } catch (SQLException e) {
             throw new DataBaseConnectionException("Can't connect to DB", e);
 
         }
     }
-
+    
 
     @Override
     public Player save(Player player) throws SQLException {
