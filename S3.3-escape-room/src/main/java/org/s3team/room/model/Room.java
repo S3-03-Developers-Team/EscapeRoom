@@ -1,15 +1,15 @@
 package org.s3team.room.model;
 import org.s3team.common.valueobject.*;
 import org.s3team.theme.model.Theme;
-
 import java.util.Objects;
 
 public class Room {
-    private final Id<Room> roomId;  // Id de la sala, generado automáticamente por la base de datos
-    private final Name name;     // Nombre de la sala
-    private final Difficulty difficulty; // Nivel de dificultad de la sala
-    private final Price price;// Precio de la sala
+    private final Id<Room> roomId;
+    private final Name name;
+    private final Difficulty difficulty;
+    private final Price price;
     private final Id<Theme> themeId;
+
 
     private Room(Id<Room> roomId, Name name, Difficulty difficulty, Price price, Id<Theme> themeId) {
         this.roomId = roomId;
@@ -19,18 +19,20 @@ public class Room {
         this.themeId = themeId;
     }
 
+
     public static Room createNew(Name name, Difficulty difficulty, Price price, Id<Theme> themeId) {
         return new Room(null, name, difficulty, price, themeId);
     }
 
     public static Room rehydrate(Id<Room> roomId, Name name, Difficulty difficulty, Price price, Id<Theme> themeId) {
+
         if (roomId == null) {
             throw new IllegalArgumentException("Rehydrating entity must have a valid ID.");
         }
         return new Room(roomId, name, difficulty, price, themeId);
     }
 
-    
+
     public Id<Room>  getRoomId() {
         return roomId;
     }
@@ -44,6 +46,7 @@ public class Room {
     public Difficulty getDifficulty() {
         return difficulty;
     }
+
 
     public Price getPrice() {
         return price;

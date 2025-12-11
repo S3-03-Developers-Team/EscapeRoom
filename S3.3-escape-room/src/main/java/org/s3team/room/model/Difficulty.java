@@ -1,4 +1,6 @@
+
 package org.s3team.room.model;
+
 
 /**
  * ClassName: Dfficulty
