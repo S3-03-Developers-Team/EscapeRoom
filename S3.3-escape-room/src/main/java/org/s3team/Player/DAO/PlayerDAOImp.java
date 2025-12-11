@@ -2,7 +2,6 @@ package org.s3team.Player.DAO;
 
 import org.s3team.Player.Model.Player;
 import org.s3team.common.valueobject.Id;
-import org.s3team.room.model.Room;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,8 +20,8 @@ public class PlayerDAOImp implements PlayerDAO {
     }
 
     @Override
-    public Room save(Object entity) {
-        return null;
+    public void save(Object entity) {
+
     }
 
     @Override
