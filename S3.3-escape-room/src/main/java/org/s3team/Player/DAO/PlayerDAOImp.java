@@ -5,6 +5,7 @@ import org.s3team.DataBaseConnection.MySQL_Data_Base_Connection;
 import org.s3team.Exceptions.DataBaseConnectionException;
 import org.s3team.Player.Model.Player;
 import org.s3team.common.valueobject.Id;
+import org.s3team.room.model.Room;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
