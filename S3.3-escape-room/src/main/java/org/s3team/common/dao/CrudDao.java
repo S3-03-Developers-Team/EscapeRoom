@@ -14,13 +14,8 @@ public interface CrudDao<T> {
 
     List<T> findAll();
 
-    // Métodos pendientes del contrato (puedes dejarlos así por ahora)
-    Optional<Decoration> findById(int id);
-
     boolean update(T entity);
 
     boolean delete(Id<T> id);
-
-    boolean delete(int id);
 }
 
