@@ -54,7 +54,7 @@ public class PlayerDAOImp implements PlayerDAO {
                             player.isSubscribed()
                     );
                 } else {
-                    throw new SQLException("No ID returned for clue");
+                    throw new SQLException("No ID returned for player");
                 }
             }
 
@@ -67,7 +67,7 @@ public class PlayerDAOImp implements PlayerDAO {
     }
 
     @Override
-    public Optional<Player> findById(Id id) {
+    public Optional<Player> findById(Id<Player> id) {
         final String sql = "SELECT * FROM player WHERE id_player=?";
 
         try (PreparedStatement ps = dataBaseConnection.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -99,7 +99,7 @@ public class PlayerDAOImp implements PlayerDAO {
     public List<Player> findAll() {
         final String sql = "SELECT * FROM player";
         List<Player> players = new ArrayList<>();
-        try (PreparedStatement ps = dataBaseConnection.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement ps = dataBaseConnection.getConnection().prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -116,14 +116,16 @@ public class PlayerDAOImp implements PlayerDAO {
 
     @Override
     public boolean update(Player player) {
-        final String sql = "UPDATE player SET name = ?, email = ?, subscribed = ? ";
+        final String sql = "UPDATE player SET name = ?, email = ?, subscribed = ? WHERE id_player = ?";
         if (player.getId() == null) {
             throw new IllegalArgumentException("Cannot update Player: ID is missing.");
         }
+        int playerIdValue = player.getId().value();
         try (PreparedStatement ps = dataBaseConnection.getConnection().prepareStatement(sql)) {
             ps.setString(1, player.getName().value());
             ps.setString(2, player.getEmail().value());
             ps.setBoolean(3, player.isSubscribed());
+            ps.setInt(4, playerIdValue);
             int affectedRows = ps.executeUpdate();
             return affectedRows > 0;
 
@@ -154,7 +156,7 @@ public class PlayerDAOImp implements PlayerDAO {
     public Optional<Player> findByEmail(String email) {
         final String sql = "SELECT * FROM player WHERE email = ?";
 
-        try (PreparedStatement ps = dataBaseConnection.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement ps = dataBaseConnection.getConnection().prepareStatement(sql)) {
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -173,7 +175,7 @@ public class PlayerDAOImp implements PlayerDAO {
     public Optional<Player> findByName(String name) {
         final String sql = "SELECT * FROM player WHERE name = ?";
 
-        try (PreparedStatement ps = dataBaseConnection.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement ps = dataBaseConnection.getConnection().prepareStatement(sql)) {
             ps.setString(1, name);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
