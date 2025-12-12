@@ -20,15 +20,12 @@ public class Player implements Subscriber {
     }
 
     public static Player create(Name name, Email email, boolean subscribed) {
-        return new Player(null, new Name(name), new Email(email), subscribed);
+        return new Player(null, name, email, subscribed);
     }
 
 
     public static Player rehydrate(Id<Player> id, Name name, Email email, boolean subscribed) {
         return new Player(id, name, email, subscribed);
-    }
-    public void setPlayerId(Id<Player> playerId) {
-        this.id = id;
     }
 
     public Id<Player> getId() {
