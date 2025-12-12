@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface PlayerDAO extends CrudDao<Player> {
     Optional<Player> findByEmail(String email);
 
-    Optional<Player> findByName(String nickName);
+    Optional<Player> findByName(String name);
 
 
 }
