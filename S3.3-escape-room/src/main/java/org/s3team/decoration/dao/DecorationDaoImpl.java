@@ -24,7 +24,7 @@ public class DecorationDaoImpl implements DecorationDao {
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
             pstmt.setString(1, decoration.getName());
-            pstmt.setString(2, decoration.getMaterial().name()); // Enum to String
+            pstmt.setString(2, decoration.getMaterial().name());
             pstmt.setInt(3, decoration.getStock());
             pstmt.setBigDecimal(4, decoration.getPrice());
             pstmt.setInt(5, decoration.getRoomId());
@@ -39,10 +39,45 @@ public class DecorationDaoImpl implements DecorationDao {
     }
 
     @Override
-    public Optional<Decoration> findById(Id<Decoration> id) {
+    public boolean updateRoom(int decorationId, int newRoomId) {
+        String sql = "UPDATE decoration_object SET room_id = ? WHERE id_decoration_object = ?";
+
+        try (Connection connection = MySQL_Data_Base_Connection.getInstance().getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+
+            pstmt.setInt(1, newRoomId);
+            pstmt.setInt(2, decorationId);
+
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0;
+
+        } catch (SQLException exception) {
+            System.err.println("ERROR: Could not update room for decoration " + decorationId + ". " + exception.getMessage());
+            return false;
+        }
+    }
+
+    @Override
+    public Optional<Decoration> findById(int id) {
+        String sql = "SELECT * FROM decoration_object WHERE id_decoration_object = ?";
+
+        try (Connection connection = MySQL_Data_Base_Connection.getInstance().getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+
+            pstmt.setInt(1, id);
+
+            try (ResultSet resultSet = pstmt.executeQuery()) {
+                if (resultSet.next()) {
+                    return Optional.of(mapResultSetToDecoration(resultSet));
+                }
+            }
+        } catch (SQLException exception) {
+            System.err.println("ERROR: Could not find decoration by ID. " + exception.getMessage());
+        }
         return Optional.empty();
     }
 
+    @Override
     public List<Decoration> findByRoomId(int roomId) {
         List<Decoration> roomDecorations = new ArrayList<>();
         String sql = "SELECT * FROM decoration_object WHERE room_id = ?";
@@ -85,21 +120,26 @@ public class DecorationDaoImpl implements DecorationDao {
 
     private Decoration mapResultSetToDecoration(ResultSet resultSet) throws SQLException {
         return new Decoration(
-                resultSet.getInt("id_decoration_object"), // Database Column Name
+                resultSet.getInt("id_decoration_object"),
                 resultSet.getString("name"),
-                Material.valueOf(resultSet.getString("material")), // String to Enum
+                Material.valueOf(resultSet.getString("material")),
                 resultSet.getInt("stock"),
                 resultSet.getBigDecimal("price"),
                 resultSet.getInt("room_id")
         );
     }
 
-    @Override public Optional<Decoration> findById(int id) { return Optional.empty(); }
-    @Override public boolean update(Decoration entity) { return false; }
+    @Override
+    public Optional<Decoration> findById(Id<Decoration> id) {
+        return Optional.empty();
+    }
+    @Override
+    public boolean update(Decoration entity) {
+        return false;
+    }
 
     @Override
     public boolean delete(Id<Decoration> id) {
         return false;
     }
-
 }
