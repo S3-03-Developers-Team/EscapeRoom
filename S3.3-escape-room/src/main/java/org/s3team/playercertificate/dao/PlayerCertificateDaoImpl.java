@@ -22,17 +22,17 @@ public class PlayerCertificateDaoImpl implements PlayerCertificateDao {
     }
 
     private static final String SQL_SELECT_ALL_WITH_INFO = """
-        SELECT pc.player_id, p.name AS player_name,
-               pc.certificate_id, c.type AS certificate_type, c.reward AS certificate_reward
-               pc.room_id, r.name AS room_name,
-               pc.issued_date
-        FROM player_certificate pc
-        JOIN player p ON pc.player_id = p.id
-        JOIN certificate c ON pc.certificate_id = c.id
-        JOIN room r ON pc.room_id = r.id
+         SELECT pc.player_id, p.name AS player_name,
+                pc.certificate_id, c.type AS certificate_type, c.reward AS certificate_reward,
+                pc.room_id, r.name AS room_name,
+                pc.issued_date
+         FROM player_certificate pc
+            JOIN player p ON pc.player_id = p.id_player
+            JOIN certificate c ON pc.certificate_id = c.id_certificate
+            JOIN room r ON pc.room_id = r.id_room
         """;
 
-    private static final String SQL_SELECT_BY_PLAYER_WITH_INFO = SQL_SELECT_ALL_WITH_INFO + " WHERE pc.player.id = ?";
+    private static final String SQL_SELECT_BY_PLAYER_WITH_INFO = SQL_SELECT_ALL_WITH_INFO + " WHERE pc.player_id = ?";
 
     private static final String SQL_SELECT_BY_ROOM_WITH_INFO = SQL_SELECT_ALL_WITH_INFO + " WHERE pc.room_id = ?";
 
