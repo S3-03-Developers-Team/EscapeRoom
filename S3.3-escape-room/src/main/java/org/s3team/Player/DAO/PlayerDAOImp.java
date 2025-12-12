@@ -80,7 +80,7 @@ public class PlayerDAOImp implements PlayerDAO {
 
         } catch (SQLException e) {
             throw new DataBaseConnectionException("Can't find player's Id", e);
-        }finally {
+        } finally {
             dataBaseConnection.closeConnection();
         }
     }
@@ -100,23 +100,38 @@ public class PlayerDAOImp implements PlayerDAO {
         String sql = "SELECT * FROM player";
         List<Player> players = new ArrayList<>();
         try (PreparedStatement ps = dataBaseConnection.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-         ResultSet rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
 
-         while(rs.next()){
-             players.add(mapRow(rs));
-         }
+            while (rs.next()) {
+                players.add(mapRow(rs));
+            }
 
         } catch (SQLException e) {
             throw new DataBaseConnectionException("Can't find players", e);
-        }finally {
+        } finally {
             dataBaseConnection.closeConnection();
         }
         return List.copyOf(players);
     }
 
     @Override
-    public boolean update(Player entity) {
-        return false;
+    public boolean update(Player player) {
+        String sql = "UPDATE player SET name = ?, email = ?, subscribed = ? ";
+        if (player.getId() == null) {
+            throw new IllegalArgumentException("Cannot update Player: ID is missing.");
+        }
+        try (PreparedStatement ps = dataBaseConnection.getConnection().prepareStatement(sql)) {
+            ps.setString(1, player.getName().value());
+            ps.setString(2, player.getEmail().value());
+            ps.setBoolean(3, player.isSubscribed());
+            int affectedRows = ps.executeUpdate();
+            return affectedRows > 0;
+
+        } catch (SQLException e) {
+            throw new DataBaseConnectionException("Can't find players", e);
+        } finally {
+            dataBaseConnection.closeConnection();
+        }
     }
 
 

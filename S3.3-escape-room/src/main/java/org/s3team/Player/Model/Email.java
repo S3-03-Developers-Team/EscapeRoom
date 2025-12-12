@@ -25,7 +25,7 @@ public record Email(String email) {
 
 
     @Override
-    public String email() {
+    public String value() {
         return email;
     }
 
