@@ -68,7 +68,7 @@ public class PlayerDAOImp implements PlayerDAO {
 
     @Override
     public Optional<Player> findById(Id id) {
-        String sql = "SELECT * FROM player WHERE id_player=?";
+        final String sql = "SELECT * FROM player WHERE id_player=?";
 
         try (PreparedStatement ps = dataBaseConnection.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, id.value());
@@ -97,7 +97,7 @@ public class PlayerDAOImp implements PlayerDAO {
 
     @Override
     public List<Player> findAll() {
-        String sql = "SELECT * FROM player";
+        final String sql = "SELECT * FROM player";
         List<Player> players = new ArrayList<>();
         try (PreparedStatement ps = dataBaseConnection.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ResultSet rs = ps.executeQuery();
@@ -116,7 +116,7 @@ public class PlayerDAOImp implements PlayerDAO {
 
     @Override
     public boolean update(Player player) {
-        String sql = "UPDATE player SET name = ?, email = ?, subscribed = ? ";
+        final String sql = "UPDATE player SET name = ?, email = ?, subscribed = ? ";
         if (player.getId() == null) {
             throw new IllegalArgumentException("Cannot update Player: ID is missing.");
         }
@@ -134,10 +134,20 @@ public class PlayerDAOImp implements PlayerDAO {
         }
     }
 
-
     @Override
-    public boolean delete(Id id) {
-        return false;
+    public boolean delete(Id<Player> id) {
+        final String sql = "DELETE FROM player WHERE id_player = ? ";
+
+        try (PreparedStatement ps = dataBaseConnection.getConnection().prepareStatement(sql)) {
+            ps.setInt(1, id.value());
+            int affectedRows = ps.executeUpdate();
+            return affectedRows > 0;
+
+        } catch (SQLException e) {
+            throw new DataBaseConnectionException("Couldn't erase player from table", e);
+        } finally {
+            dataBaseConnection.closeConnection();
+        }
     }
 
     @Override
