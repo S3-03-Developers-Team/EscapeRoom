@@ -3,13 +3,13 @@ package org.s3team.Player.DAO;
 import org.s3team.DataBaseConnection.MySQL_Data_Base_Connection;
 import org.s3team.Exceptions.DataBaseConnectionException;
 import org.s3team.Player.Model.Player;
-import org.s3team.clue.model.Clue;
 import org.s3team.common.valueobject.Id;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,25 +62,48 @@ public class PlayerDAOImp implements PlayerDAO {
         } finally {
             dataBaseConnection.closeConnection();
         }
-
-
-        return player;
     }
 
     @Override
     public Optional<Player> findById(Id id) {
         String sql = "SELECT * FROM player WHERE id_player=?";
 
-        try(){
+        try (PreparedStatement ps = dataBaseConnection.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setInt(1, id.value());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return Optional.of(mapRow(rs));
+            }
+            return Optional.empty();
 
-        }catch(SQLException e){
+        } catch (SQLException e) {
             throw new DataBaseConnectionException("Can't find player's Id", e);
+        }finally {
+            dataBaseConnection.closeConnection();
         }
     }
 
+    private Player mapRow(ResultSet rs) {
+        
+    }
+
     @Override
-    public List findAll() {
-        return List.of();
+    public List<Player> findAll() {
+        String sql = "SELECT * FROM player";
+        List<Player> players = new ArrayList<>();
+        try (PreparedStatement ps = dataBaseConnection.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+         ResultSet rs = ps.executeQuery();
+
+         while(rs.next()){
+             players.add(mapRow(rs));
+         }
+
+        } catch (SQLException e) {
+            throw new DataBaseConnectionException("Can't find player's Id", e);
+        }finally {
+            dataBaseConnection.closeConnection();
+        }
+        return List.of(players);
     }
 
     @Override
