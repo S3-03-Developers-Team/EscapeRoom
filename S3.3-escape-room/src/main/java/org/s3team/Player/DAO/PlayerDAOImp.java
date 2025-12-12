@@ -152,11 +152,39 @@ public class PlayerDAOImp implements PlayerDAO {
 
     @Override
     public Optional<Player> findByEmail(String email) {
-        return null;
+        final String sql = "SELECT * FROM player WHERE email = ?";
+
+        try (PreparedStatement ps = dataBaseConnection.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return Optional.of(mapRow(rs));
+            }
+            return Optional.empty();
+
+        } catch (SQLException e) {
+            throw new DataBaseConnectionException("Can't find player's email", e);
+        } finally {
+            dataBaseConnection.closeConnection();
+        }
     }
 
     @Override
-    public Optional<Player> findByName(String nickName) {
-        return null;
+    public Optional<Player> findByName(String name) {
+        final String sql = "SELECT * FROM player WHERE name = ?";
+
+        try (PreparedStatement ps = dataBaseConnection.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return Optional.of(mapRow(rs));
+            }
+            return Optional.empty();
+
+        } catch (SQLException e) {
+            throw new DataBaseConnectionException("Can't find player's name", e);
+        } finally {
+            dataBaseConnection.closeConnection();
+        }
     }
 }
