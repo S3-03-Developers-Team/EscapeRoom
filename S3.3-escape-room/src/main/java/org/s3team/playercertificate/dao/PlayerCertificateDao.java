@@ -18,6 +18,7 @@ public interface PlayerCertificateDao {
     List<PlayerCertificate> findAll() throws SQLException;
     boolean exists(Id<Player> playerId, Id<Certificate> certificateId, Id<Room> roomId) throws SQLException;
 
+    List<PlayerCertificateInfo> findAllWithInfo() throws SQLException;
     List<PlayerCertificateInfo> findCertificatesByPlayerWithInfo(Id<Player> playerId) throws SQLException;
     List<PlayerCertificateInfo> findCertificatesByRoomWithInfo(Id<Room> roomId) throws SQLException;
 }
