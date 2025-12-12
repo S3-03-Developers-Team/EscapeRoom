@@ -2,8 +2,10 @@ package org.s3team.Player.DAO;
 
 import org.s3team.DataBaseConnection.MySQL_Data_Base_Connection;
 import org.s3team.Exceptions.DataBaseConnectionException;
+import org.s3team.Player.Model.Email;
 import org.s3team.Player.Model.Player;
 import org.s3team.common.valueobject.Id;
+import org.s3team.common.valueobject.Name;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -83,8 +85,14 @@ public class PlayerDAOImp implements PlayerDAO {
         }
     }
 
-    private Player mapRow(ResultSet rs) {
-        
+    private Player mapRow(ResultSet rs) throws SQLException {
+        return Player.rehydrate(
+                new Id<>(rs.getInt("id_player")),
+                new Name(rs.getString("name")),
+                new Email(rs.getString("email")),
+                rs.getBoolean("subscribed")
+        );
+
     }
 
     @Override
@@ -99,11 +107,11 @@ public class PlayerDAOImp implements PlayerDAO {
          }
 
         } catch (SQLException e) {
-            throw new DataBaseConnectionException("Can't find player's Id", e);
+            throw new DataBaseConnectionException("Can't find players", e);
         }finally {
             dataBaseConnection.closeConnection();
         }
-        return List.of(players);
+        return List.copyOf(players);
     }
 
     @Override
