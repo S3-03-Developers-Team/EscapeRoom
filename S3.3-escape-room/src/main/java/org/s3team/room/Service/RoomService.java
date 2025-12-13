@@ -19,7 +19,7 @@ public class RoomService {
 
     }
 
-    public Room findById(Id id) {
+    public Room findById(Id<Room> id) {
         Optional<Room> roomOptional = roomDAOImp.findById(id);
 
         return roomOptional.orElseThrow(
@@ -27,7 +27,7 @@ public class RoomService {
         );
     }
 
-    public List findAll() {
+    public List<Room> findAll() {
         return roomDAOImp.findAll();
     }
 
@@ -38,7 +38,7 @@ public class RoomService {
         return roomDAOImp.update(room);
     }
 
-    public boolean delete(Id id) {
+    public boolean delete(Id<Room> id) {
         return roomDAOImp.delete(id);
     }
 

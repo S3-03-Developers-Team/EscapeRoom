@@ -10,5 +10,4 @@ public interface PlayerDAO extends CrudDao<Player> {
 
     Optional<Player> findByName(String name);
 
-
 }

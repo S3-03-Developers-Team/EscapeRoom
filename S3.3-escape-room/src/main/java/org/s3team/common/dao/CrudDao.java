@@ -1,5 +1,4 @@
 package org.s3team.common.dao;
-
 import org.s3team.common.valueobject.Id;
 
 import java.util.List;
