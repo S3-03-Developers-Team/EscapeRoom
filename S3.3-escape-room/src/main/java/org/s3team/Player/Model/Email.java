@@ -22,9 +22,6 @@ public record Email(String email) {
         }
         this.email = email.trim().toLowerCase();
     }
-
-
-    @Override
     public String value() {
         return email;
     }
