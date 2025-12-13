@@ -2,6 +2,11 @@ package org.s3team;
 
 import org.s3team.DataBaseConnection.MySQL_Data_Base_Connection;
 import org.s3team.Menu.MainMenuController;
+import org.s3team.Player.DAO.PlayerDAOImp;
+import org.s3team.Player.Model.Email;
+import org.s3team.Player.Model.Player;
+import org.s3team.Player.Service.PlayerService;
+import org.s3team.common.valueobject.Name;
 
 import java.sql.Connection;
 
@@ -33,7 +38,12 @@ public class Main {
             System.exit(1);
         }
 
-        MainMenuController startApp = new MainMenuController();
-        startApp.startApplication();
+//        MainMenuController startApp = new MainMenuController();
+//        startApp.startApplication();
+        Player player1 = Player.create(new Name("Pedrito"),new Email("pedrito@gmail.com"), true );
+        PlayerDAOImp playerdao = new PlayerDAOImp();
+        PlayerService playerService = new PlayerService(playerdao);
+        playerService.save(player1);
+
     }
 }
