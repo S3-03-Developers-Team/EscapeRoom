@@ -12,7 +12,7 @@ public class Player implements Subscriber {
     private final boolean subscribed;
 
 
-    public Player(Id<Player> id, Name name, Email email, boolean subscribed) {
+    private Player(Id<Player> id, Name name, Email email, boolean subscribed) {
         this.id = id;
         this.name = name;
         this.email = email;
