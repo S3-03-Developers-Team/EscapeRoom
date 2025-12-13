@@ -1,5 +1,6 @@
 package org.s3team.room.Service;
 
+import org.s3team.Exceptions.RoomNotFoundException;
 import org.s3team.Exceptions.ThemeNotFoundException;
 import org.s3team.common.valueobject.*;
 import org.s3team.room.DAO.RoomDAO;
@@ -31,7 +32,7 @@ public class RoomService {
         Optional<Room> roomOptional = roomDAO.findById(id);
 
         return roomOptional.orElseThrow(
-                () -> new RuntimeException("Room with ID " + id.value() + " not found.")
+                () -> new RoomNotFoundException("Room with ID " + id.value() + " not found.")
         );
     }
 
@@ -40,19 +41,30 @@ public class RoomService {
     }
 
     public boolean update(Room room) {
-        if (roomDAO.findById(room.getRoomId()).isEmpty()) {
-            return false;
-        }
+
+        roomDAO.findById(room.getRoomId()).orElseThrow(
+                () -> new RoomNotFoundException("Cannot update. Room with ID " + room.getRoomId().value() + " not found.")
+        );
+
+        Id<Theme> themeId = room.getThemeId();
+        themeDao.findById(themeId).orElseThrow(() ->
+                new ThemeNotFoundException("Cannot update. Theme with ID " + themeId.value() + " doesn't exist.")
+        );
+
         return roomDAO.update(room);
     }
 
     public boolean delete(Id<Room> id) {
+
+        roomDAO.findById(id).orElseThrow(
+                () -> new RoomNotFoundException("Cannot delete. Room with ID " + id.value() + " not found.")
+        );
+
         return roomDAO.delete(id);
     }
 
     public int count() {
         return roomDAO.count();
-
     }
 
     public Price calculateTotalPrice() {
