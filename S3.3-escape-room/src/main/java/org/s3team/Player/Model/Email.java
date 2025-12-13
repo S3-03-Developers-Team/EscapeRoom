@@ -16,24 +16,20 @@ public record Email(String email) {
         if (email == null || email.isBlank()) {
             throw new ValidationException("Email can't be empty");
         }
-        Matcher matcher = pattern.matcher(email);
+        String emailToValidate = email.trim();
+        Matcher matcher = pattern.matcher(emailToValidate);
         if (!matcher.matches()) {
             throw new ValidationException("Invalid email format");
         }
-        this.email = email.trim().toLowerCase();
+        this.email = email.toLowerCase();
     }
-
-
-    @Override
-    public String email() {
+    public String value() {
         return email;
     }
 
     @Override
     public String toString() {
-        return "Email{" +
-                "email='" + email + '\'' +
-                '}';
+        return email;
     }
 
     @Override

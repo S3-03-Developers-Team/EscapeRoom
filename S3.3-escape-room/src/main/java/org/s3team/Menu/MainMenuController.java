@@ -24,6 +24,7 @@ public class MainMenuController {
             System.out.println("1. Inventory Management");
             System.out.println("2. Sales Management");
             System.out.println("3. Notification Management");
+            System.out.println("4. Certificates Management");
             System.out.println("0. Exit Application");
             System.out.println("-----------------");
 
@@ -49,6 +50,10 @@ public class MainMenuController {
                         System.out.println("Changing to Notification Menu...");
                         manageNotifications();
                         break;
+                    case 4:
+                        System.out.println("Changing to Certificates Menu...");
+                        //manageCertificates();
+                        break;
 
                     case 0:
                         this.exit = true;
@@ -69,6 +74,45 @@ public class MainMenuController {
 
         SCANNER.close();
     }
+
+//    private void manageCertificates() {
+//        boolean certificateMenuExit = false;
+//        int option;
+//
+//        while (!certificateMenuExit) {
+//
+//            System.out.println("\n--- Certification MANAGEMENT ---");
+//            System.out.println("1. Notify Important Event");
+//            System.out.println("2. Display Registered Users");
+//            System.out.println("0. Go Back to Main Menu");
+//            System.out.println("-------------------------------");
+//
+//            try {
+//                System.out.print("Choose an option for Notification Management: ");
+//                option = SCANNER.nextInt();
+//                SCANNER.nextLine(); // Limpiar buffer
+//
+//                switch (option) {
+//                    case 1:
+//                        notifyEvent(); // Placeholder para notificar un evento
+//                        break;
+//                    case 2:
+//                        displayRegisteredUsers(); // Placeholder para mostrar usuarios
+//                        break;
+//                    case 0:
+//                        notificationMenuExit = true;
+//                        System.out.println("Returning to Main Menu...");
+//                        break;
+//                    default:
+//                        System.out.println("❌ Invalid option. Please choose a number from 0 to 2.");
+//                        break;
+//                }
+//
+//            } catch (InputMismatchException e) {
+//                System.out.println("⛔ Input Error: Please enter a valid number.");
+//                SCANNER.nextLine(); // Limpiar el buffer
+//            }
+//    }
 
     // Métodos Placeholders
     // Dentro de la clase MainMenuController
