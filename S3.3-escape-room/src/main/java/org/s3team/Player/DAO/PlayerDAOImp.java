@@ -28,6 +28,7 @@ public class PlayerDAOImp implements PlayerDAO<Player, Integer> {
 
 
     @Override
+
     public Player save(Player player) throws SQLException {
         dataBaseConnection.openConnection();
 
@@ -47,6 +48,7 @@ public class PlayerDAOImp implements PlayerDAO<Player, Integer> {
 
 
         return player;
+
     }
 
     @Override
