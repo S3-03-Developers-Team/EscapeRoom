@@ -43,9 +43,6 @@ build/
 ### VS Code ###
 .vscode/
 
-### Mac OS ###
-.DS_Store
-
 # Logs
 *.loggi
 
@@ -56,14 +53,3 @@ Thumbs.db
 # Maven
 .mvn/
 !/.mvn/wrapper/maven-wrapper.jar
-
-# Your custom ignore rule
-src/main/java/org/example/
-src/test/java/org/example/
-src/main/java/com/example/
-src/test/java/com/example/
-
-echo "" >> .gitignore
-echo "# JetBrains IDE files" >> .gitignore
-echo ".idea/" >> .gitignore
-echo "*.iml" >> .gitignore
