@@ -61,8 +61,6 @@ public class PlayerDAOImp implements PlayerDAO {
         } catch (SQLException e) {
             throw new DataBaseConnectionException("Can't save to data base", e);
 
-        } finally {
-            dataBaseConnection.closeConnection();
         }
     }
 
@@ -80,8 +78,6 @@ public class PlayerDAOImp implements PlayerDAO {
 
         } catch (SQLException e) {
             throw new DataBaseConnectionException("Can't find player's Id", e);
-        } finally {
-            dataBaseConnection.closeConnection();
         }
     }
 
@@ -108,8 +104,6 @@ public class PlayerDAOImp implements PlayerDAO {
 
         } catch (SQLException e) {
             throw new DataBaseConnectionException("Can't find players", e);
-        } finally {
-            dataBaseConnection.closeConnection();
         }
         return List.copyOf(players);
     }
@@ -131,8 +125,6 @@ public class PlayerDAOImp implements PlayerDAO {
 
         } catch (SQLException e) {
             throw new DataBaseConnectionException("Can't find players", e);
-        } finally {
-            dataBaseConnection.closeConnection();
         }
     }
 
@@ -147,8 +139,6 @@ public class PlayerDAOImp implements PlayerDAO {
 
         } catch (SQLException e) {
             throw new DataBaseConnectionException("Couldn't erase player from table", e);
-        } finally {
-            dataBaseConnection.closeConnection();
         }
     }
 
@@ -166,8 +156,6 @@ public class PlayerDAOImp implements PlayerDAO {
 
         } catch (SQLException e) {
             throw new DataBaseConnectionException("Can't find player's email", e);
-        } finally {
-            dataBaseConnection.closeConnection();
         }
     }
 
@@ -185,8 +173,6 @@ public class PlayerDAOImp implements PlayerDAO {
 
         } catch (SQLException e) {
             throw new DataBaseConnectionException("Can't find player's name", e);
-        } finally {
-            dataBaseConnection.closeConnection();
         }
     }
 }
