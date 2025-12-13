@@ -31,7 +31,7 @@ public class ClueService {
                            Id<Theme> themeId, Id<Room> roomId) {
 
         Room room = roomDao.findById(roomId).orElseThrow(() ->
-                new RoomNotFoundException("Room " + roomId + " doesn't exist")
+                new RoomNotFoundException(roomId)
         );
         Theme theme = themeDao.getById(themeId);
 
@@ -50,7 +50,7 @@ public class ClueService {
 
     public boolean updateClue(Clue clue) {
         Room room = roomDao.findById(clue.getRoomId()).orElseThrow(() ->
-                new RoomNotFoundException("Room " + clue.getRoomId() + " doesn't exist")
+                new RoomNotFoundException(clue.getRoomId())
         );
         Theme theme = themeDao.getById(clue.getThemeId());
 
