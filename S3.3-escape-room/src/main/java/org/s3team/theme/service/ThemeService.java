@@ -34,18 +34,18 @@ public class ThemeService {
     }
 
     public Theme updateTheme(Theme theme) {
-        Theme existingTheme = themeDao.getById(theme.getId());
+        themeDao.getById(theme.getId());
         themeDao.update(theme);
         return theme;
     }
 
     public void deleteTheme(Id<Theme> id) {
-        Theme theme = themeDao.getById(id);
+        themeDao.getById(id);
         themeDao.delete(id);
     }
 
     public void deleteThemeByName(Name name) {
-        Theme theme = themeDao.getByName(name);
+        themeDao.getByName(name);
         themeDao.deleteByName(name);
     }
 }
