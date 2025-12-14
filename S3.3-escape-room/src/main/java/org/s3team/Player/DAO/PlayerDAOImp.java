@@ -1,5 +1,6 @@
 package org.s3team.Player.DAO;
 
+import org.s3team.DataBaseConnection.Data_Base_Connection;
 import org.s3team.DataBaseConnection.MySQL_Data_Base_Connection;
 import org.s3team.Exceptions.DataBaseConnectionException;
 import org.s3team.Player.Model.Email;
@@ -17,9 +18,9 @@ import java.util.Optional;
 
 public class PlayerDAOImp implements PlayerDAO {
 
-    private final MySQL_Data_Base_Connection dataBaseConnection;
+    private final Data_Base_Connection dataBaseConnection;
 
-    public PlayerDAOImp() {
+    public PlayerDAOImp(Data_Base_Connection dataBaseConnection) {
         try {
             this.dataBaseConnection = MySQL_Data_Base_Connection.getInstance();
 
@@ -103,6 +104,7 @@ public class PlayerDAOImp implements PlayerDAO {
             }
 
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new DataBaseConnectionException("Can't find players", e);
         }
         return List.copyOf(players);

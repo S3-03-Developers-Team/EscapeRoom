@@ -3,10 +3,12 @@ package org.s3team.decoration.service;
 import org.s3team.decoration.dao.DecorationDaoImpl;
 import org.s3team.decoration.model.Decoration;
 import org.s3team.decoration.model.Material;
+import org.s3team.notification.NotificableEvent;
+import org.s3team.notification.SendNotificationService;
 
 import java.util.List;
 
-public class DecorationService {
+public class DecorationService implements NotificableEvent {
 
     private final DecorationDaoImpl decorationDaoImpl;
 
@@ -21,6 +23,7 @@ public class DecorationService {
 
         if (existingDecorations.isEmpty()) {
             decorationDaoImpl.save(newDecoration);
+            generateNotification("A new object has been created: "+newDecoration.getName());
             System.out.println("SUCCESS: First item added. Room " + targetRoomId + " is now a " + newDecoration.getMaterial() + " room.");
 
         } else {
@@ -30,6 +33,7 @@ public class DecorationService {
 
             if (existingMaterial == newMaterial) {
                 decorationDaoImpl.save(newDecoration);
+                generateNotification("A new object has been created: "+newDecoration.getName());
                 System.out.println("SUCCESS: Material matches (" + existingMaterial + "). Saved.");
             } else {
                 String errorMessage = "RULE VIOLATION: Room " + targetRoomId +
@@ -43,5 +47,11 @@ public class DecorationService {
 
     public List<Decoration> getAllDecorations() {
         return decorationDaoImpl.findAll();
+    }
+
+    @Override
+    public void generateNotification(String message) {
+        SendNotificationService newNotification = new SendNotificationService();
+        newNotification.sendNotificationToSubscribers(message);
     }
 }
