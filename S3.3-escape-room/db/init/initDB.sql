@@ -132,16 +132,16 @@ CREATE TABLE IF NOT EXISTS `escape_room`.`ticket` (
   `id_ticket` INT NOT NULL AUTO_INCREMENT,
   `purchase_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `total` DECIMAL(10,2) NOT NULL,
-  `player_id_player` INT NOT NULL,
-  `room_id_room` INT NOT NULL,
+  `player_id` INT NOT NULL,
+  `room_id` INT NOT NULL,
   PRIMARY KEY (`id_ticket`),
-  INDEX `fk_ticket_player1_idx` (`player_id_player` ASC) VISIBLE,
-  INDEX `fk_ticket_room1_idx` (`room_id_room` ASC) VISIBLE,
+  INDEX `fk_ticket_player1_idx` (`player_id` ASC) VISIBLE,
+  INDEX `fk_ticket_room1_idx` (`room_id` ASC) VISIBLE,
   CONSTRAINT `fk_ticket_player1`
-    FOREIGN KEY (`player_id_player`)
+    FOREIGN KEY (`player_id`)
     REFERENCES `escape_room`.`player` (`id_player`),
   CONSTRAINT `fk_ticket_room1`
-    FOREIGN KEY (`room_id_room`)
+    FOREIGN KEY (`room_id`)
     REFERENCES `escape_room`.`room` (`id_room`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
