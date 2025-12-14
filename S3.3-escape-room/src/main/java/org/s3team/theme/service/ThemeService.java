@@ -17,6 +17,10 @@ public class ThemeService {
 
     public Theme createTheme(Name name) {
 
+        if (themeDao.findByName(name).isPresent()) {
+             throw new IllegalStateException("Theme with name " + name + " already exists.");
+        }
+
         Theme theme = Theme.createNew(name);
         return themeDao.save(theme);
     }
