@@ -23,7 +23,7 @@ public class DecorationService implements NotificableEvent {
 
         if (existingDecorations.isEmpty()) {
             decorationDaoImpl.save(newDecoration);
-            generateNotification("A new room has been created: "+newDecoration.getName());
+            generateNotification("A new object has been created: "+newDecoration.getName());
             System.out.println("SUCCESS: First item added. Room " + targetRoomId + " is now a " + newDecoration.getMaterial() + " room.");
 
         } else {
@@ -33,7 +33,7 @@ public class DecorationService implements NotificableEvent {
 
             if (existingMaterial == newMaterial) {
                 decorationDaoImpl.save(newDecoration);
-                generateNotification("A new room has been created: "+newDecoration.getName());
+                generateNotification("A new object has been created: "+newDecoration.getName());
                 System.out.println("SUCCESS: Material matches (" + existingMaterial + "). Saved.");
             } else {
                 String errorMessage = "RULE VIOLATION: Room " + targetRoomId +
