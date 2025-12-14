@@ -17,6 +17,10 @@ public class ThemeService {
 
     public Theme createTheme(Name name) {
 
+        if (themeDao.findByName(name).isPresent()) {
+             throw new IllegalStateException("Theme with name " + name + " already exists.");
+        }
+
         Theme theme = Theme.createNew(name);
         return themeDao.save(theme);
     }
@@ -34,18 +38,18 @@ public class ThemeService {
     }
 
     public Theme updateTheme(Theme theme) {
-        Theme existingTheme = themeDao.getById(theme.getId());
+        themeDao.getById(theme.getId());
         themeDao.update(theme);
         return theme;
     }
 
     public void deleteTheme(Id<Theme> id) {
-        Theme theme = themeDao.getById(id);
+        themeDao.getById(id);
         themeDao.delete(id);
     }
 
     public void deleteThemeByName(Name name) {
-        Theme theme = themeDao.getByName(name);
+        themeDao.getByName(name);
         themeDao.deleteByName(name);
     }
 }
