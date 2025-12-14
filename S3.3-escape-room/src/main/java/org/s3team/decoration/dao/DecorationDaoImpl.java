@@ -133,13 +133,47 @@ public class DecorationDaoImpl implements DecorationDao {
     public Optional<Decoration> findById(Id<Decoration> id) {
         return Optional.empty();
     }
+
     @Override
     public boolean update(Decoration entity) {
         return false;
     }
 
     @Override
+    public boolean delete(int id) {
+        String sql = "DELETE FROM decoration_object WHERE id_decoration_object = ?";
+
+        try (Connection connection = MySQL_Data_Base_Connection.getInstance().getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+
+            pstmt.setInt(1, id);
+
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0;
+
+        } catch (SQLException exception) {
+            System.err.println("ERROR SQL: The ID decoration could not be removed " + id);
+            System.err.println("Reason: " + exception.getMessage());
+            return false;
+        }
+    }
+    @Override
     public boolean delete(Id<Decoration> id) {
-        return false;
+        String sql = "DELETE FROM decoration_object WHERE id_decoration_object = ?";
+
+        try (Connection connection = MySQL_Data_Base_Connection.getInstance().getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+
+            pstmt.setInt(1, id.value());
+
+            int rowsAffected = pstmt.executeUpdate();
+
+            return rowsAffected > 0;
+
+        } catch (SQLException exception) {
+            System.err.println("ERROR SQL: No se pudo eliminar la decoración ID " + id);
+            System.err.println("Motivo: " + exception.getMessage());
+            return false;
+        }
     }
 }
