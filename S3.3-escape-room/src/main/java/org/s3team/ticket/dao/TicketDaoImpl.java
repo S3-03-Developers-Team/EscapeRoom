@@ -74,7 +74,7 @@ public class TicketDaoImpl implements TicketDao {
 
     @Override
     public List<Ticket> findAll() {
-        String sql = "SELECT * FROM clue";
+        String sql = "SELECT * FROM ticket";
         List<Ticket> tickets = new ArrayList<>();
 
         try(Connection conn = db.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
