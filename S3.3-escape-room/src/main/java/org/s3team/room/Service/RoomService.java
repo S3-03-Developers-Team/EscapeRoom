@@ -23,7 +23,7 @@ public class RoomService {
     public Room save(Room room) {
         Id<Theme> themeId = room.getThemeId();
         themeDao.findById(themeId).orElseThrow(() ->
-                new ThemeNotFoundException("Theme with ID " + themeId.value() + " doesn't exist.")
+                new ThemeNotFoundException(themeId)
         );
         return roomDAO.save(room);
     }
@@ -32,7 +32,7 @@ public class RoomService {
         Optional<Room> roomOptional = roomDAO.findById(id);
 
         return roomOptional.orElseThrow(
-                () -> new RoomNotFoundException("Room with ID " + id.value() + " not found.")
+                () -> new RoomNotFoundException(id)
         );
     }
 
@@ -43,12 +43,12 @@ public class RoomService {
     public boolean update(Room room) {
 
         roomDAO.findById(room.getRoomId()).orElseThrow(
-                () -> new RoomNotFoundException("Cannot update. Room with ID " + room.getRoomId().value() + " not found.")
+                () -> new RoomNotFoundException(room.getRoomId())
         );
 
         Id<Theme> themeId = room.getThemeId();
         themeDao.findById(themeId).orElseThrow(() ->
-                new ThemeNotFoundException("Cannot update. Theme with ID " + themeId.value() + " doesn't exist.")
+                new ThemeNotFoundException(themeId)
         );
 
         return roomDAO.update(room);
@@ -57,7 +57,7 @@ public class RoomService {
     public boolean delete(Id<Room> id) {
 
         roomDAO.findById(id).orElseThrow(
-                () -> new RoomNotFoundException("Cannot delete. Room with ID " + id.value() + " not found.")
+                () -> new RoomNotFoundException(id)
         );
 
         return roomDAO.delete(id);
