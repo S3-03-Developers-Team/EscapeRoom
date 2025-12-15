@@ -235,4 +235,22 @@ public class DecorationDaoImpl implements DecorationDao {
             return new Price(totalPriceValue);
         }
 
+    @Override
+    public int count() {
+        String sql = "SELECT SUM(stock) FROM decoration_object";
+
+        try (Connection conn = MySQL_Data_Base_Connection.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return 0;
+
+        } catch (SQLException e) {
+            System.err.println("ERROR: Database error while calculating total stock.");
+            throw new RuntimeException("Database error calculating total stock.", e);
+        }
     }
+}
