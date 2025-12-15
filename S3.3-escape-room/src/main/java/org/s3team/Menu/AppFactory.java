@@ -4,6 +4,7 @@ import org.s3team.DataBaseConnection.Data_Base_Connection;
 import org.s3team.Player.DAO.PlayerDAO;
 import org.s3team.Player.DAO.PlayerDAOImp;
 import org.s3team.Player.Service.PlayerService;
+import org.s3team.Player.menu.PlayerManagementMenu;
 import org.s3team.certificate.dao.CertificateDao;
 import org.s3team.certificate.dao.CertificateDaoImpl;
 import org.s3team.certificate.menu.CertificateMenu;
@@ -17,6 +18,8 @@ import org.s3team.decoration.service.DecorationService;
 import org.s3team.inventoryMenu.*;
 import org.s3team.inventoryService.InventoryManagementService;
 import org.s3team.inventoryService.InventoryQueryService;
+import org.s3team.notification.NotificationManagementMenu;
+import org.s3team.notification.SendNotificationService;
 import org.s3team.playercertificate.dao.PlayerCertificateDao;
 import org.s3team.playercertificate.dao.PlayerCertificateDaoImpl;
 import org.s3team.playercertificate.service.PlayerCertificateService;
@@ -64,18 +67,31 @@ public class AppFactory {
     public CertificateMenu certificateMenuGenerate(){
         CertificateDao certificateDao = new CertificateDaoImpl(db);
         RoomDAO roomDAO = new RoomDAOImp(db);
-        PlayerDAO playerDAO = new PlayerDAOImp(db);
+        PlayerDAOImp playerDAOImp = new PlayerDAOImp(db);
         ThemeDao themeDao = new ThemeDaoImpl(db);
         PlayerCertificateDao playerCertificateDao = new PlayerCertificateDaoImpl(db);
         CertificateService certificateService = new CertificateService(certificateDao);
         RoomService roomService = new RoomService(roomDAO,themeDao);
-        PlayerService playerService = new PlayerService(playerDAO);
-        PlayerCertificateService playerCertificateService = new PlayerCertificateService(playerCertificateDao, certificateDao, playerDAO, roomDAO);
+        PlayerService playerService = new PlayerService(playerDAOImp);
+        PlayerCertificateService playerCertificateService = new PlayerCertificateService(playerCertificateDao, certificateDao, playerDAOImp, roomDAO);
         return new CertificateMenu(certificateService,playerCertificateService,playerService,roomService);
     }
 
     public InventoryMenu salesMenuGenerate() {
         return null;
+    }
+
+    public PlayerManagementMenu playerMenuGenerate(){
+        PlayerDAOImp playerDAOImp = new PlayerDAOImp(db);
+        PlayerService playerService = new PlayerService(playerDAOImp);
+        return new PlayerManagementMenu(playerService);
+    }
+
+    public NotificationManagementMenu notificationMenuGenerate(){
+        SendNotificationService sendNotificationService = new SendNotificationService();
+        PlayerDAOImp playerDAOImp  = new PlayerDAOImp(db);
+        PlayerService playerService = new PlayerService(playerDAOImp);
+        return new NotificationManagementMenu(sendNotificationService, playerService);
     }
 
 
