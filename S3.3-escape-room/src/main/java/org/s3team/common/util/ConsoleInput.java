@@ -12,6 +12,26 @@ public class ConsoleInput {
         return scanner.nextLine();
     }
 
+    public static Boolean readBoolean(String prompt) {
+        while (true) {
+
+            System.out.print(prompt);
+            String input = scanner.nextLine().toLowerCase().trim();
+            String y = "y";
+            String n = "n";
+            if (input.equals(y)) {
+                return true;
+            } else if (input.equals(n)) {
+                return false;
+            } else {
+                System.out.println("ERROR: Please enter 'y' for Yes or 'n' for No.");
+            }
+
+        }
+
+    }
+
+
     public static int readInt(String prompt) {
         while (true) {
             try {
