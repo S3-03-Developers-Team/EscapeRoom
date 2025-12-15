@@ -1,15 +1,20 @@
 package org.s3team.decoration.model;
 
+import org.s3team.common.valueobject.Id;
+import org.s3team.common.valueobject.Name;
+import org.s3team.common.valueobject.Price;
+import org.s3team.room.model.Room;
+
 import java.math.BigDecimal;
 
 public class Decoration {
 
-    private int idDecorationObject;
-    private String name;
+    private Id<Decoration> idDecorationObject;
+    private Name name;
     private Material material;
-    private int stock;
-    private BigDecimal price;
-    private int roomId;
+    private Integer stock;
+    private Price price;
+    private Id<Room> roomId;
 
     public Decoration() {}
 

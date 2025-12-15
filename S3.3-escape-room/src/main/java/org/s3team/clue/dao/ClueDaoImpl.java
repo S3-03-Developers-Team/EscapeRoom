@@ -138,4 +138,7 @@ public class ClueDaoImpl implements ClueDao{
                 new Id<>(rs.getInt("room_id"))
         );
     }
+
+
+
 }
