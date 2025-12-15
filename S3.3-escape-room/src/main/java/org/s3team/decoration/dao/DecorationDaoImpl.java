@@ -1,11 +1,14 @@
 package org.s3team.decoration.dao;
 
 import org.s3team.DataBaseConnection.MySQL_Data_Base_Connection;
-import org.s3team.common.dao.CrudDao;
-import org.s3team.decoration.model.Decoration;
 import org.s3team.common.valueobject.Id;
+import org.s3team.common.valueobject.Name;
+import org.s3team.common.valueobject.Price;
+import org.s3team.decoration.model.Decoration;
 import org.s3team.decoration.model.Material;
+import org.s3team.room.model.Room;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,27 +23,68 @@ public class DecorationDaoImpl implements DecorationDao {
     public Decoration save(Decoration decoration) {
         String sql = "INSERT INTO decoration_object (name, material, stock, price, room_id) VALUES (?, ?, ?, ?, ?)";
 
-        try (Connection connection = MySQL_Data_Base_Connection.getInstance().getConnection();
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+        Id<Decoration> generatedId = null;
 
-            pstmt.setString(1, decoration.getName());
-            pstmt.setString(2, decoration.getMaterial().name()); // Enum to String
-            pstmt.setInt(3, decoration.getStock());
-            pstmt.setBigDecimal(4, decoration.getPrice());
-            pstmt.setInt(5, decoration.getRoomId());
+        try (Connection connection = MySQL_Data_Base_Connection.getInstance().getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+
+            pstmt.setString(1, decoration.getName().value());               // Name -> String
+            pstmt.setString(2, decoration.getMaterial().name());           // Material (Enum) -> String
+            pstmt.setInt(3, decoration.getStock());                        // Integer
+            pstmt.setBigDecimal(4, decoration.getPrice().value());         // Price -> BigDecimal
+            pstmt.setInt(5, decoration.getRoomId().value());               // Id<Room> -> Integer
 
             pstmt.executeUpdate();
-            System.out.println("DEBUG: Decoration saved successfully in DB.");
+
+            try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    generatedId = new Id<>(rs.getInt(1));
+                } else {
+                    throw new SQLException("Database did not return a generated ID for the new Decoration.");
+                }
+            }
+
+            System.out.println("DEBUG: Decoration saved successfully in DB with ID: " + generatedId.value());
 
         } catch (SQLException exception) {
             System.err.println("ERROR: Could not save decoration. " + exception.getMessage());
+            throw new RuntimeException("Error saving Decoration object to database.", exception);
         }
-        return decoration;
+        return Decoration.rehydrate(
+                generatedId,
+                decoration.getName(),
+                decoration.getMaterial(),
+                decoration.getStock(),
+                decoration.getPrice(),
+                decoration.getRoomId()
+        );
     }
 
     @Override
     public Optional<Decoration> findById(Id<Decoration> id) {
-        return Optional.empty();
+        String sql = "SELECT * FROM decoration_object WHERE id_decoration_object = ?";
+        if (id == null) {
+            return Optional.empty();
+        }
+
+        try (Connection conn = MySQL_Data_Base_Connection.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id.value());
+
+            try (ResultSet rs = stmt.executeQuery()) {
+
+                if (rs.next()) {
+                    return Optional.of(mapRow(rs));
+                }
+
+                return Optional.empty();
+            }
+
+        } catch (SQLException e) {
+            System.err.println("ERROR: Error finding Decoration by ID: " + id.value());
+            throw new RuntimeException("Database error finding Decoration by ID.", e);
+        }
     }
 
     public List<Decoration> findByRoomId(int roomId) {
@@ -54,7 +98,7 @@ public class DecorationDaoImpl implements DecorationDao {
 
             try (ResultSet resultSet = pstmt.executeQuery()) {
                 while (resultSet.next()) {
-                    Decoration decoration = mapResultSetToDecoration(resultSet);
+                    Decoration decoration = mapRow(resultSet);
                     roomDecorations.add(decoration);
                 }
             }
@@ -74,7 +118,7 @@ public class DecorationDaoImpl implements DecorationDao {
              ResultSet resultSet = pstmt.executeQuery()) {
 
             while (resultSet.next()) {
-                allDecorations.add(mapResultSetToDecoration(resultSet));
+                allDecorations.add(mapRow(resultSet));
             }
 
         } catch (SQLException exception) {
@@ -83,23 +127,112 @@ public class DecorationDaoImpl implements DecorationDao {
         return allDecorations;
     }
 
-    private Decoration mapResultSetToDecoration(ResultSet resultSet) throws SQLException {
-        return new Decoration(
-                resultSet.getInt("id_decoration_object"), // Database Column Name
-                resultSet.getString("name"),
-                Material.valueOf(resultSet.getString("material")), // String to Enum
-                resultSet.getInt("stock"),
-                resultSet.getBigDecimal("price"),
-                resultSet.getInt("room_id")
+    private Decoration mapRow(ResultSet rs) throws SQLException {
+        Id<Decoration> decorationId = new Id<>(rs.getInt("id_decoration_object"));
+        Name name = new Name(rs.getString("name"));
+        Material material = Material.valueOf(rs.getString("material"));
+        Integer stock = rs.getInt("stock");
+        Price price = new Price(rs.getBigDecimal("price"));
+        Id<Room> roomId = new Id<>(rs.getInt("room_id"));
+
+        return Decoration.rehydrate(
+                decorationId,
+                name,
+                material,
+                stock,
+                price,
+                roomId
         );
     }
 
-    @Override public Optional<Decoration> findById(int id) { return Optional.empty(); }
-    @Override public boolean update(Decoration entity) { return false; }
-
     @Override
-    public boolean delete(Id<Decoration> id) {
-        return false;
-    }
+    public boolean update(Decoration decoration) {
+            String sql = "UPDATE decoration_object SET name = ?, material = ?, stock = ?, price = ?, room_id = ? " +
+                    "WHERE id_decoration_object = ?";
 
-}
+            Id<Decoration> decorationId = decoration.getDecorationId();
+            if (decorationId == null) {
+                System.err.println("ERROR: Cannot update Decoration entity without a valid ID.");
+                return false;
+            }
+
+            try (Connection conn = MySQL_Data_Base_Connection.getInstance().getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+                pstmt.setString(1, decoration.getName().value());
+
+                pstmt.setString(2, decoration.getMaterial().name());
+
+                pstmt.setInt(3, decoration.getStock());
+
+                pstmt.setBigDecimal(4, decoration.getPrice().value());
+
+                pstmt.setInt(5, decoration.getRoomId().value());
+
+                pstmt.setInt(6, decorationId.value());
+
+                int affectedRows = pstmt.executeUpdate();
+
+                System.out.println("DEBUG: Decoration ID " + decorationId.value() + " updated. Rows affected: " + affectedRows);
+
+                return affectedRows > 0;
+
+            } catch (SQLException e) {
+                System.err.println("ERROR: Database error updating Decoration ID: " + decorationId.value());
+                throw new RuntimeException("Error updating Decoration object in database.", e);
+            }
+        }
+        @Override
+        public boolean delete (Id < Decoration > id) {
+            String sql = "DELETE FROM decoration_object WHERE id_decoration_object = ?";
+
+            if (id == null) {
+                System.err.println("ERROR: Cannot delete Decoration entity, ID is null.");
+                return false;
+            }
+
+            try (Connection conn = MySQL_Data_Base_Connection.getInstance().getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+                pstmt.setInt(1, id.value());
+
+                int affectedRows = pstmt.executeUpdate();
+
+                System.out.println("DEBUG: Decoration ID " + id.value() + " deletion attempted. Rows affected: " + affectedRows);
+
+                return affectedRows > 0;
+
+            } catch (SQLException e) {
+                System.err.println("ERROR: Database error deleting Decoration ID: " + id.value());
+                throw new RuntimeException("Error deleting Decoration object from database.", e);
+            }
+        }
+
+
+        @Override
+        public Price calculateTotalPrice() {
+            final String sql = "SELECT SUM(stock * price) FROM decoration_object";
+            BigDecimal totalPriceValue = BigDecimal.ZERO;
+
+            try (Connection connection = MySQL_Data_Base_Connection.getInstance().getConnection();
+                 PreparedStatement ps = connection.prepareStatement(sql);
+                 ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) {
+                    BigDecimal sumResult = rs.getBigDecimal(1);
+                    if (sumResult != null) {
+                        totalPriceValue = sumResult;
+                    }
+                }
+
+                System.out.println("DEBUG: Total Decoration value calculated: " + totalPriceValue);
+
+            } catch (SQLException e) {
+                System.err.println("ERROR: Database error calculating total price for Decorations. " + e.getMessage());
+                throw new RuntimeException("Database error calculating total price for Decorations.", e);
+            }
+
+            return new Price(totalPriceValue);
+        }
+
+    }

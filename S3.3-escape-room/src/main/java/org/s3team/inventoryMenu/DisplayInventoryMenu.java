@@ -113,7 +113,7 @@ public class DisplayInventoryMenu {
                         System.out.println("\n✅ Decoration Found:");
                         System.out.println("---------------------------------");
                         // 假设 Decoration 模型中有 getId() 和 getRoomId()
-                        System.out.println("ID: " + decoration.getIdDecorationObject());
+                        System.out.println("ID: " + decoration.getDecorationId());
                         System.out.println("Name: " + decoration.getName());
                         System.out.println("Material: " + decoration.getMaterial());
                         System.out.println("Stock: " + decoration.getStock());
@@ -160,7 +160,7 @@ public class DisplayInventoryMenu {
                     try {
                         inventoryQueryService.listDecorations().forEach(decoration -> {
                             System.out.printf("Decoration ID: %d, Name: %s, Material: %s, Stock: %d%n",
-                                    decoration.getIdDecorationObject(),
+                                    decoration.getDecorationId(),
                                     decoration.getName(),
                                     decoration.getMaterial(),
                                     decoration.getStock());
@@ -197,7 +197,7 @@ public class DisplayInventoryMenu {
                     try {
                         inventoryQueryService.listDecorations().forEach(decoration -> {
                             System.out.printf("[D] ID: %d, Name: %s, Stock: %d%n",
-                                    decoration.getIdDecorationObject(),
+                                    decoration.getDecorationId(),
                                     decoration.getName(),
                                     decoration.getStock());
                         });

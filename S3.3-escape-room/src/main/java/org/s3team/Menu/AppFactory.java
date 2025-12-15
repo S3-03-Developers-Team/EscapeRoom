@@ -52,7 +52,7 @@ public class AppFactory {
         DecorationDao decorationDao = new DecorationDaoImpl();
         ClueDao clueDao = new ClueDaoImpl(db);
         ThemeDao themeDao = new ThemeDaoImpl(db);
-        DecorationService decorationService = new DecorationService();
+        DecorationService decorationService = new DecorationService(decorationDao,roomDAO);
         ClueService clueService = new ClueService(clueDao,roomDAO,themeDao);
         RoomService roomService = new RoomService(roomDAO,themeDao);
         InventoryManagementService inventoryManagementService = new InventoryManagementService(clueService,decorationService,roomService);

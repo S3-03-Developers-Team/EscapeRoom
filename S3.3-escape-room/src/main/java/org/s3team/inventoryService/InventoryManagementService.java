@@ -62,16 +62,16 @@ InventoryManagementService {
         return clueService.deleteClue(id);
     }
 
-    public void addDecoration(Decoration decorationObject) {
-        decorationService.createDecoration(decorationObject);
+    public void addDecoration(Decoration decoration) {
+        decorationService.create(decoration);
     }
 
-    public Boolean updateDecoration(Decoration decorationObject) {
-        return decorationService.updateDecoration(decorationObject);
+    public Boolean updateDecoration(Decoration decoration) {
+        return decorationService.update(decoration);
     }
 
     public boolean deleteDecoration(Id<Decoration> id) {
-        return decorationService.deleteDecoration(id);
+        return decorationService.delete(id);
     }
 
 }

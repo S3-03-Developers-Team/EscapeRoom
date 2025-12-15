@@ -62,7 +62,7 @@ public class InventoryQueryService {
 
 
     public Decoration findDecorationById(Id<Decoration> id) {
-        return decorationService.findDecorationById();
+        return decorationService.findById(id);
     }
 
     public List<Decoration> listDecorations() {
