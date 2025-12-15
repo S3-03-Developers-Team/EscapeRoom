@@ -2,6 +2,7 @@ package org.s3team.clue.service;
 
 import org.s3team.Exceptions.RoomNotFoundException;
 import org.s3team.clue.dao.ClueDao;
+import org.s3team.clue.dao.ClueDaoImpl;
 import org.s3team.clue.model.Clue;
 import org.s3team.clue.model.ClueDescription;
 import org.s3team.clue.model.ClueType;
@@ -62,6 +63,14 @@ public class ClueService implements NotificableEvent {
 
     public boolean deleteClue(Id<Clue> id) {
         return clueDao.delete(id);
+    }
+
+    public int count() {
+        return clueDao.count();
+    }
+
+    public Price calculateTotalPrice() {
+        return clueDao.calculateTotalPrice();
     }
 
     @Override

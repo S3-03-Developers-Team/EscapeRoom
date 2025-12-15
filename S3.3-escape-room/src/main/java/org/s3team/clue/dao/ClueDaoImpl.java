@@ -171,7 +171,6 @@ public class ClueDaoImpl implements ClueDao{
                 if (sumResult != null) {
                     totalPrice = new Price(sumResult);
                 }
-
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -179,5 +178,4 @@ public class ClueDaoImpl implements ClueDao{
         }
         return totalPrice;
     }
-}
 }
