@@ -54,10 +54,10 @@ public class MainMenuController {
                         manageNotifications();
                     }
 
-               /*     case 5 -> {
+                    case 5 -> {
                         System.out.println("Changing to Certificates Menu...");
                         appFactory.certificateMenuGenerate().showMenu();
-                    }*/
+                    }
 
                     case 0 -> {
                         this.exit = true;

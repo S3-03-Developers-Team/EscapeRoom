@@ -1,12 +1,12 @@
 package org.s3team.Menu;
 
-import org.s3team.CertificateMenu;
 import org.s3team.DataBaseConnection.Data_Base_Connection;
 import org.s3team.Player.DAO.PlayerDAO;
 import org.s3team.Player.DAO.PlayerDAOImp;
 import org.s3team.Player.Service.PlayerService;
 import org.s3team.certificate.dao.CertificateDao;
-//import org.s3team.certificate.dao.CertificateDaoImpl;
+import org.s3team.certificate.dao.CertificateDaoImpl;
+import org.s3team.certificate.menu.CertificateMenu;
 import org.s3team.certificate.dao.CertificateDaoImpl;
 import org.s3team.certificate.service.CertificateService;
 
@@ -69,7 +69,7 @@ public class AppFactory {
     public CertificateMenu certificateMenuGenerate(){
         CertificateDao certificateDao = new CertificateDaoImpl(db);
         RoomDAO roomDAO = new RoomDAOImp(db);
-        PlayerDAOImp playerDAO = new PlayerDAOImp(db);
+        PlayerDAO playerDAO = new PlayerDAOImp(db);
         ThemeDao themeDao = new ThemeDaoImpl(db);
         PlayerCertificateDao playerCertificateDao = new PlayerCertificateDaoImpl(db);
         CertificateService certificateService = new CertificateService(certificateDao);
