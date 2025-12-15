@@ -26,6 +26,7 @@ public class MainMenuController {
             System.out.println("3. Sales Management");
             System.out.println("4. Notification Management");
             System.out.println("5. Certificates Management");
+            System.out.println("6. Players Management");
             System.out.println("0. Exit Application");
             System.out.println("-----------------");
 
@@ -49,12 +50,16 @@ public class MainMenuController {
 
                     case 4 -> {
                         System.out.println("Changing to Notification Menu...");
-                        manageNotifications();
+                        appFactory.notificationMenuGenerate().displayNotificationMenu();
                     }
 
                     case 5 -> {
                         System.out.println("Changing to Certificates Menu...");
                         appFactory.certificateMenuGenerate().showMenu();
+                    }
+                    case 6 -> {
+                        System.out.println("Changing to Player Menu...");
+                        appFactory.playerMenuGenerate().displayPlayerMenu();
                     }
 
                     case 0 -> {
@@ -71,48 +76,6 @@ public class MainMenuController {
         }
     }
 
-
-    private void manageNotifications() {
-        boolean notificationMenuExit = false;
-        int option;
-
-        while (!notificationMenuExit) {
-
-            System.out.println("\n--- NOTIFICATION MANAGEMENT ---");
-            System.out.println("1. Notify Important Event");
-            System.out.println("2. Display Registered Users");
-            System.out.println("0. Go Back to Main Menu");
-            System.out.println("-------------------------------");
-
-            try {
-                option = ConsoleInput.readInt("Choose an option for Notification Management:");
-
-                switch (option) {
-                    case 1 -> notifyEvent();
-                    case 2 -> displayRegisteredUsers();
-                    case 0 -> {
-                        notificationMenuExit = true;
-                        System.out.println("Returning to Main Menu...");
-                    }
-                    default -> System.out.println("❌ Invalid option. Please choose a number from 0 to 2.");
-                }
-
-            } catch (InputMismatchException e) {
-                System.out.println("⛔ Input Error: Please enter a valid number.");
-            }
-        }
-    }
-
-    // Placeholders para los métodos del sub-menú de Notificaciones
-    private void notifyEvent() {
-        System.out.println("Notifying Event functionality coming soon...");
-    }
-
-    private void displayRegisteredUsers() {
-        System.out.println("Displaying Registered Users functionality coming soon...");
-    }
-
-    // Dentro de la clase MainMenuController
 
     private void manageSales() {
         boolean salesMenuExit = false;
