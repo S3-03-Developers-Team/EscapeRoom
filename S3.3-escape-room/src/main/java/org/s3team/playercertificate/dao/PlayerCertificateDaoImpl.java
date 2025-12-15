@@ -38,32 +38,49 @@ public class PlayerCertificateDaoImpl implements PlayerCertificateDao {
 
     @Override
     public PlayerCertificate add(PlayerCertificate pc) throws SQLException {
-        String sql = "INSERT INTO player_certificate (player_id, certificate_id, room_id) VALUES (?, ?, ?)";
+        String insertSql = "INSERT INTO player_certificate (player_id, certificate_id, room_id) VALUES (?, ?, ?)";
+        String selectSql = "SELECT issued_date FROM player_certificate WHERE player_id = ? AND certificate_id = ? AND room_id = ?";
 
-        try (Connection conn = db.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+        try (Connection conn = db.getConnection()) {
+            conn.setAutoCommit(false);
 
-            stmt.setInt(1, pc.getPlayerId().value());
-            stmt.setInt(2, pc.getCertificateId().value());
-            stmt.setInt(3, pc.getRoomId().value());
+            try (PreparedStatement insertStmt = conn.prepareStatement(insertSql)) {
+                insertStmt.setInt(1, pc.getPlayerId().value());
+                insertStmt.setInt(2, pc.getCertificateId().value());
+                insertStmt.setInt(3, pc.getRoomId().value());
+                insertStmt.executeUpdate();
+            }
 
-            stmt.executeUpdate();
+            try (PreparedStatement selectStmt = conn.prepareStatement(selectSql)) {
+                selectStmt.setInt(1, pc.getPlayerId().value());
+                selectStmt.setInt(2, pc.getCertificateId().value());
+                selectStmt.setInt(3, pc.getRoomId().value());
 
-            try (ResultSet rs = stmt.getGeneratedKeys()) {
-                if (rs.next()) {
-                    Timestamp ts = rs.getTimestamp(1);
-                    LocalDateTime issuedDate = ts.toLocalDateTime();
-                    return PlayerCertificate.rehydrate(
-                            pc.getPlayerId(),
-                            pc.getCertificateId(),
-                            pc.getRoomId(),
-                            issuedDate
-                    );
+                try (ResultSet rs = selectStmt.executeQuery()) {
+                    if (rs.next()) {
+                        Timestamp ts = rs.getTimestamp("issued_date");
+                        LocalDateTime issuedDate = ts.toLocalDateTime();
+
+                        conn.commit(); // Confirmamos la transacción
+
+                        return PlayerCertificate.rehydrate(
+                                pc.getPlayerId(),
+                                pc.getCertificateId(),
+                                pc.getRoomId(),
+                                issuedDate
+                        );
+                    } else {
+                        conn.rollback();
+                        throw new SQLException("Creating PlayerCertificate failed, no issued_date found.");
+                    }
                 }
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
+            } finally {
+                conn.setAutoCommit(true);
             }
         }
-
-        throw new SQLException("Creating PlayerCertificate failed, no issued_date returned.");
     }
 
     @Override
