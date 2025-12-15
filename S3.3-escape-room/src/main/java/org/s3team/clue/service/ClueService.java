@@ -7,8 +7,6 @@ import org.s3team.clue.model.ClueDescription;
 import org.s3team.clue.model.ClueType;
 import org.s3team.common.valueobject.Id;
 import org.s3team.common.valueobject.Price;
-import org.s3team.notification.NotificableEvent;
-import org.s3team.notification.SendNotificationService;
 import org.s3team.room.DAO.RoomDAO;
 import org.s3team.room.model.Room;
 import org.s3team.theme.dao.ThemeDao;
@@ -17,7 +15,7 @@ import org.s3team.theme.model.Theme;
 import java.util.List;
 import java.util.Optional;
 
-public class ClueService implements NotificableEvent {
+public class ClueService {
 
     private final ClueDao clueDao;
     private final RoomDAO roomDao;
@@ -32,13 +30,12 @@ public class ClueService implements NotificableEvent {
     public Clue createClue(ClueType type, ClueDescription description, Price price,
                            Id<Theme> themeId, Id<Room> roomId) {
 
-        roomDao.findById(roomId).orElseThrow(() ->
+        Room room = roomDao.findById(roomId).orElseThrow(() ->
                 new RoomNotFoundException(roomId)
         );
-        themeDao.getById(themeId);
+        Theme theme = themeDao.getById(themeId);
 
         Clue clue = Clue.createNew(type, description, price, themeId, roomId);
-        generateNotification("A new clue has been created: "+clue.getDescription());
 
         return clueDao.save(clue);
     }
@@ -52,10 +49,10 @@ public class ClueService implements NotificableEvent {
     }
 
     public boolean updateClue(Clue clue) {
-        roomDao.findById(clue.getRoomId()).orElseThrow(() ->
+        Room room = roomDao.findById(clue.getRoomId()).orElseThrow(() ->
                 new RoomNotFoundException(clue.getRoomId())
         );
-        themeDao.getById(clue.getThemeId());
+        Theme theme = themeDao.getById(clue.getThemeId());
 
         return clueDao.update(clue);
     }
@@ -64,9 +61,12 @@ public class ClueService implements NotificableEvent {
         return clueDao.delete(id);
     }
 
-    @Override
-    public void generateNotification(String message) {
-        SendNotificationService newNotification = new SendNotificationService();
-        newNotification.sendNotificationToSubscribers(message);
+    public int count() {
+        return  0;
     }
+
+    public Price calculateTotalPrice() {
+        return null;
+    }
+
 }

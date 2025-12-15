@@ -3,8 +3,6 @@ package org.s3team.room.Service;
 import org.s3team.Exceptions.RoomNotFoundException;
 import org.s3team.Exceptions.ThemeNotFoundException;
 import org.s3team.common.valueobject.*;
-import org.s3team.notification.NotificableEvent;
-import org.s3team.notification.SendNotificationService;
 import org.s3team.room.DAO.RoomDAO;
 import org.s3team.room.model.Room;
 import org.s3team.theme.dao.ThemeDao;
@@ -13,7 +11,7 @@ import org.s3team.theme.model.Theme;
 import java.util.List;
 import java.util.Optional;
 
-public class RoomService implements NotificableEvent {
+public class RoomService {
     private final RoomDAO roomDAO;
     private final ThemeDao themeDao;
 
@@ -27,7 +25,6 @@ public class RoomService implements NotificableEvent {
         themeDao.findById(themeId).orElseThrow(() ->
                 new ThemeNotFoundException(themeId)
         );
-        generateNotification("A new room has been created: "+room.getName());
         return roomDAO.save(room);
     }
 
@@ -44,9 +41,9 @@ public class RoomService implements NotificableEvent {
     }
 
     public boolean update(Room room) {
-
+        Id<Room> roomId = room.getRoomId();
         roomDAO.findById(room.getRoomId()).orElseThrow(
-                () -> new RoomNotFoundException(room.getRoomId())
+                () -> new RoomNotFoundException(roomId)
         );
 
         Id<Theme> themeId = room.getThemeId();
@@ -74,9 +71,4 @@ public class RoomService implements NotificableEvent {
         return roomDAO.calculateTotalPrice();
     }
 
-    @Override
-    public void generateNotification(String message) {
-       SendNotificationService newNotification = new SendNotificationService();
-       newNotification.sendNotificationToSubscribers(message);
-    }
 }
