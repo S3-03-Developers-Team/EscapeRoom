@@ -1,6 +1,5 @@
 package org.s3team.notification;
 
-import org.s3team.Player.DAO.PlayerDAO;
 import org.s3team.Player.Model.Player;
 import org.s3team.Player.Service.PlayerService;
 import org.s3team.common.util.ConsoleInput;
@@ -11,12 +10,10 @@ import java.util.stream.Collectors;
 
 public class NotificationManagementMenu {
     private final SendNotificationService notificationService;
-    private final PlayerDAO playerDAO;
     private final PlayerService playerService;
 
-    public NotificationManagementMenu(SendNotificationService notificationService, PlayerDAO playerDAO, PlayerService playerService) {
+    public NotificationManagementMenu(SendNotificationService notificationService, PlayerService playerService) {
         this.notificationService = notificationService;
-        this.playerDAO = playerDAO;
         this.playerService = playerService;
     }
 
@@ -72,7 +69,7 @@ public class NotificationManagementMenu {
 
                     System.out.println("---------------------------------");
 
-                    List<Player> subscribedPlayers = playerDAO.findAll().stream()
+                    List<Player> subscribedPlayers = playerService.findAll().stream()
                             .filter(Player::isSubscribed)
                             .collect(Collectors.toList());
 
