@@ -64,6 +64,8 @@ public class CertificateMenu {
                 type,
                 reward
         );
+
+        System.out.println("Certificate created successfully");
     }
 
     private void assignCertificate() {
@@ -71,6 +73,8 @@ public class CertificateMenu {
             Id<Player> playerId = selectPlayer();
             Id<Certificate> certificateId = selectCertificate();
             Id<Room> roomId = selectRoom();
+
+            if (roomId == null || playerId == null || certificateId == null) { System.out.println("Operation cancelled."); return; }
 
             playerCertificateService.assignCertificate(playerId,certificateId,roomId);
 
@@ -83,6 +87,12 @@ public class CertificateMenu {
 
     private void listByPlayer() {
         Id<Player> playerId = selectPlayer();
+
+        if (playerId == null){
+            System.out.println("No players available.");
+            return;
+        }
+
         List<PlayerCertificateInfo> list = playerCertificateService.getCertificatesForPlayerWithInfo(playerId);
 
         if (list.isEmpty()) {
@@ -94,6 +104,12 @@ public class CertificateMenu {
 
     private void listByRoom() {
         Id<Room> roomId = selectRoom();
+
+        if (roomId == null){
+            System.out.println("No rooms available.");
+            return;
+        }
+
         List<PlayerCertificateInfo> list = playerCertificateService.getCertificatesForRoomWithInfo(roomId);
 
         if (list.isEmpty()) {
@@ -118,6 +134,12 @@ public class CertificateMenu {
 
     private Id<Player> selectPlayer() {
         List<Player> players = playerService.findAll();
+
+        if (players.isEmpty()) {
+            System.out.println("No players available.");
+            return null;
+        }
+
         players.forEach(System.out::println);
 
         while(true) {
@@ -131,6 +153,12 @@ public class CertificateMenu {
 
     private Id<Certificate> selectCertificate() {
         List<Certificate> certificates = certificateService.getAllCertificates();
+
+        if (certificates.isEmpty()) {
+            System.out.println("No certificates available.");
+            return null;
+        }
+
         certificates.forEach(System.out::println);
 
         while(true) {
@@ -144,6 +172,12 @@ public class CertificateMenu {
 
     private Id<Room> selectRoom() {
         List<Room> rooms = roomService.findAll();
+
+        if (rooms.isEmpty()) {
+            System.out.println("No rooms available.");
+            return null;
+        }
+
         rooms.forEach(System.out::println);
 
         while(true) {
