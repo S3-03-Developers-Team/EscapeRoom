@@ -14,4 +14,5 @@ public interface DecorationDao extends CrudDao<Decoration> {
     boolean updateRoom(int decorationId, int newRoomId);
 
     boolean delete(int id);
+
 }

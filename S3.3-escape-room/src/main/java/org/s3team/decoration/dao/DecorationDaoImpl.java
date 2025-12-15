@@ -169,6 +169,7 @@ public class DecorationDaoImpl implements DecorationDao {
 
             return rowsAffected > 0;
 
+
         } catch (SQLException exception) {
             System.err.println("ERROR SQL: No se pudo eliminar la decoración ID " + id);
             System.err.println("Motivo: " + exception.getMessage());
