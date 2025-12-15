@@ -25,6 +25,10 @@ import org.s3team.room.DAO.RoomDAOImp;
 import org.s3team.room.Service.RoomService;
 import org.s3team.theme.dao.ThemeDao;
 import org.s3team.theme.dao.ThemeDaoImpl;
+import org.s3team.ticket.dao.TicketDao;
+import org.s3team.ticket.dao.TicketDaoImpl;
+import org.s3team.ticket.menu.TicketMenu;
+import org.s3team.ticket.service.TicketService;
 
 /**
  * ClassName: AppFactory
@@ -74,8 +78,12 @@ public class AppFactory {
         return new CertificateMenu(certificateService,playerCertificateService,playerService,roomService);
     }
 
-    public InventoryMenu salesMenuGenerate() {
-        return null;
+    public TicketMenu ticketMenuGenerate() {
+        TicketDao ticketDao = new TicketDaoImpl(db);
+        RoomDAO roomDAO = new RoomDAOImp(db);
+        PlayerDAO playerDAO = new PlayerDAOImp(db);
+        TicketService ticketService = new TicketService(ticketDao,roomDAO,playerDAO);
+        return new TicketMenu(ticketService);
     }
 
 

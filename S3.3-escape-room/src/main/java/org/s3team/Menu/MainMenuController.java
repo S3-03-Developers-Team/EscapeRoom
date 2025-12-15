@@ -33,9 +33,7 @@ public class MainMenuController {
                 int option = ConsoleInput.readInt("Choose an option:");
 
                 switch (option) {
-                    case 1 -> {
-                        System.out.println("Changing to Theme Menu...");
-                    }
+                    case 1 -> System.out.println("Changing to Theme Menu...");
 
                     case 2 -> {
                         System.out.println("Changing to Inventory Menu...");
@@ -121,7 +119,7 @@ public class MainMenuController {
         while (!salesMenuExit) {
 
             System.out.println("\n--- SALES MANAGEMENT ---");
-            System.out.println("1. Generate Sales Ticket");
+            System.out.println("1. Sales Ticket Management");
             System.out.println("2. Display Total Revenue");
             System.out.println("0. Go Back to Main Menu");
             System.out.println("------------------------");
@@ -129,7 +127,7 @@ public class MainMenuController {
             try {
                 option = ConsoleInput.readInt("Choose an option for Sales Management: ");
                 switch (option) {
-                    case 1 -> generateSalesTicket();
+                    case 1 -> appFactory.ticketMenuGenerate().start();
                     case 2 -> displayTotalRevenue();
                     case 0 -> {
                         salesMenuExit = true;
@@ -142,10 +140,6 @@ public class MainMenuController {
                 System.out.println("⛔ Input Error: Please enter a valid number.");
             }
         }
-    }
-
-    private void generateSalesTicket() {
-        System.out.println("Generating Sales Ticket functionality coming soon...");
     }
 
     private void displayTotalRevenue() {
