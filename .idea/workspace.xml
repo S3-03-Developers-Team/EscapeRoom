@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="9b1a9f06-d91e-449d-80e1-1b5ac653e65a" name="Changes" comment="feat: findById mejorado, añadido updateRoom y delete.">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/EscapeRoom.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="dev" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;history&quot;: [
+    {
+      &quot;state&quot;: &quot;OPEN&quot;,
+      &quot;assignee&quot;: &quot;Spook242&quot;,
+      &quot;author&quot;: &quot;ccasro&quot;
+    },
+    {
+      &quot;state&quot;: &quot;OPEN&quot;,
+      &quot;assignee&quot;: &quot;Spook242&quot;,
+      &quot;author&quot;: &quot;jrffruit518-enrich&quot;
+    },
+    {
+      &quot;state&quot;: &quot;OPEN&quot;,
+      &quot;assignee&quot;: &quot;Spook242&quot;,
+      &quot;author&quot;: &quot;Rafadicandia&quot;
+    }
+  ],
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Spook242&quot;,
+    &quot;author&quot;: &quot;Rafadicandia&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/S3-03-Developers-Team/EscapeRoom.git&quot;,
+    &quot;accountId&quot;: &quot;8e37f2db-c96c-4a8c-9297-e90835c2cf1b&quot;
+  }
+}</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="36bWLVkNX6bzsxguJkVed3gMZtl" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "Docker.S3.3-escape-room/docker-compose.yaml: Compose Deployment.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "feature/HU-07-borrar-items",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Proyectos/EscapeRoom",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
+  }
+}]]></component>
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <envs>
+        <env name="DB_DATABASE" value="escape_room" />
+        <env name="DB_PASSWORD" value="0242" />
+        <env name="DB_URL" value="jdbc:mysql://localhost:3307/escape_room? autoReconnect=true&amp;useSSL=false&amp;allowPublicKeyRetrieval=true " />
+        <env name="DB_USER" value="spook242" />
+      </envs>
+      <option name="MAIN_CLASS_NAME" value="org.s3team.Main" />
+      <module name="S3.3-escape-room" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.s3team.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="EscapeRoom" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="EscapeRoom" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+    <configuration name="S3.3-escape-room/docker-compose.yaml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="sourceFilePath" value="S3.3-escape-room/docker-compose.yaml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Application.Main" />
+      <item itemvalue="Docker.S3.3-escape-room/docker-compose.yaml: Compose Deployment" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Docker.S3.3-escape-room/docker-compose.yaml: Compose Deployment" />
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Docker.S3.3-escape-room/docker-compose.yaml: Compose Deployment" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9b1a9f06-d91e-449d-80e1-1b5ac653e65a" name="Changes" comment="" />
+      <created>1765275696107</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1765275696107</updated>
+    </task>
+    <task id="LOCAL-00001" summary="feat: add new classes for [HU-04] Decoration">
+      <option name="closed" value="true" />
+      <created>1765455754554</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1765455754554</updated>
+    </task>
+    <task id="LOCAL-00002" summary="feat: add findByRoom and updateRoom methods.">
+      <option name="closed" value="true" />
+      <created>1765562721057</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1765562721057</updated>
+    </task>
+    <task id="LOCAL-00003" summary="feat: findById mejorado, añadido updateRoom y DecorationDao mejorada.">
+      <option name="closed" value="true" />
+      <created>1765564415607</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1765564415607</updated>
+    </task>
+    <task id="LOCAL-00004" summary="feat: findById mejorado, añadido updateRoom y delete.">
+      <option name="closed" value="true" />
+      <created>1765744744681</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1765744744681</updated>
+    </task>
+    <task id="LOCAL-00005" summary="feat: findById mejorado, añadido updateRoom y delete.">
+      <option name="closed" value="true" />
+      <created>1765792003628</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1765792003628</updated>
+    </task>
+    <task id="LOCAL-00006" summary="feat: findById mejorado, añadido updateRoom y delete.">
+      <option name="closed" value="true" />
+      <created>1765792892798</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1765792892798</updated>
+    </task>
+    <task id="LOCAL-00007" summary="feat: findById mejorado, añadido updateRoom y delete.">
+      <option name="closed" value="true" />
+      <created>1765793376442</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1765793376442</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="5c991e06-b793-45c5-9281-19668fee9194" value="TOOL_WINDOW" />
+        <entry key="306a065b-d27b-47cb-82d5-b3be490c6488" value="TOOL_WINDOW" />
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="306a065b-d27b-47cb-82d5-b3be490c6488">
+          <value>
+            <State />
+          </value>
+        </entry>
+        <entry key="5c991e06-b793-45c5-9281-19668fee9194">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat: add new classes for [HU-04] Decoration" />
+    <MESSAGE value="feat: add findByRoom and updateRoom methods." />
+    <MESSAGE value="feat: findById mejorado, añadido updateRoom y DecorationDao mejorada." />
+    <MESSAGE value="feat: findById mejorado, añadido updateRoom y delete." />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: findById mejorado, añadido updateRoom y delete." />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/EscapeRoom$Main.ic" NAME="Main Coverage Results" MODIFIED="1765283490897" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <FILTER>org.s3team.*</FILTER>
+    </SUITE>
+  </component>
+</project>

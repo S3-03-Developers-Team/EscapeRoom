@@ -1,0 +1,1679 @@
+Index: S3.3-escape-room/src/main/java/org/s3team/decoration/dao/DecorationDao.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.s3team.decoration.dao;\r\n\r\nimport org.s3team.common.dao.CrudDao;\r\nimport org.s3team.decoration.model.Decoration;\r\n\r\nimport java.util.List;\r\nimport java.util.Optional;\r\n\r\npublic interface DecorationDao extends CrudDao<Decoration> {\r\n    Optional<Decoration> findById(int id);\r\n\r\n    List<Decoration> findByRoomId(int roomId);\r\n\r\n    boolean updateRoom(int decorationId, int newRoomId);\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/S3.3-escape-room/src/main/java/org/s3team/decoration/dao/DecorationDao.java b/S3.3-escape-room/src/main/java/org/s3team/decoration/dao/DecorationDao.java
+--- a/S3.3-escape-room/src/main/java/org/s3team/decoration/dao/DecorationDao.java	(revision 68caa7ccb2aefba5184aad9713d117a214098228)
++++ b/S3.3-escape-room/src/main/java/org/s3team/decoration/dao/DecorationDao.java	(date 1765642805180)
+@@ -12,4 +12,7 @@
+     List<Decoration> findByRoomId(int roomId);
+ 
+     boolean updateRoom(int decorationId, int newRoomId);
++
++    boolean delete(int id);
++
+ }
+Index: S3.3-escape-room/src/main/java/org/s3team/Player/DAO/PlayerDAOImp.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.s3team.Player.DAO;\r\n\r\nimport org.s3team.DataBaseConnection.Data_Base_Connection;\r\nimport org.s3team.DataBaseConnection.MySQL_Data_Base_Connection;\r\nimport org.s3team.Exceptions.DataBaseConnectionException;\r\nimport org.s3team.Player.Model.Player;\r\nimport org.s3team.common.valueobject.Id;\r\nimport org.s3team.room.model.Room;\r\n\r\nimport java.sql.PreparedStatement;\r\nimport java.sql.SQLException;\r\nimport java.util.List;\r\nimport java.util.Optional;\r\n\r\npublic class PlayerDAOImp implements PlayerDAO<Player, Integer> {\r\n\r\n    private final Data_Base_Connection dataBaseConnection;\r\n\r\n    public PlayerDAOImp() {\r\n        try {\r\n            this.dataBaseConnection = MySQL_Data_Base_Connection.getInstance();\r\n\r\n        } catch (SQLException e) {\r\n            throw new DataBaseConnectionException(\"Can't connect to DB\", e);\r\n\r\n        }\r\n    }\r\n\r\n\r\n    @Override\r\n    public Player save(Player player) throws SQLException {\r\n        dataBaseConnection.openConnection();\r\n\r\n        try {\r\n\r\n            PreparedStatement statement = dataBaseConnection.getConnection().prepareStatement(\"INSERT INTO player(name, email, subscribed) VALUES(?, ?, ?)\");\r\n            statement.setString(1, player.getName().toString());\r\n\r\n            statement.executeUpdate();\r\n\r\n        } catch (SQLException e) {\r\n            throw e;\r\n\r\n        } finally {\r\n            dataBaseConnection.closeConnection();\r\n        }\r\n\r\n\r\n        return player;\r\n    }\r\n\r\n    @Override\r\n    public Optional findById(Id id) {\r\n        return Optional.empty();\r\n    }\r\n\r\n    @Override\r\n    public List findAll() {\r\n        return List.of();\r\n    }\r\n\r\n    @Override\r\n    public boolean update(Object entity) {\r\n        return false;\r\n    }\r\n\r\n    @Override\r\n    public boolean delete(Id id) {\r\n        return false;\r\n    }\r\n\r\n    @Override\r\n    public Optional<Player> findByEmail(String email) {\r\n        return null;\r\n    }\r\n\r\n    @Override\r\n    public Optional<Player> findByName(String nickName) {\r\n        return null;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/S3.3-escape-room/src/main/java/org/s3team/Player/DAO/PlayerDAOImp.java b/S3.3-escape-room/src/main/java/org/s3team/Player/DAO/PlayerDAOImp.java
+--- a/S3.3-escape-room/src/main/java/org/s3team/Player/DAO/PlayerDAOImp.java	(revision 68caa7ccb2aefba5184aad9713d117a214098228)
++++ b/S3.3-escape-room/src/main/java/org/s3team/Player/DAO/PlayerDAOImp.java	(date 1765640916985)
+@@ -28,6 +28,7 @@
+ 
+ 
+     @Override
++
+     public Player save(Player player) throws SQLException {
+         dataBaseConnection.openConnection();
+ 
+@@ -47,6 +48,7 @@
+ 
+ 
+         return player;
++
+     }
+ 
+     @Override
+Index: S3.3-escape-room/src/main/java/org/s3team/theme/model/Theme.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.s3team.theme.model;\r\n\r\npublic class Theme {\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/S3.3-escape-room/src/main/java/org/s3team/theme/model/Theme.java b/S3.3-escape-room/src/main/java/org/s3team/theme/model/Theme.java
+--- a/S3.3-escape-room/src/main/java/org/s3team/theme/model/Theme.java	(revision 68caa7ccb2aefba5184aad9713d117a214098228)
++++ b/S3.3-escape-room/src/main/java/org/s3team/theme/model/Theme.java	(date 1765640916997)
+@@ -1,4 +1,31 @@
+ package org.s3team.theme.model;
+ 
++import org.s3team.common.valueobject.Id;
++import org.s3team.common.valueobject.Name;
++
+ public class Theme {
+-}
++
++    private final Id<Theme> id;
++    private final Name name;
++
++    private Theme(Id<Theme> id, Name name) {
++        this.id = id;
++        this.name = name;
++    }
++
++    public static Theme createNew(Name name) {
++        return new Theme(null, name);
++    }
++
++    public static Theme rehydrate(Id<Theme> id, Name name) {
++        return new Theme(id, name);
++    }
++
++    public Id<Theme> getId() { return id; }
++    public Name getName() { return name; }
++
++    @Override
++    public String toString() {
++        return "id=%s, name=%s".formatted(getId(), getName());
++    }
++}
+\ No newline at end of file
+Index: S3.3-escape-room/src/main/java/org/s3team/theme/dao/ThemeDao.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/S3.3-escape-room/src/main/java/org/s3team/theme/dao/ThemeDao.java b/S3.3-escape-room/src/main/java/org/s3team/theme/dao/ThemeDao.java
+new file mode 100644
+--- /dev/null	(date 1765640916996)
++++ b/S3.3-escape-room/src/main/java/org/s3team/theme/dao/ThemeDao.java	(date 1765640916996)
+@@ -0,0 +1,21 @@
++package org.s3team.theme.dao;
++
++import org.s3team.Exceptions.ThemeNotFoundException;
++import org.s3team.common.dao.CrudDao;
++import org.s3team.common.valueobject.Id;
++import org.s3team.common.valueobject.Name;
++import org.s3team.theme.model.Theme;
++
++import java.util.Optional;
++
++public interface ThemeDao extends CrudDao<Theme> {
++
++    Optional<Theme> findByName(Name name);
++    boolean deleteByName(Name name);
++    default Theme getById(Id<Theme> id){
++        return findById(id).orElseThrow(() -> new ThemeNotFoundException(id));
++    }
++    default Theme getByName(Name name){
++        return findByName(name).orElseThrow(() -> new ThemeNotFoundException(name));
++    }
++}
+Index: S3.3-escape-room/src/main/java/org/s3team/theme/dao/ThemeDaoImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/S3.3-escape-room/src/main/java/org/s3team/theme/dao/ThemeDaoImpl.java b/S3.3-escape-room/src/main/java/org/s3team/theme/dao/ThemeDaoImpl.java
+new file mode 100644
+--- /dev/null	(date 1765640916996)
++++ b/S3.3-escape-room/src/main/java/org/s3team/theme/dao/ThemeDaoImpl.java	(date 1765640916996)
+@@ -0,0 +1,169 @@
++package org.s3team.theme.dao;
++
++import org.s3team.DataBaseConnection.Data_Base_Connection;
++import org.s3team.common.valueobject.Id;
++import org.s3team.common.valueobject.Name;
++import org.s3team.theme.model.Theme;
++
++import java.sql.*;
++import java.util.ArrayList;
++import java.util.List;
++import java.util.Optional;
++
++public class ThemeDaoImpl implements ThemeDao{
++
++    private final Data_Base_Connection db;
++
++    public ThemeDaoImpl(Data_Base_Connection db){
++        this.db = db;
++    }
++
++    @Override
++    public Theme save(Theme theme) {
++        String sql = "INSERT INTO theme (name) VALUES (?)";
++
++        try (Connection conn = db.getConnection();
++             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
++
++            stmt.setString(1, theme.getName().value());
++
++            stmt.executeUpdate();
++
++            ResultSet rs = stmt.getGeneratedKeys();
++            if (rs.next()) {
++                Id<Theme> generatedId = new Id<>(rs.getInt(1));
++                return Theme.rehydrate(generatedId, theme.getName());
++            } else {
++                throw new RuntimeException("The ID generated cannot be obtained");
++            }
++
++        } catch (SQLException e) {
++            if (e.getErrorCode() == 1062) {
++                throw new RuntimeException("A theme with that name already exists");
++            }
++            throw new RuntimeException("Error saving Theme", e);
++        }
++    }
++
++    @Override
++    public Optional<Theme> findById(Id<Theme> id) {
++        String sql = "SELECT * FROM theme WHERE id_theme = ?";
++
++        try (Connection conn = db.getConnection();
++             PreparedStatement stmt = conn.prepareStatement(sql)) {
++
++            stmt.setInt(1, id.value());
++            ResultSet rs = stmt.executeQuery();
++
++            if (rs.next()) {
++                Theme theme = mapRow(rs);
++                return Optional.of(theme);
++            } else {
++                return Optional.empty();
++            }
++
++        } catch (SQLException e) {
++            throw new RuntimeException("Error searching Theme by ID", e);
++        }
++    }
++
++    @Override
++    public List<Theme> findAll() {
++        String sql = "SELECT * FROM theme";
++        List<Theme> themes = new ArrayList<>();
++
++        try (Connection conn = db.getConnection();
++             PreparedStatement stmt = conn.prepareStatement(sql)) {
++
++            ResultSet rs = stmt.executeQuery();
++            while (rs.next()) {
++                themes.add(mapRow(rs));
++            }
++
++            return themes;
++
++        } catch (SQLException e) {
++            throw new RuntimeException("Error listing Themes", e);
++        }
++    }
++
++    @Override
++    public boolean update(Theme theme) {
++        String sql = "UPDATE theme SET name = ? WHERE id_theme = ?";
++
++        try (Connection conn = db.getConnection();
++             PreparedStatement stmt = conn.prepareStatement(sql)) {
++
++            stmt.setString(1, theme.getName().value());
++            stmt.setInt(2, theme.getId().value());
++
++            return stmt.executeUpdate() > 0;
++
++        } catch (SQLException e) {
++            if (e.getErrorCode() == 1062) {
++                throw new RuntimeException("A theme with that name already exists");
++            }
++            throw new RuntimeException("Error al actualizar Theme", e);
++        }
++    }
++
++
++    @Override
++    public boolean delete(Id<Theme> id) {
++        String sql = "DELETE FROM theme WHERE id_theme = ?";
++
++        try (Connection conn = db.getConnection();
++             PreparedStatement stmt = conn.prepareStatement(sql)) {
++
++            stmt.setInt(1, id.value());
++            return stmt.executeUpdate() > 0;
++
++        } catch (SQLException e) {
++            throw new RuntimeException("Error deleting Theme" + id, e);
++        }
++    }
++
++    @Override
++    public Optional<Theme> findByName(Name name) {
++        String sql = "SELECT * FROM theme WHERE name = ?";
++
++        try (Connection conn = db.getConnection();
++             PreparedStatement stmt = conn.prepareStatement(sql)) {
++
++            stmt.setString(1, name.value());
++            ResultSet rs = stmt.executeQuery();
++
++            if (rs.next()) {
++                Theme theme = mapRow(rs);
++                return Optional.of(theme);
++            } else {
++                return Optional.empty();
++            }
++
++        } catch (SQLException e) {
++            throw new RuntimeException("Error searching Theme by name" + name, e);
++        }
++    }
++
++    @Override
++    public boolean deleteByName(Name name) {
++        String sql = "DELETE FROM theme WHERE name = ?";
++
++        try (Connection conn = db.getConnection();
++             PreparedStatement stmt = conn.prepareStatement(sql)) {
++
++            stmt.setString(1, name.value());
++            return stmt.executeUpdate() > 0;
++
++        } catch (SQLException e) {
++            throw new RuntimeException("Error deleting Theme by name", e);
++        }
++    }
++
++    private Theme mapRow(ResultSet rs) throws SQLException {
++        return Theme.rehydrate(
++                new Id<>(rs.getInt("id_theme")),
++                new Name(rs.getString("name"))
++        );
++    }
++}
+Index: S3.3-escape-room/src/main/java/org/s3team/room/model/Room.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.s3team.room.model;\r\nimport org.s3team.common.valueobject.*;\r\nimport org.s3team.theme.model.Theme;\r\n\r\nimport java.math.BigDecimal;\r\nimport java.util.Objects;\r\n\r\npublic class Room {\r\n    private Id<Room> roomId;  // Id de la sala, generado automáticamente por la base de datos\r\n    private Name name;     // Nombre de la sala\r\n    private room.Difficulty difficulty; // Nivel de dificultad de la sala\r\n    private Price price;// Precio de la sala\r\n    private Id<Theme> themeId;\r\n\r\n    protected Room() {\r\n    }\r\n\r\n    private Room(Id<Room> roomId, Name name, room.Difficulty difficulty, Price price, Id<Theme> themeId) {\r\n        this.roomId = roomId;\r\n        this.name = name;\r\n        this.difficulty = difficulty;\r\n        this.price = price;\r\n        this.themeId = themeId;\r\n    }\r\n\r\n    public static Room createNew(Name name, room.Difficulty difficulty, Price price, Id<Theme> themeId) {\r\n        return new Room(null, name, difficulty, price, themeId);\r\n    }\r\n\r\n    public static Room rehydrate(Id<Room> roomId, Name name, room.Difficulty difficulty, Price price, Id<Theme> themeId) {\r\n\r\n        if (roomId == null) {\r\n            throw new IllegalArgumentException(\"Rehydrating entity must have a valid ID.\");\r\n        }\r\n        return new Room(roomId, name, difficulty, price, themeId);\r\n    }\r\n\r\n\r\n\r\n    public Id<Room>  getRoomId() {\r\n        return roomId;\r\n    }\r\n\r\n    public void setRoomId(Id<Room> roomId) {\r\n        this.roomId = roomId;\r\n    }\r\n\r\n    public Name getName() {\r\n        return name;\r\n    }\r\n\r\n    public void setName(Name name) {\r\n        this.name = name;\r\n    }\r\n\r\n    public room.Difficulty getDifficulty() {\r\n        return difficulty;\r\n    }\r\n\r\n    public void setDifficulty(room.Difficulty difficulty) {\r\n        this.difficulty = difficulty;\r\n    }\r\n\r\n    public Price getPrice() {\r\n        return price;\r\n    }\r\n\r\n    public void setPrice(Price price) {\r\n        this.price = price;\r\n    }\r\n\r\n    public Id<Theme> getThemeId() {\r\n        return themeId;\r\n    }\r\n\r\n    public void setThemeId(Id<Theme> themeId) {\r\n        this.themeId = themeId;\r\n    }\r\n\r\n    @Override\r\n    public boolean equals(Object o) {\r\n        if (o == null || getClass() != o.getClass()) return false;\r\n        Room room = (Room) o;\r\n        return Objects.equals(roomId\r\n                , room.roomId\r\n        );\r\n    }\r\n\r\n    @Override\r\n    public int hashCode() {\r\n        return Objects.hash(roomId\r\n        );\r\n    }\r\n\r\n    @Override\r\n    public String toString() {\r\n        return \"Room{\" +\r\n                \"roomId=\" + roomId +\r\n                \", name='\" + name + '\\'' +\r\n                \", difficulty=\" + difficulty +\r\n                \", price=\" + price +\r\n                \", themeId=\" + themeId +\r\n                '}';\r\n    }\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/S3.3-escape-room/src/main/java/org/s3team/room/model/Room.java b/S3.3-escape-room/src/main/java/org/s3team/room/model/Room.java
+--- a/S3.3-escape-room/src/main/java/org/s3team/room/model/Room.java	(revision 68caa7ccb2aefba5184aad9713d117a214098228)
++++ b/S3.3-escape-room/src/main/java/org/s3team/room/model/Room.java	(date 1765640916995)
+@@ -1,21 +1,17 @@
+ package org.s3team.room.model;
+ import org.s3team.common.valueobject.*;
+ import org.s3team.theme.model.Theme;
+-
+-import java.math.BigDecimal;
+ import java.util.Objects;
+ 
+ public class Room {
+-    private Id<Room> roomId;  // Id de la sala, generado automáticamente por la base de datos
+-    private Name name;     // Nombre de la sala
+-    private room.Difficulty difficulty; // Nivel de dificultad de la sala
+-    private Price price;// Precio de la sala
+-    private Id<Theme> themeId;
++    private final Id<Room> roomId;
++    private final Name name;
++    private final Difficulty difficulty;
++    private final Price price;
++    private final Id<Theme> themeId;
+ 
+-    protected Room() {
+-    }
+ 
+-    private Room(Id<Room> roomId, Name name, room.Difficulty difficulty, Price price, Id<Theme> themeId) {
++    private Room(Id<Room> roomId, Name name, Difficulty difficulty, Price price, Id<Theme> themeId) {
+         this.roomId = roomId;
+         this.name = name;
+         this.difficulty = difficulty;
+@@ -23,11 +19,12 @@
+         this.themeId = themeId;
+     }
+ 
+-    public static Room createNew(Name name, room.Difficulty difficulty, Price price, Id<Theme> themeId) {
++
++    public static Room createNew(Name name, Difficulty difficulty, Price price, Id<Theme> themeId) {
+         return new Room(null, name, difficulty, price, themeId);
+     }
+ 
+-    public static Room rehydrate(Id<Room> roomId, Name name, room.Difficulty difficulty, Price price, Id<Theme> themeId) {
++    public static Room rehydrate(Id<Room> roomId, Name name, Difficulty difficulty, Price price, Id<Theme> themeId) {
+ 
+         if (roomId == null) {
+             throw new IllegalArgumentException("Rehydrating entity must have a valid ID.");
+@@ -36,46 +33,29 @@
+     }
+ 
+ 
+-
+     public Id<Room>  getRoomId() {
+         return roomId;
+     }
+ 
+-    public void setRoomId(Id<Room> roomId) {
+-        this.roomId = roomId;
+-    }
+ 
+     public Name getName() {
+         return name;
+     }
+ 
+-    public void setName(Name name) {
+-        this.name = name;
+-    }
+ 
+-    public room.Difficulty getDifficulty() {
++    public Difficulty getDifficulty() {
+         return difficulty;
+     }
+ 
+-    public void setDifficulty(room.Difficulty difficulty) {
+-        this.difficulty = difficulty;
+-    }
+ 
+     public Price getPrice() {
+         return price;
+     }
+ 
+-    public void setPrice(Price price) {
+-        this.price = price;
+-    }
+-
+     public Id<Theme> getThemeId() {
+         return themeId;
+     }
+ 
+-    public void setThemeId(Id<Theme> themeId) {
+-        this.themeId = themeId;
+-    }
+ 
+     @Override
+     public boolean equals(Object o) {
+Index: S3.3-escape-room/db/init/initDB.sql
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>-- MySQL Workbench Forward Engineering\r\n\r\nSET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;\r\nSET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;\r\nSET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';\r\n\r\n-- -----------------------------------------------------\r\n-- Schema mydb\r\n-- -----------------------------------------------------\r\n-- -----------------------------------------------------\r\n-- Schema escape_room\r\n-- -----------------------------------------------------\r\n\r\n-- -----------------------------------------------------\r\n-- Schema escape_room\r\n-- -----------------------------------------------------\r\nCREATE SCHEMA IF NOT EXISTS `escape_room` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;\r\nUSE `escape_room` ;\r\n\r\n-- -----------------------------------------------------\r\n-- Table `escape_room`.`certificate`\r\n-- -----------------------------------------------------\r\nCREATE TABLE IF NOT EXISTS `escape_room`.`certificate` (\r\n  `id_certificate` INT NOT NULL AUTO_INCREMENT,\r\n  `type` ENUM('') NOT NULL,\r\n  `reward` VARCHAR(45) NULL DEFAULT NULL,\r\n  PRIMARY KEY (`id_certificate`))\r\nENGINE = InnoDB\r\nDEFAULT CHARACTER SET = utf8mb3;\r\n\r\n\r\n-- -----------------------------------------------------\r\n-- Table `escape_room`.`theme`\r\n-- -----------------------------------------------------\r\nCREATE TABLE IF NOT EXISTS `escape_room`.`theme` (\r\n  `id_theme` INT NOT NULL AUTO_INCREMENT,\r\n  `name` VARCHAR(45) NOT NULL,\r\n  PRIMARY KEY (`id_theme`),\r\n  UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE)\r\nENGINE = InnoDB\r\nDEFAULT CHARACTER SET = utf8mb3;\r\n\r\n\r\n-- -----------------------------------------------------\r\n-- Table `escape_room`.`room`\r\n-- -----------------------------------------------------\r\nCREATE TABLE IF NOT EXISTS `escape_room`.`room` (\r\n  `id_room` INT NOT NULL AUTO_INCREMENT,\r\n  `name` VARCHAR(45) NOT NULL,\r\n  `difficulty` ENUM('EASY', 'MEDIUM', 'HARD', 'EXTREME') NOT NULL DEFAULT 'MEDIUM',\r\n  `price` DECIMAL(10,2) NOT NULL,\r\n  `theme_id` INT NOT NULL,\r\n  PRIMARY KEY (`id_room`),\r\n  UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE,\r\n  INDEX `fk_room_theme_idx` (`theme_id` ASC) VISIBLE,\r\n  CONSTRAINT `fk_room_theme`\r\n    FOREIGN KEY (`theme_id`)\r\n    REFERENCES `escape_room`.`theme` (`id_theme`)\r\n    ON DELETE RESTRICT\r\n    ON UPDATE RESTRICT)\r\nENGINE = InnoDB\r\nDEFAULT CHARACTER SET = utf8mb3;\r\n\r\n\r\n-- -----------------------------------------------------\r\n-- Table `escape_room`.`clue`\r\n-- -----------------------------------------------------\r\nCREATE TABLE IF NOT EXISTS `escape_room`.`clue` (\r\n  `id_clue` INT NOT NULL AUTO_INCREMENT,\r\n  `type` ENUM('') NOT NULL,\r\n  `clue_description` VARCHAR(200) NOT NULL,\r\n  `price` DECIMAL(10,2) NOT NULL,\r\n  `theme_id` INT NULL,\r\n  `room_id` INT NOT NULL,\r\n  PRIMARY KEY (`id_clue`),\r\n  INDEX `fk_clue_themes_idx` (`theme_id` ASC) VISIBLE,\r\n  INDEX `fk_clue_room_idx` (`room_id` ASC) VISIBLE,\r\n  CONSTRAINT `fk_clue_themes`\r\n    FOREIGN KEY (`theme_id`)\r\n    REFERENCES `escape_room`.`theme` (`id_theme`)\r\n    ON DELETE RESTRICT\r\n    ON UPDATE RESTRICT,\r\n  CONSTRAINT `fk_clue_room`\r\n    FOREIGN KEY (`room_id`)\r\n    REFERENCES `escape_room`.`room` (`id_room`)\r\n    ON DELETE NO ACTION\r\n    ON UPDATE NO ACTION)\r\nENGINE = InnoDB\r\nDEFAULT CHARACTER SET = utf8mb3;\r\n\r\n\r\n-- -----------------------------------------------------\r\n-- Table `escape_room`.`decoration_object`\r\n-- -----------------------------------------------------\r\nCREATE TABLE IF NOT EXISTS `escape_room`.`decoration_object` (\r\n  `id_decoration_object` INT NOT NULL AUTO_INCREMENT,\r\n  `name` VARCHAR(45) NOT NULL,\r\n  `material` ENUM('WOOD', 'METAL', 'PLASTIC') NOT NULL,\r\n  `stock` INT NOT NULL,\r\n  `price` DECIMAL(10,2) NOT NULL,\r\n  `room_id` INT NOT NULL,\r\n  PRIMARY KEY (`id_decoration_object`),\r\n  INDEX `fk_decoration_object_room_idx` (`room_id` ASC) VISIBLE,\r\n  UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE,\r\n  CONSTRAINT `fk_decoration_object_room`\r\n    FOREIGN KEY (`room_id`)\r\n    REFERENCES `escape_room`.`room` (`id_room`)\r\n    ON DELETE NO ACTION\r\n    ON UPDATE NO ACTION)\r\nENGINE = InnoDB\r\nDEFAULT CHARACTER SET = utf8mb3;\r\n\r\n\r\n-- -----------------------------------------------------\r\n-- Table `escape_room`.`player`\r\n-- -----------------------------------------------------\r\nCREATE TABLE IF NOT EXISTS `escape_room`.`player` (\r\n  `id_player` INT NOT NULL AUTO_INCREMENT,\r\n  `name` VARCHAR(45) NOT NULL,\r\n  `email` VARCHAR(45) NOT NULL,\r\n  `subscribed` TINYINT NOT NULL,\r\n  PRIMARY KEY (`id_player`),\r\n  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)\r\nENGINE = InnoDB\r\nDEFAULT CHARACTER SET = utf8mb3;\r\n\r\n\r\n-- -----------------------------------------------------\r\n-- Table `escape_room`.`ticket`\r\n-- -----------------------------------------------------\r\nCREATE TABLE IF NOT EXISTS `escape_room`.`ticket` (\r\n  `id_ticket` INT NOT NULL AUTO_INCREMENT,\r\n  `purchase_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,\r\n  `total` DECIMAL(10,2) NOT NULL,\r\n  `player_id_player` INT NOT NULL,\r\n  `room_id_room` INT NOT NULL,\r\n  PRIMARY KEY (`id_ticket`),\r\n  INDEX `fk_ticket_player1_idx` (`player_id_player` ASC) VISIBLE,\r\n  INDEX `fk_ticket_room1_idx` (`room_id_room` ASC) VISIBLE,\r\n  CONSTRAINT `fk_ticket_player1`\r\n    FOREIGN KEY (`player_id_player`)\r\n    REFERENCES `escape_room`.`player` (`id_player`),\r\n  CONSTRAINT `fk_ticket_room1`\r\n    FOREIGN KEY (`room_id_room`)\r\n    REFERENCES `escape_room`.`room` (`id_room`))\r\nENGINE = InnoDB\r\nDEFAULT CHARACTER SET = utf8mb3;\r\n\r\n\r\n-- -----------------------------------------------------\r\n-- Table `escape_room`.`player_certificate`\r\n-- -----------------------------------------------------\r\nCREATE TABLE IF NOT EXISTS `escape_room`.`player_certificate` (\r\n  `player_id` INT NOT NULL,\r\n  `certificate_id` INT NOT NULL,\r\n  `room_id` INT NOT NULL,\r\n  `issued_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,\r\n  PRIMARY KEY (`player_id`, `certificate_id`, `room_id`),\r\n  INDEX `fk_player_certificate_certificate_idx` (`certificate_id` ASC) VISIBLE,\r\n  INDEX `fk_player_certificate_room_idx` (`room_id` ASC) VISIBLE,\r\n  CONSTRAINT `fk_player_certificate_player`\r\n    FOREIGN KEY (`player_id`)\r\n    REFERENCES `escape_room`.`player` (`id_player`)\r\n    ON DELETE RESTRICT\r\n    ON UPDATE RESTRICT,\r\n  CONSTRAINT `fk_player_certificate_certificate`\r\n    FOREIGN KEY (`certificate_id`)\r\n    REFERENCES `escape_room`.`certificate` (`id_certificate`)\r\n    ON DELETE RESTRICT\r\n    ON UPDATE RESTRICT,\r\n  CONSTRAINT `fk_player_certificate_room`\r\n    FOREIGN KEY (`room_id`)\r\n    REFERENCES `escape_room`.`room` (`id_room`)\r\n    ON DELETE RESTRICT\r\n    ON UPDATE RESTRICT)\r\nENGINE = InnoDB;\r\n\r\n\r\nSET SQL_MODE=@OLD_SQL_MODE;\r\nSET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;\r\nSET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/S3.3-escape-room/db/init/initDB.sql b/S3.3-escape-room/db/init/initDB.sql
+--- a/S3.3-escape-room/db/init/initDB.sql	(revision 68caa7ccb2aefba5184aad9713d117a214098228)
++++ b/S3.3-escape-room/db/init/initDB.sql	(date 1765640916982)
+@@ -22,8 +22,8 @@
+ -- -----------------------------------------------------
+ CREATE TABLE IF NOT EXISTS `escape_room`.`certificate` (
+   `id_certificate` INT NOT NULL AUTO_INCREMENT,
+-  `type` ENUM('') NOT NULL,
+-  `reward` VARCHAR(45) NULL DEFAULT NULL,
++  `type` ENUM('ROOM_COMPLETED', 'TIME_CHALLENGE', 'NO_HINTS_CHALLENGE', 'SPECIAL_ACHIEVEMENT') NOT NULL,
++  `reward` VARCHAR(200) NULL DEFAULT NULL,
+   PRIMARY KEY (`id_certificate`))
+ ENGINE = InnoDB
+ DEFAULT CHARACTER SET = utf8mb3;
+@@ -67,10 +67,10 @@
+ -- -----------------------------------------------------
+ CREATE TABLE IF NOT EXISTS `escape_room`.`clue` (
+   `id_clue` INT NOT NULL AUTO_INCREMENT,
+-  `type` ENUM('') NOT NULL,
++  `type` ENUM('TEXT', 'OBJECT', 'SOUND') NOT NULL,
+   `clue_description` VARCHAR(200) NOT NULL,
+   `price` DECIMAL(10,2) NOT NULL,
+-  `theme_id` INT NULL,
++  `theme_id` INT NOT NULL,
+   `room_id` INT NOT NULL,
+   PRIMARY KEY (`id_clue`),
+   INDEX `fk_clue_themes_idx` (`theme_id` ASC) VISIBLE,
+Index: S3.3-escape-room/src/main/java/org/s3team/theme/service/ThemeService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/S3.3-escape-room/src/main/java/org/s3team/theme/service/ThemeService.java b/S3.3-escape-room/src/main/java/org/s3team/theme/service/ThemeService.java
+new file mode 100644
+--- /dev/null	(date 1765640916998)
++++ b/S3.3-escape-room/src/main/java/org/s3team/theme/service/ThemeService.java	(date 1765640916998)
+@@ -0,0 +1,52 @@
++package org.s3team.theme.service;
++
++import org.s3team.common.valueobject.Id;
++import org.s3team.common.valueobject.Name;
++import org.s3team.theme.dao.ThemeDao;
++import org.s3team.theme.model.Theme;
++
++import java.util.List;
++
++public class ThemeService {
++
++    private final ThemeDao themeDao;
++
++    public ThemeService(ThemeDao themeDao) {
++        this.themeDao = themeDao;
++    }
++
++    public Theme createTheme(Name name) {
++
++        Theme theme = Theme.createNew(name);
++        return themeDao.save(theme);
++    }
++
++    public Theme getThemeById(Id<Theme> id) {
++        return themeDao.getById(id);
++    }
++
++    public Theme getThemeByName(Name name) {
++        return themeDao.getByName(name);
++    }
++
++    public List<Theme> getAllThemes() {
++        return themeDao.findAll();
++    }
++
++    public Theme updateTheme(Theme theme) {
++        Theme existingTheme = themeDao.getById(theme.getId());
++        themeDao.update(theme);
++        return theme;
++    }
++
++    public void deleteTheme(Id<Theme> id) {
++        Theme theme = themeDao.getById(id);
++        themeDao.delete(id);
++    }
++
++    public void deleteThemeByName(Name name) {
++        Theme theme = themeDao.getByName(name);
++        themeDao.deleteByName(name);
++    }
++}
++
+Index: S3.3-escape-room/src/main/java/org/s3team/playercertificate/dao/PlayerCertificateDao.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/S3.3-escape-room/src/main/java/org/s3team/playercertificate/dao/PlayerCertificateDao.java b/S3.3-escape-room/src/main/java/org/s3team/playercertificate/dao/PlayerCertificateDao.java
+new file mode 100644
+--- /dev/null	(date 1765640916990)
++++ b/S3.3-escape-room/src/main/java/org/s3team/playercertificate/dao/PlayerCertificateDao.java	(date 1765640916990)
+@@ -0,0 +1,24 @@
++package org.s3team.playercertificate.dao;
++
++import org.s3team.Player.Model.Player;
++import org.s3team.certificate.model.Certificate;
++import org.s3team.common.valueobject.Id;
++import org.s3team.playercertificate.dto.PlayerCertificateInfo;
++import org.s3team.playercertificate.model.PlayerCertificate;
++import org.s3team.room.model.Room;
++
++import java.sql.SQLException;
++import java.util.List;
++
++public interface PlayerCertificateDao {
++
++    PlayerCertificate add(PlayerCertificate pc) throws SQLException;
++    List<PlayerCertificate> findByPlayer(Id<Player> playerId) throws SQLException;
++    List<PlayerCertificate> findByRoom(Id<Room> roomId) throws SQLException;
++    List<PlayerCertificate> findAll() throws SQLException;
++    boolean exists(Id<Player> playerId, Id<Certificate> certificateId, Id<Room> roomId) throws SQLException;
++
++    List<PlayerCertificateInfo> findAllWithInfo() throws SQLException;
++    List<PlayerCertificateInfo> findCertificatesByPlayerWithInfo(Id<Player> playerId) throws SQLException;
++    List<PlayerCertificateInfo> findCertificatesByRoomWithInfo(Id<Room> roomId) throws SQLException;
++}
+Index: S3.3-escape-room/src/main/java/org/s3team/playercertificate/model/PlayerCertificate.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/S3.3-escape-room/src/main/java/org/s3team/playercertificate/model/PlayerCertificate.java b/S3.3-escape-room/src/main/java/org/s3team/playercertificate/model/PlayerCertificate.java
+new file mode 100644
+--- /dev/null	(date 1765640916992)
++++ b/S3.3-escape-room/src/main/java/org/s3team/playercertificate/model/PlayerCertificate.java	(date 1765640916992)
+@@ -0,0 +1,45 @@
++package org.s3team.playercertificate.model;
++
++import org.s3team.Player.Model.Player;
++import org.s3team.certificate.model.Certificate;
++import org.s3team.common.valueobject.Id;
++import org.s3team.room.model.Room;
++
++import java.time.LocalDateTime;
++
++public class PlayerCertificate {
++
++    private final Id<Player> playerId;
++    private final Id<Certificate> certificateId;
++    private final Id<Room> roomId;
++    private final LocalDateTime issuedDate;
++
++    private PlayerCertificate(Id<Player> playerId, Id<Certificate> certificateId, Id<Room> roomId, LocalDateTime issuedDate){
++        this.playerId = playerId;
++        this.certificateId = certificateId;
++        this.roomId = roomId;
++        this.issuedDate = issuedDate;
++    }
++
++    public static PlayerCertificate createNew(Id<Player> playerId, Id<Certificate> certificateId, Id<Room> roomId) {
++        return new PlayerCertificate(playerId, certificateId, roomId, null);
++    }
++
++    public static PlayerCertificate rehydrate(Id<Player> playerId, Id<Certificate> certificateId, Id<Room> roomId, LocalDateTime issuedDate) {
++        return new PlayerCertificate(playerId, certificateId, roomId, issuedDate);
++    }
++
++    public Id<Player> getPlayerId() { return playerId; }
++    public Id<Certificate> getCertificateId() { return certificateId; }
++    public Id<Room> getRoomId() { return roomId; }
++    public LocalDateTime getIssuedDate() { return issuedDate; }
++
++    @Override
++    public String toString() {
++        return "PlayerCertificate = " +
++                "playerId = " + playerId +
++                ", certificateId = " + certificateId +
++                ", roomId = " + roomId +
++                ", issuedDate = " + issuedDate;
++    }
++}
+Index: S3.3-escape-room/src/main/java/org/s3team/playercertificate/service/PlayerCertificateService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/S3.3-escape-room/src/main/java/org/s3team/playercertificate/service/PlayerCertificateService.java b/S3.3-escape-room/src/main/java/org/s3team/playercertificate/service/PlayerCertificateService.java
+new file mode 100644
+--- /dev/null	(date 1765640916992)
++++ b/S3.3-escape-room/src/main/java/org/s3team/playercertificate/service/PlayerCertificateService.java	(date 1765640916992)
+@@ -0,0 +1,109 @@
++package org.s3team.playercertificate.service;
++
++import org.s3team.Exceptions.CertificateNotFoundException;
++import org.s3team.Exceptions.PlayerNotFoundException;
++import org.s3team.Exceptions.RoomNotFoundException;
++import org.s3team.Player.DAO.PlayerDAO;
++import org.s3team.Player.Model.Player;
++import org.s3team.certificate.dao.CertificateDao;
++import org.s3team.certificate.model.Certificate;
++import org.s3team.common.valueobject.Id;
++import org.s3team.playercertificate.dao.PlayerCertificateDao;
++import org.s3team.playercertificate.dto.PlayerCertificateInfo;
++import org.s3team.playercertificate.model.PlayerCertificate;
++import org.s3team.room.DAO.RoomDAO;
++import org.s3team.room.model.Room;
++
++import java.sql.SQLException;
++import java.util.List;
++
++public class PlayerCertificateService {
++
++    private final PlayerCertificateDao pcDao;
++    private final CertificateDao certificateDao;
++    private final PlayerDAO playerDAO;
++    private final RoomDAO roomDAO;
++
++
++    public PlayerCertificateService(PlayerCertificateDao pcDao, CertificateDao certificateDao, PlayerDAO playerDAO, RoomDAO roomDAO) {
++        this.pcDao = pcDao;
++        this.certificateDao = certificateDao;
++        this.playerDAO = playerDAO;
++        this.roomDAO = roomDAO;
++    }
++
++    public PlayerCertificate assignCertificate(Id<Player> playerId, Id<Certificate> certificateId, Id<Room> roomId) {
++        try {
++            if (playerDAO.findById(playerId).isEmpty()) {
++                throw new PlayerNotFoundException(playerId);
++            }
++
++            if (certificateDao.findById(certificateId).isEmpty()) {
++                throw new CertificateNotFoundException(certificateId);
++            }
++
++            if (roomDAO.findById(roomId).isEmpty()) {
++                throw new RoomNotFoundException(roomId);
++            }
++
++            if (pcDao.exists(playerId, certificateId, roomId)) {
++                throw new IllegalStateException("Certificate " + certificateId + " already assigned to player " + playerId + " in room " + roomId);
++            }
++
++
++            PlayerCertificate pc = PlayerCertificate.createNew(playerId, certificateId, roomId);
++            return pcDao.add(pc);
++
++        } catch (SQLException e) {
++            throw new RuntimeException("Error assigning certificate", e);
++        }
++    }
++
++    public List<PlayerCertificate> getCertificatesByPlayer(Id<Player> playerId) {
++        try {
++            return pcDao.findByPlayer(playerId);
++        } catch (SQLException e) {
++            throw new RuntimeException("Error fetching certificates by player", e);
++        }
++    }
++
++    public List<PlayerCertificate> getCertificatesByRoom(Id<Room> roomId) {
++        try {
++            return pcDao.findByRoom(roomId);
++        } catch (SQLException e) {
++            throw new RuntimeException("Error fetching certificates by room", e);
++        }
++    }
++
++    public List<PlayerCertificate> getAllCertificates() {
++        try {
++            return pcDao.findAll();
++        } catch (SQLException e) {
++            throw new RuntimeException("Error fetching all certificates", e);
++        }
++    }
++
++    public List<PlayerCertificateInfo> getCertificatesForPlayerWithInfo(Id<Player> playerId) {
++        try {
++            return pcDao.findCertificatesByPlayerWithInfo(playerId);
++        } catch (SQLException e) {
++            throw new RuntimeException("Error fetching certificates for player", e);
++        }
++    }
++
++    public List<PlayerCertificateInfo> getCertificatesForRoomWithInfo(Id<Room> roomId) {
++        try {
++            return pcDao.findCertificatesByRoomWithInfo(roomId);
++        } catch (SQLException e) {
++            throw new RuntimeException("Error fetching certificates for room", e);
++        }
++    }
++
++    public List<PlayerCertificateInfo> getAllCertificatesWithInfo() {
++        try {
++            return pcDao.findAllWithInfo();
++        } catch (SQLException e) {
++            throw new RuntimeException("Error fetching all certificates with info", e);
++        }
++    }
++}
+Index: S3.3-escape-room/src/main/java/org/s3team/playercertificate/dao/PlayerCertificateDaoImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/S3.3-escape-room/src/main/java/org/s3team/playercertificate/dao/PlayerCertificateDaoImpl.java b/S3.3-escape-room/src/main/java/org/s3team/playercertificate/dao/PlayerCertificateDaoImpl.java
+new file mode 100644
+--- /dev/null	(date 1765640916990)
++++ b/S3.3-escape-room/src/main/java/org/s3team/playercertificate/dao/PlayerCertificateDaoImpl.java	(date 1765640916990)
+@@ -0,0 +1,245 @@
++package org.s3team.playercertificate.dao;
++
++import org.s3team.DataBaseConnection.Data_Base_Connection;
++import org.s3team.Player.Model.Player;
++import org.s3team.certificate.model.Certificate;
++import org.s3team.common.valueobject.Id;
++import org.s3team.playercertificate.dto.PlayerCertificateInfo;
++import org.s3team.playercertificate.model.PlayerCertificate;
++import org.s3team.room.model.Room;
++
++import java.sql.*;
++import java.time.LocalDateTime;
++import java.util.ArrayList;
++import java.util.List;
++
++public class PlayerCertificateDaoImpl implements PlayerCertificateDao {
++
++    private final Data_Base_Connection db;
++
++    public PlayerCertificateDaoImpl(Data_Base_Connection db) {
++        this.db = db;
++    }
++
++    private static final String SQL_SELECT_ALL_WITH_INFO = """
++         SELECT pc.player_id, p.name AS player_name,
++                pc.certificate_id, c.type AS certificate_type, c.reward AS certificate_reward,
++                pc.room_id, r.name AS room_name,
++                pc.issued_date
++         FROM player_certificate pc
++            JOIN player p ON pc.player_id = p.id_player
++            JOIN certificate c ON pc.certificate_id = c.id_certificate
++            JOIN room r ON pc.room_id = r.id_room
++        """;
++
++    private static final String SQL_SELECT_BY_PLAYER_WITH_INFO = SQL_SELECT_ALL_WITH_INFO + " WHERE pc.player_id = ?";
++
++    private static final String SQL_SELECT_BY_ROOM_WITH_INFO = SQL_SELECT_ALL_WITH_INFO + " WHERE pc.room_id = ?";
++
++    @Override
++    public PlayerCertificate add(PlayerCertificate pc) throws SQLException {
++        String sql = "INSERT INTO player_certificate (player_id, certificate_id, room_id) VALUES (?, ?, ?)";
++
++        try (Connection conn = db.getConnection();
++             PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
++
++            stmt.setInt(1, pc.getPlayerId().value());
++            stmt.setInt(2, pc.getCertificateId().value());
++            stmt.setInt(3, pc.getRoomId().value());
++
++            stmt.executeUpdate();
++
++            try (ResultSet rs = stmt.getGeneratedKeys()) {
++                if (rs.next()) {
++                    Timestamp ts = rs.getTimestamp(1);
++                    LocalDateTime issuedDate = ts.toLocalDateTime();
++                    return PlayerCertificate.rehydrate(
++                            pc.getPlayerId(),
++                            pc.getCertificateId(),
++                            pc.getRoomId(),
++                            issuedDate
++                    );
++                }
++            }
++        }
++
++        throw new SQLException("Creating PlayerCertificate failed, no issued_date returned.");
++    }
++
++    @Override
++    public List<PlayerCertificate> findByPlayer(Id<Player> playerId) throws SQLException {
++        String sql = "SELECT * FROM player_certificate WHERE player_id = ?";
++        List<PlayerCertificate> list = new ArrayList<>();
++
++        try (Connection conn = db.getConnection();
++             PreparedStatement stmt = conn.prepareStatement(sql)) {
++
++            stmt.setInt(1, playerId.value());
++
++            try (ResultSet rs = stmt.executeQuery()) {
++                while (rs.next()) {
++                    list.add(PlayerCertificate.rehydrate(
++                            new Id<>(rs.getInt("player_id")),
++                            new Id<>(rs.getInt("certificate_id")),
++                            new Id<>(rs.getInt("room_id")),
++                            rs.getTimestamp("issued_date").toLocalDateTime()
++                    ));
++                }
++            }
++        }
++
++        return list;
++    }
++
++    @Override
++    public List<PlayerCertificate> findByRoom(Id<Room> roomId) throws SQLException {
++        String sql = "SELECT * FROM player_certificate WHERE room_id = ?";
++        List<PlayerCertificate> list = new ArrayList<>();
++
++        try (Connection conn = db.getConnection();
++             PreparedStatement stmt = conn.prepareStatement(sql)) {
++
++            stmt.setInt(1, roomId.value());
++
++            try (ResultSet rs = stmt.executeQuery()) {
++                while (rs.next()) {
++                    list.add(PlayerCertificate.rehydrate(
++                            new Id<>(rs.getInt("player_id")),
++                            new Id<>(rs.getInt("certificate_id")),
++                            new Id<>(rs.getInt("room_id")),
++                            rs.getTimestamp("issued_date").toLocalDateTime()
++                    ));
++                }
++            }
++        }
++
++        return list;
++    }
++
++    @Override
++    public List<PlayerCertificate> findAll() throws SQLException {
++        String sql = "SELECT * FROM player_certificate";
++        List<PlayerCertificate> list = new ArrayList<>();
++
++        try (Connection conn = db.getConnection();
++             PreparedStatement stmt = conn.prepareStatement(sql);
++             ResultSet rs = stmt.executeQuery()) {
++
++            while (rs.next()) {
++                list.add(PlayerCertificate.rehydrate(
++                        new Id<>(rs.getInt("player_id")),
++                        new Id<>(rs.getInt("certificate_id")),
++                        new Id<>(rs.getInt("room_id")),
++                        rs.getTimestamp("issued_date").toLocalDateTime()
++                ));
++            }
++        }
++
++        return list;
++    }
++
++    @Override
++    public boolean exists(Id<Player> playerId, Id<Certificate> certificateId, Id<Room> roomId) throws SQLException {
++        String sql = "SELECT COUNT(*) FROM player_certificate WHERE player_id = ? AND certificate_id = ? AND room_id = ?";
++
++        try (Connection conn = db.getConnection();
++             PreparedStatement stmt = conn.prepareStatement(sql)) {
++
++            stmt.setInt(1, playerId.value());
++            stmt.setInt(2, certificateId.value());
++            stmt.setInt(3, roomId.value());
++
++            try (ResultSet rs = stmt.executeQuery()) {
++                if (rs.next()) {
++                    return rs.getInt(1) > 0;
++                }
++            }
++        }
++
++        return false;
++    }
++
++    @Override
++    public List<PlayerCertificateInfo> findAllWithInfo() throws SQLException {
++
++        List<PlayerCertificateInfo> list = new ArrayList<>();
++
++        try (Connection conn = db.getConnection();
++             PreparedStatement stmt = conn.prepareStatement(SQL_SELECT_ALL_WITH_INFO);
++             ResultSet rs = stmt.executeQuery()) {
++
++                while (rs.next()) {
++                    list.add(new PlayerCertificateInfo(
++                            new Id<>(rs.getInt("player_id")),
++                            rs.getString("player_name"),
++                            new Id<>(rs.getInt("certificate_id")),
++                            rs.getString("certificate_type"),
++                            rs.getString("certificate_reward"),
++                            new Id<>(rs.getInt("room_id")),
++                            rs.getString("room_name"),
++                            rs.getTimestamp("issued_date").toLocalDateTime()
++                    ));
++                }
++            }
++        return list;
++    }
++
++
++
++    @Override
++    public List<PlayerCertificateInfo> findCertificatesByPlayerWithInfo(Id<Player> playerId) throws SQLException {
++        List<PlayerCertificateInfo> list = new ArrayList<>();
++
++        try (Connection conn = db.getConnection();
++             PreparedStatement stmt = conn.prepareStatement(SQL_SELECT_BY_PLAYER_WITH_INFO)) {
++
++            stmt.setInt(1, playerId.value());
++
++            try (ResultSet rs = stmt.executeQuery()) {
++                while (rs.next()) {
++                    list.add(new PlayerCertificateInfo(
++                            new Id<>(rs.getInt("player_id")),
++                            rs.getString("player_name"),
++                            new Id<>(rs.getInt("certificate_id")),
++                            rs.getString("certificate_type"),
++                            rs.getString("certificate_reward"),
++                            new Id<>(rs.getInt("room_id")),
++                            rs.getString("room_name"),
++                            rs.getTimestamp("issued_date").toLocalDateTime()
++                    ));
++                }
++            }
++        }
++
++        return list;
++    }
++
++    @Override
++    public List<PlayerCertificateInfo> findCertificatesByRoomWithInfo(Id<Room> roomId) throws SQLException {
++
++        List<PlayerCertificateInfo> list = new ArrayList<>();
++
++        try (Connection conn = db.getConnection();
++             PreparedStatement stmt = conn.prepareStatement(SQL_SELECT_BY_ROOM_WITH_INFO)) {
++
++            stmt.setInt(1, roomId.value());
++
++            try (ResultSet rs = stmt.executeQuery()) {
++                while (rs.next()) {
++                    list.add(new PlayerCertificateInfo(
++                            new Id<>(rs.getInt("player_id")),
++                            rs.getString("player_name"),
++                            new Id<>(rs.getInt("certificate_id")),
++                            rs.getString("certificate_type"),
++                            rs.getString("certificate_reward"),
++                            new Id<>(rs.getInt("room_id")),
++                            rs.getString("room_name"),
++                            rs.getTimestamp("issued_date").toLocalDateTime()
++                    ));
++                }
++            }
++        }
++
++        return list;
++    }
++}
+Index: S3.3-escape-room/src/main/java/org/s3team/playercertificate/dto/PlayerCertificateInfo.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/S3.3-escape-room/src/main/java/org/s3team/playercertificate/dto/PlayerCertificateInfo.java b/S3.3-escape-room/src/main/java/org/s3team/playercertificate/dto/PlayerCertificateInfo.java
+new file mode 100644
+--- /dev/null	(date 1765640916991)
++++ b/S3.3-escape-room/src/main/java/org/s3team/playercertificate/dto/PlayerCertificateInfo.java	(date 1765640916991)
+@@ -0,0 +1,34 @@
++package org.s3team.playercertificate.dto;
++
++import org.s3team.Player.Model.Player;
++import org.s3team.certificate.model.Certificate;
++import org.s3team.common.valueobject.Id;
++import org.s3team.room.model.Room;
++
++import java.time.LocalDateTime;
++
++public record PlayerCertificateInfo(
++    Id<Player> playerId,
++    String playerName,
++    Id<Certificate> certificateId,
++    String certificateType,
++    String reward,
++    Id<Room> roomId,
++    String roomName,
++    LocalDateTime issuedDate
++) {
++    @Override
++    public String toString() {
++        return String.format(
++                "PlayerCertificateInfo { playerId=%s, playerName='%s', certificateId=%s, certificateType='%s', reward='%s', roomId=%s, roomName='%s', issuedDate=%s }",
++                playerId,
++                playerName,
++                certificateId,
++                certificateType,
++                reward,
++                roomId,
++                roomName,
++                issuedDate
++        );
++    }
++}
+Index: S3.3-escape-room/src/main/java/org/s3team/certificate/dao/CertificateDao.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/S3.3-escape-room/src/main/java/org/s3team/certificate/dao/CertificateDao.java b/S3.3-escape-room/src/main/java/org/s3team/certificate/dao/CertificateDao.java
+new file mode 100644
+--- /dev/null	(date 1765640916985)
++++ b/S3.3-escape-room/src/main/java/org/s3team/certificate/dao/CertificateDao.java	(date 1765640916985)
+@@ -0,0 +1,7 @@
++package org.s3team.certificate.dao;
++
++import org.s3team.certificate.model.Certificate;
++import org.s3team.common.dao.CrudDao;
++
++public interface CertificateDao extends CrudDao<Certificate> {
++}
+Index: S3.3-escape-room/src/main/java/org/s3team/certificate/model/CertificateType.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/S3.3-escape-room/src/main/java/org/s3team/certificate/model/CertificateType.java b/S3.3-escape-room/src/main/java/org/s3team/certificate/model/CertificateType.java
+new file mode 100644
+--- /dev/null	(date 1765640916987)
++++ b/S3.3-escape-room/src/main/java/org/s3team/certificate/model/CertificateType.java	(date 1765640916987)
+@@ -0,0 +1,8 @@
++package org.s3team.certificate.model;
++
++public enum CertificateType {
++    ROOM_COMPLETED,
++    TIME_CHALLENGE,
++    NO_HINTS_CHALLENGE,
++    SPECIAL_ACHIEVEMENT
++}
+Index: S3.3-escape-room/src/main/java/org/s3team/certificate/model/Reward.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/S3.3-escape-room/src/main/java/org/s3team/certificate/model/Reward.java b/S3.3-escape-room/src/main/java/org/s3team/certificate/model/Reward.java
+new file mode 100644
+--- /dev/null	(date 1765640916989)
++++ b/S3.3-escape-room/src/main/java/org/s3team/certificate/model/Reward.java	(date 1765640916989)
+@@ -0,0 +1,23 @@
++package org.s3team.certificate.model;
++
++public record Reward(String value) {
++
++    public Reward {
++        if (value != null) {
++            value = value.strip();
++        }
++
++        if(value != null && value.length() > 200) {
++            throw new IllegalArgumentException("Reward cannot be superior to 200 characters");
++        }
++    }
++
++    public boolean hasReward(){
++        return value != null && !value.isEmpty();
++    }
++
++    @Override
++    public String toString() {
++        return value != null ? value : "";
++    }
++}
+Index: S3.3-escape-room/src/main/java/org/s3team/certificate/dao/CertificateDaoImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/S3.3-escape-room/src/main/java/org/s3team/certificate/dao/CertificateDaoImpl.java b/S3.3-escape-room/src/main/java/org/s3team/certificate/dao/CertificateDaoImpl.java
+new file mode 100644
+--- /dev/null	(date 1765640916986)
++++ b/S3.3-escape-room/src/main/java/org/s3team/certificate/dao/CertificateDaoImpl.java	(date 1765640916986)
+@@ -0,0 +1,129 @@
++package org.s3team.certificate.dao;
++
++import org.s3team.DataBaseConnection.Data_Base_Connection;
++import org.s3team.certificate.model.Certificate;
++import org.s3team.certificate.model.CertificateType;
++import org.s3team.certificate.model.Reward;
++
++import org.s3team.common.valueobject.Id;
++
++import java.sql.Connection;
++import java.sql.PreparedStatement;
++import java.sql.ResultSet;
++import java.sql.SQLException;
++import java.util.ArrayList;
++import java.util.List;
++import java.util.Optional;
++
++public class CertificateDaoImpl implements CertificateDao{
++
++    private final Data_Base_Connection db;
++
++    public CertificateDaoImpl(Data_Base_Connection db) { this.db = db; }
++
++    @Override
++    public Certificate save(Certificate certificate) {
++        String sql = "INSERT INTO certificate (type, reward) VALUES (?, ?)";
++
++        try (Connection conn = db.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){
++
++
++            stmt.setString(1, certificate.getCertificateType().name());
++            stmt.setString(2, certificate.getReward().value());
++
++            stmt.executeUpdate();
++
++            ResultSet rs = stmt.getGeneratedKeys();
++            if (rs.next()) {
++                Id<Certificate> generatedId = new Id<>(rs.getInt(1));
++                return Certificate.rehydrate(
++                        generatedId,
++                        certificate.getCertificateType(),
++                        certificate.getReward()
++                );
++            } else {
++                throw new SQLException("No ID returned for certificate");
++            }
++        } catch (SQLException e){
++            throw new RuntimeException("Error saving certificate", e);
++        }
++    }
++
++    @Override
++    public Optional<Certificate> findById(Id<Certificate> id) {
++        String sql = "SELECT * FROM certificate WHERE id_certificate = ?";
++        try (Connection conn = db.getConnection();
++             PreparedStatement stmt = conn.prepareStatement(sql)) {
++
++            stmt.setInt(1, id.value());
++            ResultSet rs = stmt.executeQuery();
++
++            if (rs.next()) {
++                return Optional.of(mapRow(rs));
++            }
++            return Optional.empty();
++
++        } catch (SQLException e) {
++            throw new RuntimeException("Error finding certificate", e);
++        }
++    }
++
++    @Override
++    public List<Certificate> findAll() {
++        String sql = "SELECT * FROM certificate";
++        List<Certificate> certificates = new ArrayList<>();
++        try (Connection conn = db.getConnection();
++             PreparedStatement stmt = conn.prepareStatement(sql);
++             ResultSet rs = stmt.executeQuery()) {
++
++            while (rs.next()) {
++                certificates.add(mapRow(rs));
++            }
++
++        } catch (SQLException e) {
++            throw new RuntimeException("Error finding all certificates", e);
++        }
++        return certificates;
++    }
++
++    @Override
++    public boolean update(Certificate certificate) {
++        String sql = "UPDATE certificate SET type = ?, reward = ? WHERE id_certificate = ?";
++
++        try (Connection conn = db.getConnection();
++             PreparedStatement stmt = conn.prepareStatement(sql)) {
++
++            stmt.setString(1, certificate.getCertificateType().toString());
++            stmt.setString(2, certificate.getReward().value());
++            stmt.setInt(3, certificate.getId().value());
++
++            return stmt.executeUpdate() > 0;
++
++        } catch (SQLException e) {
++            throw new RuntimeException("Error updating certificate", e);
++        }
++    }
++
++    @Override
++    public boolean delete(Id<Certificate> id) {
++        String sql = "DELETE FROM certificate WHERE id_certificate = ?";
++
++        try (Connection conn = db.getConnection();
++             PreparedStatement stmt = conn.prepareStatement(sql)) {
++
++            stmt.setInt(1, id.value());
++            return stmt.executeUpdate() > 0;
++
++        } catch (SQLException e) {
++            throw new RuntimeException("Error deleting certificate", e);
++        }
++    }
++
++    private Certificate mapRow(ResultSet rs) throws SQLException {
++        return Certificate.rehydrate(
++                new Id<>(rs.getInt("id_certificate")),
++                CertificateType.valueOf(rs.getString("type")),
++                new Reward(rs.getString("reward"))
++        );
++    }
++}
+Index: S3.3-escape-room/src/main/java/org/s3team/certificate/model/Certificate.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/S3.3-escape-room/src/main/java/org/s3team/certificate/model/Certificate.java b/S3.3-escape-room/src/main/java/org/s3team/certificate/model/Certificate.java
+new file mode 100644
+--- /dev/null	(date 1765640916987)
++++ b/S3.3-escape-room/src/main/java/org/s3team/certificate/model/Certificate.java	(date 1765640916987)
+@@ -0,0 +1,45 @@
++package org.s3team.certificate.model;
++
++import org.s3team.common.valueobject.Id;
++
++public class Certificate {
++
++    private final Id<Certificate> id;
++    private final CertificateType certificateType;
++    private final Reward reward;
++
++    private Certificate(Id<Certificate> id, CertificateType certificateType, Reward reward){
++        this.id = id;
++        this.certificateType = certificateType;
++        this.reward = reward;
++    }
++
++    public static Certificate createNew(CertificateType type, Reward reward) {
++        return new Certificate(null,type,reward);
++    }
++
++    public static Certificate rehydrate(Id<Certificate> id, CertificateType type, Reward reward){
++        return new Certificate(id,type,reward);
++    }
++
++    public Id<Certificate> getId() {
++        return id;
++    }
++
++    public CertificateType getCertificateType() {
++        return certificateType;
++    }
++
++    public Reward getReward() {
++        return reward;
++    }
++
++    @Override
++    public String toString() {
++        String hasRewardPart = reward.hasReward() ? ", reward = " + reward : "";
++        return "Certificate = " +
++                "id = " + id +
++                ", certificateType = " + certificateType +
++                hasRewardPart;
++    }
++}
+Index: S3.3-escape-room/src/main/java/org/s3team/clue/service/ClueService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/S3.3-escape-room/src/main/java/org/s3team/clue/service/ClueService.java b/S3.3-escape-room/src/main/java/org/s3team/clue/service/ClueService.java
+new file mode 100644
+--- /dev/null	(date 1765640916989)
++++ b/S3.3-escape-room/src/main/java/org/s3team/clue/service/ClueService.java	(date 1765640916989)
+@@ -0,0 +1,63 @@
++package org.s3team.clue.service;
++
++import org.s3team.Exceptions.RoomNotFoundException;
++import org.s3team.clue.dao.ClueDao;
++import org.s3team.clue.model.Clue;
++import org.s3team.clue.model.ClueDescription;
++import org.s3team.clue.model.ClueType;
++import org.s3team.common.valueobject.Id;
++import org.s3team.common.valueobject.Price;
++import org.s3team.room.DAO.RoomDAO;
++import org.s3team.room.model.Room;
++import org.s3team.theme.dao.ThemeDao;
++import org.s3team.theme.model.Theme;
++
++import java.util.List;
++import java.util.Optional;
++
++public class ClueService {
++
++    private final ClueDao clueDao;
++    private final RoomDAO roomDao;
++    private final ThemeDao themeDao;
++
++    public ClueService(ClueDao clueDao, RoomDAO roomDao, ThemeDao themeDao){
++        this.clueDao = clueDao;
++        this.roomDao = roomDao;
++        this.themeDao = themeDao;
++    }
++
++    public Clue createClue(ClueType type, ClueDescription description, Price price,
++                           Id<Theme> themeId, Id<Room> roomId) {
++
++        Room room = roomDao.findById(roomId).orElseThrow(() ->
++                new RoomNotFoundException(roomId)
++        );
++        Theme theme = themeDao.getById(themeId);
++
++        Clue clue = Clue.createNew(type, description, price, themeId, roomId);
++
++        return clueDao.save(clue);
++    }
++
++    public Optional<Clue> getClueById(Id<Clue> id) {
++        return clueDao.findById(id);
++    }
++
++    public List<Clue> getAllClues() {
++        return clueDao.findAll();
++    }
++
++    public boolean updateClue(Clue clue) {
++        Room room = roomDao.findById(clue.getRoomId()).orElseThrow(() ->
++                new RoomNotFoundException(clue.getRoomId())
++        );
++        Theme theme = themeDao.getById(clue.getThemeId());
++
++        return clueDao.update(clue);
++    }
++
++    public boolean deleteClue(Id<Clue> id) {
++        return clueDao.delete(id);
++    }
++}
+Index: S3.3-escape-room/src/main/java/org/s3team/Exceptions/CertificateNotFoundException.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/S3.3-escape-room/src/main/java/org/s3team/Exceptions/CertificateNotFoundException.java b/S3.3-escape-room/src/main/java/org/s3team/Exceptions/CertificateNotFoundException.java
+new file mode 100644
+--- /dev/null	(date 1765640916984)
++++ b/S3.3-escape-room/src/main/java/org/s3team/Exceptions/CertificateNotFoundException.java	(date 1765640916984)
+@@ -0,0 +1,17 @@
++package org.s3team.Exceptions;
++
++import org.s3team.certificate.model.Certificate;
++import org.s3team.common.valueobject.Id;
++
++public class CertificateNotFoundException extends RuntimeException {
++    private final Id<Certificate> id;
++
++    public CertificateNotFoundException(Id<Certificate> id) {
++        super("Certificate not found: " + id);
++        this.id = id;
++    }
++
++    public Id<Certificate> getId() {
++        return id;
++    }
++}
+Index: S3.3-escape-room/src/main/java/org/s3team/certificate/service/CertificateService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/S3.3-escape-room/src/main/java/org/s3team/certificate/service/CertificateService.java b/S3.3-escape-room/src/main/java/org/s3team/certificate/service/CertificateService.java
+new file mode 100644
+--- /dev/null	(date 1765640916989)
++++ b/S3.3-escape-room/src/main/java/org/s3team/certificate/service/CertificateService.java	(date 1765640916989)
+@@ -0,0 +1,56 @@
++package org.s3team.certificate.service;
++
++import org.s3team.Exceptions.CertificateNotFoundException;
++import org.s3team.certificate.dao.CertificateDao;
++import org.s3team.certificate.model.Certificate;
++import org.s3team.certificate.model.CertificateType;
++import org.s3team.certificate.model.Reward;
++import org.s3team.common.valueobject.Id;
++
++
++import java.util.List;
++import java.util.Objects;
++
++public class CertificateService {
++
++    private final CertificateDao certificateDao;
++
++    public CertificateService(CertificateDao certificateDao){
++        this.certificateDao = certificateDao;
++    }
++
++    public Certificate createCertificate(CertificateType certificateType, Reward reward){
++        Objects.requireNonNull(certificateType, "certificateType must not be null");
++
++        Certificate certificate = Certificate.createNew(certificateType, reward);
++        return certificateDao.save(certificate);
++    }
++
++    public Certificate getCertificateById(Id<Certificate> id){
++        Objects.requireNonNull(id, "id must not be null");
++
++        return certificateDao.findById(id).orElseThrow(() -> new CertificateNotFoundException(id));
++    }
++
++    public List<Certificate> getAllCertificates() {
++        return certificateDao.findAll();
++    }
++
++    public Certificate updateCertificate(Certificate certificate) {
++        Objects.requireNonNull(certificate, "certificate must not be null");
++
++        certificateDao.findById(certificate.getId()).orElseThrow(()-> new CertificateNotFoundException(certificate.getId()));
++
++        certificateDao.update(certificate);
++        return certificate;
++    }
++
++    public void deleteCertificate(Id<Certificate> id) {
++        Objects.requireNonNull(id,"id must not be null");
++
++        boolean deleted = certificateDao.delete(id);
++        if (!deleted) {
++            throw new CertificateNotFoundException(id);
++        }
++    }
++}
+Index: S3.3-escape-room/src/main/java/org/s3team/Exceptions/ThemeNotFoundException.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/S3.3-escape-room/src/main/java/org/s3team/Exceptions/ThemeNotFoundException.java b/S3.3-escape-room/src/main/java/org/s3team/Exceptions/ThemeNotFoundException.java
+new file mode 100644
+--- /dev/null	(date 1765640916984)
++++ b/S3.3-escape-room/src/main/java/org/s3team/Exceptions/ThemeNotFoundException.java	(date 1765640916984)
+@@ -0,0 +1,23 @@
++package org.s3team.Exceptions;
++
++import org.s3team.common.valueobject.Id;
++import org.s3team.common.valueobject.Name;
++import org.s3team.theme.model.Theme;
++
++public class ThemeNotFoundException extends RuntimeException {
++    private final String identifier;
++
++    public ThemeNotFoundException(Id<Theme> id) {
++        super("Theme not found: " + id);
++        this.identifier = id.toString();
++    }
++
++    public ThemeNotFoundException(Name name) {
++        super("Theme not found: " + name);
++        this.identifier = name.toString();
++    }
++
++    public String getIdentifier() {
++        return identifier;
++    }
++}
+Index: S3.3-escape-room/src/main/java/org/s3team/Exceptions/RoomNotFoundException.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/S3.3-escape-room/src/main/java/org/s3team/Exceptions/RoomNotFoundException.java b/S3.3-escape-room/src/main/java/org/s3team/Exceptions/RoomNotFoundException.java
+new file mode 100644
+--- /dev/null	(date 1765640916984)
++++ b/S3.3-escape-room/src/main/java/org/s3team/Exceptions/RoomNotFoundException.java	(date 1765640916984)
+@@ -0,0 +1,17 @@
++package org.s3team.Exceptions;
++
++import org.s3team.common.valueobject.Id;
++import org.s3team.room.model.Room;
++
++public class RoomNotFoundException extends RuntimeException {
++    private final Id<Room> id;
++
++    public RoomNotFoundException(Id<Room> id) {
++        super("Room not found: " + id);
++        this.id = id;
++    }
++
++    public Id<Room> getId() {
++        return id;
++    }
++}
+Index: S3.3-escape-room/src/main/java/org/s3team/Exceptions/PlayerNotFoundException.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/S3.3-escape-room/src/main/java/org/s3team/Exceptions/PlayerNotFoundException.java b/S3.3-escape-room/src/main/java/org/s3team/Exceptions/PlayerNotFoundException.java
+new file mode 100644
+--- /dev/null	(date 1765640916984)
++++ b/S3.3-escape-room/src/main/java/org/s3team/Exceptions/PlayerNotFoundException.java	(date 1765640916984)
+@@ -0,0 +1,17 @@
++package org.s3team.Exceptions;
++
++import org.s3team.Player.Model.Player;
++import org.s3team.common.valueobject.Id;
++
++public class PlayerNotFoundException extends RuntimeException {
++    private final Id<Player> id;
++
++    public PlayerNotFoundException(Id<Player> id) {
++        super("Player not found: " + id);
++        this.id = id;
++    }
++
++    public Id<Player> getId() {
++        return id;
++    }
++}
+Index: S3.3-escape-room/src/main/java/org/s3team/room/model/Difficulty.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package room;\r\n\r\n/**\r\n * ClassName: Dfficulty\r\n * Package: Room\r\n * Description:\r\n * Author: Rong Jiang\r\n * Create:08/12/2025 - 22:15\r\n * Version:v1.0\r\n *\r\n */\r\npublic enum Difficulty {\r\n    EASY,\r\n    MEDIUM,\r\n    HARD,\r\n    EXTREME\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/S3.3-escape-room/src/main/java/org/s3team/room/model/Difficulty.java b/S3.3-escape-room/src/main/java/org/s3team/room/model/Difficulty.java
+--- a/S3.3-escape-room/src/main/java/org/s3team/room/model/Difficulty.java	(revision 68caa7ccb2aefba5184aad9713d117a214098228)
++++ b/S3.3-escape-room/src/main/java/org/s3team/room/model/Difficulty.java	(date 1765640916995)
+@@ -1,4 +1,6 @@
+-package room;
++
++package org.s3team.room.model;
++
+ 
+ /**
+  * ClassName: Dfficulty
+Index: S3.3-escape-room/src/main/java/org/s3team/room/DAO/RoomDAOImp.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.s3team.room.DAO;\r\n\r\nimport org.s3team.DataBaseConnection.MySQL_Data_Base_Connection;\r\nimport org.s3team.DataBaseConnection.MySQL_Data_Base_Connection;\r\nimport org.s3team.common.valueobject.*;\r\nimport org.s3team.room.model.Room;\r\nimport org.s3team.theme.model.Theme;\r\n\r\nimport java.math.BigDecimal;\r\nimport java.sql.*;\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\nimport java.util.Optional;\r\n\r\npublic class RoomDAOImp implements RoomDAO {\r\n\r\n    private final Connection connection;\r\n\r\n    public RoomDAOImp() {\r\n        connection = MySQL_Data_Base_Connection.getInstance().getConnection();\r\n    }\r\n\r\n\r\n    @Override\r\n    public Room save(Room room) {\r\n        final String sql = \"insert into room(name,difficulty,price,theme_id)values(?,?,?,?)\";\r\n        try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {\r\n            ps.setString(1, room.getName().value());\r\n            ps.setString(2, room.getDifficulty().toString());\r\n            ps.setBigDecimal(3, room.getPrice().value());\r\n            ps.setInt(4, room.getThemeId().value());\r\n            int affectedRows = ps.executeUpdate();\r\n            if (affectedRows == 0) {\r\n                throw new RuntimeException(\"Database error: Room creation failed, no rows affected.\");\r\n            }\r\n            //El siguiente código asigna directamente el ID generado por MySQL al objeto para facilitar las consultas por ID.\r\n            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {\r\n                if (generatedKeys.next()) {\r\n                    int newIdValue = generatedKeys.getInt(1);\r\n                    Id<Room> newId = new Id<>(newIdValue);\r\n                    room.setRoomId(newId);\r\n                } else {\r\n                    throw new RuntimeException(\"Room saved but failed to retrieve generated ID.\");\r\n                }\r\n            }\r\n        } catch (SQLException e) {\r\n            e.printStackTrace();\r\n            throw new RuntimeException(\"Database error saving Room: \" + room.getName(), e);\r\n        }return room;\r\n    }\r\n\r\n    @Override\r\n    public Optional<Room> findById(Id<Room> id) {\r\n        final String SQL = \"SELECT id_room, name, difficulty, price, theme_id FROM room WHERE id_room = ?\";\r\n        int roomIdValue = id.value();\r\n        try (PreparedStatement ps = connection.prepareStatement(SQL)) {\r\n            ps.setInt(1, roomIdValue);\r\n\r\n            try (ResultSet rs = ps.executeQuery()) {\r\n\r\n                if (rs.next()) {\r\n                    Id<Room> foundRoomId = new Id<>(rs.getInt(\"id_room\"));\r\n                    Name name = new Name(rs.getString(\"name\"));\r\n                    String difficultyString = rs.getString(\"difficulty\");\r\n                    room.Difficulty difficulty = room.Difficulty.valueOf(difficultyString.toUpperCase());\r\n                    Price price = new Price(rs.getBigDecimal(\"price\"));\r\n                    Id<Theme> themeId = new Id<>(rs.getInt(\"theme_id\"));\r\n                    Room room = Room.rehydrate(\r\n                            foundRoomId,\r\n                            name,\r\n                            difficulty,\r\n                            price,\r\n                            themeId\r\n                    );\r\n\r\n                    return Optional.of(room);\r\n                }\r\n            }\r\n        } catch (SQLException e) {\r\n            System.err.println(\"Database error occurred while finding Room by ID: \" + id);\r\n            e.printStackTrace();\r\n        }\r\n        return Optional.empty();\r\n    }\r\n\r\n    @Override\r\n    public List findAll() {\r\n        final String SQL = \"SELECT id_room, name, difficulty, price, theme_id FROM room\";\r\n\r\n        List<Room> rooms = new ArrayList<>();\r\n\r\n        try (PreparedStatement ps = connection.prepareStatement(SQL);\r\n             ResultSet rs = ps.executeQuery()) {\r\n            while (rs.next()) {\r\n                Id<Room> foundRoomId = new Id<>(rs.getInt(\"id_room\"));\r\n                Name name = new Name(rs.getString(\"name\"));\r\n                String difficultyString = rs.getString(\"difficulty\");\r\n                room.Difficulty difficulty = room.Difficulty.valueOf(difficultyString.toUpperCase());\r\n                Price price = new Price(rs.getBigDecimal(\"price\"));\r\n                Id<Theme> themeId = new Id<>(rs.getInt(\"theme_id\"));\r\n                Room room = Room.rehydrate(\r\n                        foundRoomId,\r\n                        name,\r\n                        difficulty,\r\n                        price,\r\n                        themeId\r\n                );\r\n                rooms.add(room);\r\n            }\r\n\r\n        } catch (SQLException e) {\r\n            System.err.println(\"Database error occurred while finding all Rooms: \" + e.getMessage());\r\n            e.printStackTrace();\r\n            return new ArrayList<>();\r\n        }\r\n        return rooms;\r\n    }\r\n\r\n    @Override\r\n    public boolean update(Room room) {\r\n        final String sql = \"UPDATE room SET name = ?, difficulty = ?, price = ?, theme_id = ? WHERE id_room = ?\";\r\n        if (room.getRoomId() == null) {\r\n            throw new IllegalArgumentException(\"Cannot update Room: ID is missing.\");\r\n        }\r\n        int roomIdValue = room.getRoomId().value();\r\n        try (PreparedStatement ps = connection.prepareStatement(sql)) {\r\n            ps.setString(1, room.getName().value());\r\n            ps.setString(2, room.getDifficulty().toString());\r\n            ps.setBigDecimal(3, room.getPrice().value());\r\n            ps.setInt(4, room.getThemeId().value());\r\n            ps.setInt(5, roomIdValue);\r\n            int affectedRows = ps.executeUpdate();\r\n            return affectedRows > 0;\r\n        } catch (SQLException e) {\r\n            e.printStackTrace();\r\n            throw new RuntimeException(\"Database error updating Room: \" + room.getName(), e);\r\n        }\r\n    }\r\n\r\n    @Override\r\n    public boolean delete(Id<Room> id) {\r\n        int roomId = id.value();\r\n        final String sql = \"DELETE FROM room WHERE id_room = ?\";\r\n        try (PreparedStatement ps = connection.prepareStatement(sql)) {\r\n            ps.setInt(1, roomId);\r\n            int affectedRows = ps.executeUpdate();\r\n            return affectedRows > 0;\r\n\r\n        } catch (SQLException e) {\r\n            e.printStackTrace();\r\n            throw new RuntimeException(\"Database error deleting Room with ID: \" + roomId, e);\r\n        }\r\n    }\r\n\r\n    @Override\r\n    public int count() {\r\n        final String sql = \"SELECT COUNT(*) FROM room\";\r\n        int count = 0;\r\n        try (PreparedStatement ps = connection.prepareStatement(sql);\r\n             ResultSet rs = ps.executeQuery()) {\r\n            if (rs.next()) {\r\n                count = rs.getInt(1);\r\n            }\r\n        } catch (SQLException e) {\r\n            e.printStackTrace();\r\n            throw new RuntimeException(\"Database error counting Rooms.\", e);\r\n        }\r\n        return count;\r\n    }\r\n\r\n    @Override\r\n    public Price calculateTotalPrice() {\r\n        final String sql = \"SELECT SUM(price) FROM room\";\r\n        Price totalPrice = new Price(BigDecimal.ZERO);\r\n        try (PreparedStatement ps = connection.prepareStatement(sql);\r\n             ResultSet rs = ps.executeQuery()) {\r\n            if (rs.next()) {\r\n                BigDecimal sumResult = rs.getBigDecimal(1);\r\n                if (sumResult != null) {\r\n                    totalPrice = new Price(sumResult);\r\n                }\r\n\r\n            }\r\n        } catch (SQLException e) {\r\n            e.printStackTrace();\r\n            throw new RuntimeException(\"Database error calculating total Room price.\", e);\r\n        }\r\n        return totalPrice;\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/S3.3-escape-room/src/main/java/org/s3team/room/DAO/RoomDAOImp.java b/S3.3-escape-room/src/main/java/org/s3team/room/DAO/RoomDAOImp.java
+--- a/S3.3-escape-room/src/main/java/org/s3team/room/DAO/RoomDAOImp.java	(revision 68caa7ccb2aefba5184aad9713d117a214098228)
++++ b/S3.3-escape-room/src/main/java/org/s3team/room/DAO/RoomDAOImp.java	(date 1765640916993)
+@@ -1,11 +1,12 @@
+ package org.s3team.room.DAO;
+ 
+-import org.s3team.DataBaseConnection.MySQL_Data_Base_Connection;
+ import org.s3team.DataBaseConnection.MySQL_Data_Base_Connection;
+ import org.s3team.common.valueobject.*;
++import org.s3team.room.model.Difficulty;
+ import org.s3team.room.model.Room;
+ import org.s3team.theme.model.Theme;
+ 
++
+ import java.math.BigDecimal;
+ import java.sql.*;
+ import java.util.ArrayList;
+@@ -24,29 +25,44 @@
+     @Override
+     public Room save(Room room) {
+         final String sql = "insert into room(name,difficulty,price,theme_id)values(?,?,?,?)";
++        Room savedRoom = null; // 声明 savedRoom
++
+         try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+             ps.setString(1, room.getName().value());
+             ps.setString(2, room.getDifficulty().toString());
+             ps.setBigDecimal(3, room.getPrice().value());
+             ps.setInt(4, room.getThemeId().value());
+             int affectedRows = ps.executeUpdate();
++
+             if (affectedRows == 0) {
+                 throw new RuntimeException("Database error: Room creation failed, no rows affected.");
+             }
+-            //El siguiente código asigna directamente el ID generado por MySQL al objeto para facilitar las consultas por ID.
+-            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
++
++            // El siguiente código asigna directamente el ID generado por MySQL al objeto para facilitar las consultas por ID.
++            int newIdValue = 0; // 声明 newIdValue
++
++            try (ResultSet generatedKeys = ps.getGeneratedKeys()) { // 正确地只调用一次
+                 if (generatedKeys.next()) {
+-                    int newIdValue = generatedKeys.getInt(1);
+-                    Id<Room> newId = new Id<>(newIdValue);
+-                    room.setRoomId(newId);
++                    newIdValue = generatedKeys.getInt(1); // 将 ID 赋值给外部声明的变量
+                 } else {
+                     throw new RuntimeException("Room saved but failed to retrieve generated ID.");
+                 }
+             }
++            savedRoom = Room.rehydrate(
++                    new Id<Room>(newIdValue),
++                    new Name(room.getName().value()),
++                    room.getDifficulty(),
++                    new Price(room.getPrice().value()),
++                    new Id<Theme>(room.getThemeId().value())
++            );
++
+         } catch (SQLException e) {
+             e.printStackTrace();
+             throw new RuntimeException("Database error saving Room: " + room.getName(), e);
+-        }return room;
++        }
++
++        return savedRoom;
++
+     }
+ 
+     @Override
+@@ -62,9 +78,11 @@
+                     Id<Room> foundRoomId = new Id<>(rs.getInt("id_room"));
+                     Name name = new Name(rs.getString("name"));
+                     String difficultyString = rs.getString("difficulty");
+-                    room.Difficulty difficulty = room.Difficulty.valueOf(difficultyString.toUpperCase());
++
++                    Difficulty difficulty = Difficulty.valueOf(difficultyString.toUpperCase());
+                     Price price = new Price(rs.getBigDecimal("price"));
+                     Id<Theme> themeId = new Id<>(rs.getInt("theme_id"));
++
+                     Room room = Room.rehydrate(
+                             foundRoomId,
+                             name,
+@@ -84,7 +102,7 @@
+     }
+ 
+     @Override
+-    public List findAll() {
++    public List<Room> findAll() {
+         final String SQL = "SELECT id_room, name, difficulty, price, theme_id FROM room";
+ 
+         List<Room> rooms = new ArrayList<>();
+@@ -95,7 +113,8 @@
+                 Id<Room> foundRoomId = new Id<>(rs.getInt("id_room"));
+                 Name name = new Name(rs.getString("name"));
+                 String difficultyString = rs.getString("difficulty");
+-                room.Difficulty difficulty = room.Difficulty.valueOf(difficultyString.toUpperCase());
++
++                Difficulty difficulty = Difficulty.valueOf(difficultyString.toUpperCase());
+                 Price price = new Price(rs.getBigDecimal("price"));
+                 Id<Theme> themeId = new Id<>(rs.getInt("theme_id"));
+                 Room room = Room.rehydrate(
+Index: S3.3-escape-room/src/main/java/org/s3team/room/Service/RoomService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.s3team.room.Service;\r\n\r\nimport org.s3team.common.valueobject.*;\r\nimport org.s3team.room.DAO.RoomDAOImp;\r\nimport org.s3team.room.model.Room;\r\n\r\nimport java.util.List;\r\nimport java.util.Optional;\r\n\r\npublic class RoomService {\r\n    private RoomDAOImp roomDAOImp;\r\n\r\n    public RoomService(RoomDAOImp roomDAOImp) {\r\n        this.roomDAOImp = roomDAOImp;\r\n    }\r\n\r\n    public Room save(Room room) {\r\n        return roomDAOImp.save(room);\r\n\r\n    }\r\n\r\n    public Room findById(Id id) {\r\n        Optional<Room> roomOptional = roomDAOImp.findById(id);\r\n\r\n        return roomOptional.orElseThrow(\r\n                () -> new RuntimeException(\"Room with ID \" + id.value() + \" not found.\")\r\n        );\r\n    }\r\n\r\n    public List findAll() {\r\n        return roomDAOImp.findAll();\r\n    }\r\n\r\n    public boolean update(Room room) {\r\n        if (roomDAOImp.findById(room.getRoomId()).isEmpty()) {\r\n            return false;\r\n        }\r\n        return roomDAOImp.update(room);\r\n    }\r\n\r\n    public boolean delete(Id id) {\r\n        return roomDAOImp.delete(id);\r\n    }\r\n\r\n    public int count() {\r\n        return roomDAOImp.count();\r\n\r\n    }\r\n\r\n    public Price calculateTotalPrice() {\r\n        return roomDAOImp.calculateTotalPrice();\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/S3.3-escape-room/src/main/java/org/s3team/room/Service/RoomService.java b/S3.3-escape-room/src/main/java/org/s3team/room/Service/RoomService.java
+--- a/S3.3-escape-room/src/main/java/org/s3team/room/Service/RoomService.java	(revision 68caa7ccb2aefba5184aad9713d117a214098228)
++++ b/S3.3-escape-room/src/main/java/org/s3team/room/Service/RoomService.java	(date 1765640916994)
+@@ -19,7 +19,7 @@
+ 
+     }
+ 
+-    public Room findById(Id id) {
++    public Room findById(Id<Room> id) {
+         Optional<Room> roomOptional = roomDAOImp.findById(id);
+ 
+         return roomOptional.orElseThrow(
+@@ -27,7 +27,7 @@
+         );
+     }
+ 
+-    public List findAll() {
++    public List<Room> findAll() {
+         return roomDAOImp.findAll();
+     }
+ 
+@@ -38,7 +38,7 @@
+         return roomDAOImp.update(room);
+     }
+ 
+-    public boolean delete(Id id) {
++    public boolean delete(Id<Room> id) {
+         return roomDAOImp.delete(id);
+     }
+ 

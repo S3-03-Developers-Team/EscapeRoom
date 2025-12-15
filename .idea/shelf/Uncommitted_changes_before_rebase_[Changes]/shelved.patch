@@ -1,0 +1,17 @@
+Index: S3.3-escape-room/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/S3.3-escape-room/.gitignore b/.gitignore
+rename from S3.3-escape-room/.gitignore
+rename to .gitignore
+--- a/S3.3-escape-room/.gitignore	(revision 68caa7ccb2aefba5184aad9713d117a214098228)
++++ b/.gitignore	(date 1765640916981)
+@@ -35,4 +35,4 @@
+ 
+ # Directorios Temporales
+ # Ignorar el .gitkeep si lo estás usando solo para directorios vacíos
+-*.gitkeep
+\ No newline at end of file
++*.gitkeep
