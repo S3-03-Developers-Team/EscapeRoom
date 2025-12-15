@@ -46,5 +46,26 @@ public class PlayerService {
         return playerDAOImp.findByName(name);
     }
 
+    public boolean subscribePlayer(Id<Player> playerId) {
 
+        Player playerToUpdate = playerDAOImp.findById(playerId)
+                .orElseThrow(() -> new RuntimeException("Player not found with ID: " + playerId.value()));
+
+        Player playerToUpdateSubscription = Player.rehydrate(playerToUpdate.getId(), playerToUpdate.getName(), playerToUpdate.getEmail(), true);
+
+        return playerDAOImp.update(playerToUpdateSubscription);
+    }
+
+    public boolean unSubscribePlayer(Id<Player> playerId) {
+
+        Player playerToUpdate = playerDAOImp.findById(playerId)
+                .orElseThrow(() -> new RuntimeException("Player not found with ID: " + playerId.value()));
+
+        Player playerToUpdateSubscription = Player.rehydrate(playerToUpdate.getId(), playerToUpdate.getName(), playerToUpdate.getEmail(), false);
+
+        return playerDAOImp.update(playerToUpdateSubscription);
+    }
 }
+
+
+
