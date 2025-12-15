@@ -1,6 +1,13 @@
 package org.s3team.Menu;
 
 import org.s3team.DataBaseConnection.Data_Base_Connection;
+import org.s3team.Player.DAO.PlayerDAO;
+import org.s3team.Player.DAO.PlayerDAOImp;
+import org.s3team.Player.Service.PlayerService;
+import org.s3team.certificate.dao.CertificateDao;
+import org.s3team.certificate.dao.CertificateDaoImpl;
+import org.s3team.certificate.menu.CertificateMenu;
+import org.s3team.certificate.service.CertificateService;
 import org.s3team.clue.dao.ClueDao;
 import org.s3team.clue.dao.ClueDaoImpl;
 import org.s3team.clue.service.ClueService;
@@ -10,13 +17,14 @@ import org.s3team.decoration.service.DecorationService;
 import org.s3team.inventoryMenu.*;
 import org.s3team.inventoryService.InventoryManagementService;
 import org.s3team.inventoryService.InventoryQueryService;
+import org.s3team.playercertificate.dao.PlayerCertificateDao;
+import org.s3team.playercertificate.dao.PlayerCertificateDaoImpl;
+import org.s3team.playercertificate.service.PlayerCertificateService;
 import org.s3team.room.DAO.RoomDAO;
 import org.s3team.room.DAO.RoomDAOImp;
 import org.s3team.room.Service.RoomService;
 import org.s3team.theme.dao.ThemeDao;
 import org.s3team.theme.dao.ThemeDaoImpl;
-
-import java.util.Scanner;
 
 /**
  * ClassName: AppFactory
@@ -52,8 +60,23 @@ public class AppFactory {
         DisplayInventoryQuantityMenu displayInventoryQuantityMenu = new DisplayInventoryQuantityMenu(inventoryQueryService);
         return new InventoryMenu(addItemMenu,updateItemMenu,removeItemMenu,displayInvetoryMenu,displayInventoryValueMenu,displayInventoryQuantityMenu);
     }
+
+    public CertificateMenu certificateMenuGenerate(){
+        CertificateDao certificateDao = new CertificateDaoImpl(db);
+        RoomDAO roomDAO = new RoomDAOImp(db);
+        PlayerDAO playerDAO = new PlayerDAOImp(db);
+        ThemeDao themeDao = new ThemeDaoImpl(db);
+        PlayerCertificateDao playerCertificateDao = new PlayerCertificateDaoImpl(db);
+        CertificateService certificateService = new CertificateService(certificateDao);
+        RoomService roomService = new RoomService(roomDAO,themeDao);
+        PlayerService playerService = new PlayerService(playerDAO);
+        PlayerCertificateService playerCertificateService = new PlayerCertificateService(playerCertificateDao, certificateDao, playerDAO, roomDAO);
+        return new CertificateMenu(certificateService,playerCertificateService,playerService,roomService);
+    }
+
     public InventoryMenu salesMenuGenerate() {
         return null;
     }
+
 
 }
