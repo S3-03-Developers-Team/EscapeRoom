@@ -42,49 +42,64 @@ import org.s3team.ticket.service.TicketService;
 public class AppFactory {
     private final Data_Base_Connection db;
 
+    private final RoomDAO roomDAO;
+    private final ThemeDao themeDao;
+    private final ClueDao clueDao;
+    private final PlayerDAO playerDAO;
+    private final TicketDao ticketDao;
+    private final CertificateDao certificateDao;
+    private final PlayerCertificateDao playerCertificateDao;
+    private final DecorationDao decorationDao;
+
+    private final DecorationService decorationService;
+    private final ClueService clueService;
+    private final RoomService roomService;
+    private final InventoryManagementService inventoryManagementService;
+    private final InventoryQueryService inventoryQueryService;
+    private final CertificateService certificateService;
+    private final PlayerService playerService;
+    private final PlayerCertificateService playerCertificateService;
+    private final TicketService ticketService;
+
     public AppFactory(Data_Base_Connection db) {
+
         this.db = db;
+
+        this.roomDAO = new RoomDAOImp(db);
+        this.themeDao = new ThemeDaoImpl(db);
+        this.playerDAO = new PlayerDAOImp(db);
+        this.decorationDao = new DecorationDaoImpl();
+        this.clueDao = new ClueDaoImpl(db);
+        this.ticketDao = new TicketDaoImpl(db);
+        this.certificateDao = new CertificateDaoImpl(db);
+        this.playerCertificateDao = new PlayerCertificateDaoImpl(db);
+
+        this.decorationService = new DecorationService();
+        this.clueService = new ClueService(clueDao, roomDAO, themeDao);
+        this.roomService = new RoomService(roomDAO, themeDao);
+        this.inventoryManagementService = new InventoryManagementService(clueService, decorationService, roomService);
+        this.inventoryQueryService = new InventoryQueryService(clueService, decorationService, roomService);
+        this.certificateService = new CertificateService(certificateDao);
+        this.playerService = new PlayerService(playerDAO);
+        this.playerCertificateService = new PlayerCertificateService(playerCertificateDao, certificateDao, playerDAO, roomDAO);
+        this.ticketService = new TicketService(ticketDao, roomDAO, playerDAO);
     }
 
     public InventoryMenu inventoryMenuGenerate() {
-        RoomDAO roomDAO = new RoomDAOImp(db);
-        DecorationDao decorationDao = new DecorationDaoImpl();
-        ClueDao clueDao = new ClueDaoImpl(db);
-        ThemeDao themeDao = new ThemeDaoImpl(db);
-        DecorationService decorationService = new DecorationService();
-        ClueService clueService = new ClueService(clueDao,roomDAO,themeDao);
-        RoomService roomService = new RoomService(roomDAO,themeDao);
-        InventoryManagementService inventoryManagementService = new InventoryManagementService(clueService,decorationService,roomService);
-        InventoryQueryService inventoryQueryService = new InventoryQueryService(clueService,decorationService,roomService);
         AddItemMenu addItemMenu = new AddItemMenu(inventoryManagementService);
         RemoveItemMenu removeItemMenu = new RemoveItemMenu(inventoryManagementService);
         UpdateItemMenu updateItemMenu = new UpdateItemMenu(inventoryManagementService);
-        DisplayInventoryMenu displayInvetoryMenu = new DisplayInventoryMenu(inventoryQueryService);
+        DisplayInventoryMenu displayInventoryMenu = new DisplayInventoryMenu(inventoryQueryService);
         DisplayInventoryValueMenu displayInventoryValueMenu = new DisplayInventoryValueMenu(inventoryQueryService);
         DisplayInventoryQuantityMenu displayInventoryQuantityMenu = new DisplayInventoryQuantityMenu(inventoryQueryService);
-        return new InventoryMenu(addItemMenu,updateItemMenu,removeItemMenu,displayInvetoryMenu,displayInventoryValueMenu,displayInventoryQuantityMenu);
+        return new InventoryMenu(addItemMenu,updateItemMenu,removeItemMenu,displayInventoryMenu,displayInventoryValueMenu,displayInventoryQuantityMenu);
     }
 
     public CertificateMenu certificateMenuGenerate(){
-        CertificateDao certificateDao = new CertificateDaoImpl(db);
-        RoomDAO roomDAO = new RoomDAOImp(db);
-        PlayerDAO playerDAO = new PlayerDAOImp(db);
-        ThemeDao themeDao = new ThemeDaoImpl(db);
-        PlayerCertificateDao playerCertificateDao = new PlayerCertificateDaoImpl(db);
-        CertificateService certificateService = new CertificateService(certificateDao);
-        RoomService roomService = new RoomService(roomDAO,themeDao);
-        PlayerService playerService = new PlayerService(playerDAO);
-        PlayerCertificateService playerCertificateService = new PlayerCertificateService(playerCertificateDao, certificateDao, playerDAO, roomDAO);
         return new CertificateMenu(certificateService,playerCertificateService,playerService,roomService);
     }
 
     public TicketMenu ticketMenuGenerate() {
-        TicketDao ticketDao = new TicketDaoImpl(db);
-        RoomDAO roomDAO = new RoomDAOImp(db);
-        PlayerDAO playerDAO = new PlayerDAOImp(db);
-        TicketService ticketService = new TicketService(ticketDao,roomDAO,playerDAO);
         return new TicketMenu(ticketService);
     }
-
-
 }
