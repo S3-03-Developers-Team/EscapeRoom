@@ -59,7 +59,7 @@ public class CertificateMenu {
         CertificateType type = selectCertificateType();
         String rewardInput = ConsoleInput.readLine("Reward (optional, please Enter to skip): ");
 
-        Reward reward = rewardInput.isBlank() ? null : new Reward(rewardInput);
+        Reward reward = rewardInput.isBlank() ? Reward.NONE : new Reward(rewardInput);
         certificateService.createCertificate(
                 type,
                 reward
