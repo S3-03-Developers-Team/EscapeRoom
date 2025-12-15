@@ -160,7 +160,7 @@ public class DisplayInventoryMenu {
                     try {
                         inventoryQueryService.listDecorations().forEach(decoration -> {
                             System.out.printf("Decoration ID: %d, Name: %s, Material: %s, Stock: %d%n",
-                                    decoration.getDecorationId(),
+                                    decoration.getDecorationId().value(),
                                     decoration.getName(),
                                     decoration.getMaterial(),
                                     decoration.getStock());
@@ -197,7 +197,7 @@ public class DisplayInventoryMenu {
                     try {
                         inventoryQueryService.listDecorations().forEach(decoration -> {
                             System.out.printf("[D] ID: %d, Name: %s, Stock: %d%n",
-                                    decoration.getDecorationId(),
+                                    decoration.getDecorationId().value(),
                                     decoration.getName(),
                                     decoration.getStock());
                         });

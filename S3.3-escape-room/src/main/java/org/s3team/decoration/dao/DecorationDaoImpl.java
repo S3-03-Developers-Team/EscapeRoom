@@ -1,5 +1,6 @@
 package org.s3team.decoration.dao;
 
+import org.s3team.DataBaseConnection.Data_Base_Connection;
 import org.s3team.DataBaseConnection.MySQL_Data_Base_Connection;
 import org.s3team.common.valueobject.Id;
 import org.s3team.common.valueobject.Name;
@@ -19,13 +20,19 @@ import java.util.Optional;
 
 public class DecorationDaoImpl implements DecorationDao {
 
+    private final Data_Base_Connection db;
+
+    public DecorationDaoImpl(Data_Base_Connection db) {
+        this.db = db;
+    }
+
     @Override
     public Decoration save(Decoration decoration) {
         String sql = "INSERT INTO decoration_object (name, material, stock, price, room_id) VALUES (?, ?, ?, ?, ?)";
 
         Id<Decoration> generatedId = null;
 
-        try (Connection connection = MySQL_Data_Base_Connection.getInstance().getConnection();
+        try (Connection connection = db.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setString(1, decoration.getName().value());               // Name -> String
@@ -67,17 +74,14 @@ public class DecorationDaoImpl implements DecorationDao {
             return Optional.empty();
         }
 
-        try (Connection conn = MySQL_Data_Base_Connection.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection connection = db.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
 
             stmt.setInt(1, id.value());
-
             try (ResultSet rs = stmt.executeQuery()) {
-
                 if (rs.next()) {
                     return Optional.of(mapRow(rs));
                 }
-
                 return Optional.empty();
             }
 
@@ -91,7 +95,7 @@ public class DecorationDaoImpl implements DecorationDao {
         List<Decoration> roomDecorations = new ArrayList<>();
         String sql = "SELECT * FROM decoration_object WHERE room_id = ?";
 
-        try (Connection connection = MySQL_Data_Base_Connection.getInstance().getConnection();
+        try (Connection connection = db.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
             pstmt.setInt(1, roomId);
@@ -113,16 +117,20 @@ public class DecorationDaoImpl implements DecorationDao {
         List<Decoration> allDecorations = new ArrayList<>();
         String sql = "SELECT * FROM decoration_object";
 
-        try (Connection conn = MySQL_Data_Base_Connection.getInstance().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
+        try (Connection connection = db.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql);
              ResultSet resultSet = pstmt.executeQuery()) {
 
             while (resultSet.next()) {
                 allDecorations.add(mapRow(resultSet));
             }
 
-        } catch (SQLException exception) {
+        } /*catch (SQLException exception) {
             exception.printStackTrace();
+        }*/
+        catch (Exception exception) {
+            exception.printStackTrace();
+            throw new RuntimeException("Error during findAll execution.", exception);
         }
         return allDecorations;
     }
@@ -156,8 +164,8 @@ public class DecorationDaoImpl implements DecorationDao {
                 return false;
             }
 
-            try (Connection conn = MySQL_Data_Base_Connection.getInstance().getConnection();
-                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            try (Connection connection = db.getConnection();
+                 PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
                 pstmt.setString(1, decoration.getName().value());
 
@@ -191,8 +199,8 @@ public class DecorationDaoImpl implements DecorationDao {
                 return false;
             }
 
-            try (Connection conn = MySQL_Data_Base_Connection.getInstance().getConnection();
-                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            try (Connection connection = db.getConnection();
+                 PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
                 pstmt.setInt(1, id.value());
 
@@ -214,7 +222,7 @@ public class DecorationDaoImpl implements DecorationDao {
             final String sql = "SELECT SUM(stock * price) FROM decoration_object";
             BigDecimal totalPriceValue = BigDecimal.ZERO;
 
-            try (Connection connection = MySQL_Data_Base_Connection.getInstance().getConnection();
+            try (Connection connection = db.getConnection();
                  PreparedStatement ps = connection.prepareStatement(sql);
                  ResultSet rs = ps.executeQuery()) {
 
@@ -239,8 +247,8 @@ public class DecorationDaoImpl implements DecorationDao {
     public int count() {
         String sql = "SELECT SUM(stock) FROM decoration_object";
 
-        try (Connection conn = MySQL_Data_Base_Connection.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
+        try (Connection connection = db.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
             if (rs.next()) {

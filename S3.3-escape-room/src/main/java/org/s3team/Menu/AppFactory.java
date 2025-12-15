@@ -49,7 +49,7 @@ public class AppFactory {
 
     public InventoryMenu inventoryMenuGenerate() {
         RoomDAO roomDAO = new RoomDAOImp(db);
-        DecorationDao decorationDao = new DecorationDaoImpl();
+        DecorationDao decorationDao = new DecorationDaoImpl(db);
         ClueDao clueDao = new ClueDaoImpl(db);
         ThemeDao themeDao = new ThemeDaoImpl(db);
         DecorationService decorationService = new DecorationService(decorationDao,roomDAO);
