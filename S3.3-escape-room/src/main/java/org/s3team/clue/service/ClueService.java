@@ -32,10 +32,10 @@ public class ClueService implements NotificableEvent {
     public Clue createClue(ClueType type, ClueDescription description, Price price,
                            Id<Theme> themeId, Id<Room> roomId) {
 
-        Room room = roomDao.findById(roomId).orElseThrow(() ->
+        roomDao.findById(roomId).orElseThrow(() ->
                 new RoomNotFoundException(roomId)
         );
-        Theme theme = themeDao.getById(themeId);
+        themeDao.getById(themeId);
 
         Clue clue = Clue.createNew(type, description, price, themeId, roomId);
         generateNotification("A new clue has been created: "+clue.getDescription());
@@ -52,10 +52,10 @@ public class ClueService implements NotificableEvent {
     }
 
     public boolean updateClue(Clue clue) {
-        Room room = roomDao.findById(clue.getRoomId()).orElseThrow(() ->
+        roomDao.findById(clue.getRoomId()).orElseThrow(() ->
                 new RoomNotFoundException(clue.getRoomId())
         );
-        Theme theme = themeDao.getById(clue.getThemeId());
+        themeDao.getById(clue.getThemeId());
 
         return clueDao.update(clue);
     }
