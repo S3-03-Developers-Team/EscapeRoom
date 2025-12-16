@@ -76,7 +76,7 @@ public class RoomService implements NotificableEvent {
 
     @Override
     public void generateNotification(String message) {
-       SendNotificationService newNotification = new SendNotificationService();
-       newNotification.sendNotificationToSubscribers(message);
+        SendNotificationService newNotification = new SendNotificationService();
+        newNotification.sendNotificationToSubscribers(message);
     }
 }

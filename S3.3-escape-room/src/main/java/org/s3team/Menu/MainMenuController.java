@@ -34,7 +34,11 @@ public class MainMenuController {
                 int option = ConsoleInput.readInt("Choose an option:");
 
                 switch (option) {
-                    case 1 -> System.out.println("Changing to Theme Menu...");
+                    case 1 -> {
+                        System.out.println("Changing to Theme Menu...");
+                        appFactory.themeMenuGenerate().themeMenu();
+
+                    }
 
                     case 2 -> {
                         System.out.println("Changing to Inventory Menu...");

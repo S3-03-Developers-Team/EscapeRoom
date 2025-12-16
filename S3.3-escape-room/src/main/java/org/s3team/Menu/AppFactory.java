@@ -28,10 +28,12 @@ import org.s3team.room.DAO.RoomDAOImp;
 import org.s3team.room.Service.RoomService;
 import org.s3team.theme.dao.ThemeDao;
 import org.s3team.theme.dao.ThemeDaoImpl;
+import org.s3team.theme.service.ThemeService;
 import org.s3team.ticket.dao.TicketDao;
 import org.s3team.ticket.dao.TicketDaoImpl;
 import org.s3team.ticket.menu.TicketMenu;
 import org.s3team.ticket.service.TicketService;
+import org.s3team.theme.themeMenu.ThemeMenu;
 
 /**
  * ClassName: AppFactory
@@ -52,7 +54,7 @@ public class AppFactory {
     private final CertificateDao certificateDao;
     private final PlayerCertificateDao playerCertificateDao;
     private final DecorationDao decorationDao;
-
+    private final ThemeService themeService;
     private final DecorationService decorationService;
     private final ClueService clueService;
     private final RoomService roomService;
@@ -70,13 +72,13 @@ public class AppFactory {
         this.roomDAO = new RoomDAOImp(db);
         this.themeDao = new ThemeDaoImpl(db);
         this.playerDAO = new PlayerDAOImp(db);
-        this.decorationDao = new DecorationDaoImpl();
+        this.decorationDao = new DecorationDaoImpl(db);
         this.clueDao = new ClueDaoImpl(db);
         this.ticketDao = new TicketDaoImpl(db);
         this.certificateDao = new CertificateDaoImpl(db);
         this.playerCertificateDao = new PlayerCertificateDaoImpl(db);
-
-        this.decorationService = new DecorationService();
+        this.themeService = new ThemeService(themeDao);
+        this.decorationService = new DecorationService(decorationDao,roomDAO);
         this.clueService = new ClueService(clueDao, roomDAO, themeDao);
         this.roomService = new RoomService(roomDAO, themeDao);
         this.inventoryManagementService = new InventoryManagementService(clueService, decorationService, roomService);
@@ -106,6 +108,19 @@ public class AppFactory {
     }
 
 
+    public PlayerManagementMenu playerMenuGenerate() {
+        return new PlayerManagementMenu(playerService);
+    }
+
+    public NotificationManagementMenu notificationMenuGenerate() {
+        SendNotificationService sendNotificationService = new SendNotificationService();
+        return new NotificationManagementMenu(sendNotificationService, playerService);
+    }
+
+    public ThemeMenu themeMenuGenerate() {
+        return  new ThemeMenu(themeService);
+    }
+}
     public PlayerManagementMenu playerMenuGenerate() {
         return new PlayerManagementMenu(playerService);
     }
