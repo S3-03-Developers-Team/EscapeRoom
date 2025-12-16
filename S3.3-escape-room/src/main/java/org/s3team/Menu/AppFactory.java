@@ -120,6 +120,10 @@ public class AppFactory {
     public ThemeMenu themeMenuGenerate() {
         return  new ThemeMenu(themeService);
     }
+
+    public TicketService ticketService() {
+        return ticketService;
+    }
 }
 
 
