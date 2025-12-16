@@ -1,4 +1,4 @@
-package org.s3team.themeMenu;
+package org.s3team.theme.themeMenu;
 import org.s3team.common.util.ConsoleInput;
 import org.s3team.common.valueobject.Id;
 import org.s3team.common.valueobject.Name;
