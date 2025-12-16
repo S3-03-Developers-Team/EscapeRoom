@@ -84,7 +84,7 @@ public class AppFactory {
         this.inventoryManagementService = new InventoryManagementService(clueService, decorationService, roomService);
         this.inventoryQueryService = new InventoryQueryService(clueService, decorationService, roomService);
         this.certificateService = new CertificateService(certificateDao);
-        this.playerService = new PlayerService(playerDAO);
+        this.playerService = new PlayerService(new PlayerDAOImp(db));
         this.playerCertificateService = new PlayerCertificateService(playerCertificateDao, certificateDao, playerDAO, roomDAO);
         this.ticketService = new TicketService(ticketDao, roomDAO, playerDAO);
     }
@@ -121,14 +121,3 @@ public class AppFactory {
         return  new ThemeMenu(themeService);
     }
 }
-    public PlayerManagementMenu playerMenuGenerate() {
-        return new PlayerManagementMenu(playerService);
-    }
-
-    public NotificationManagementMenu notificationMenuGenerate() {
-        SendNotificationService sendNotificationService = new SendNotificationService();
-        return new NotificationManagementMenu(sendNotificationService, playerService);
-    }
-}
-
-
