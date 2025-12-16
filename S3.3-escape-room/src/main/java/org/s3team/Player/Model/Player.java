@@ -39,6 +39,7 @@ public class Player implements EventListener {
         return email;
     }
 
+
     public boolean isSubscribed() {
         return subscribed;
     }

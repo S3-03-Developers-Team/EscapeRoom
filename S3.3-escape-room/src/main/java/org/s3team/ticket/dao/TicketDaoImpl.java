@@ -22,33 +22,55 @@ public class TicketDaoImpl implements TicketDao {
 
     @Override
     public Ticket save(Ticket ticket){
-        String sql = "INSERT INTO ticket (total, player_id, room_id) VALUES (?, ?, ?)";
+        String insertSql = "INSERT INTO ticket (total, player_id, room_id) VALUES (?, ?, ?)";
+        String selectSql = "SELECT purchase_date FROM ticket WHERE id_ticket = ?";
 
-        try (Connection conn = db.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
-            stmt.setBigDecimal(1, ticket.getTotal().value());
-            stmt.setInt(2, ticket.getPlayerId().value());
-            stmt.setInt(3, ticket.getRoomId().value());
+        try (Connection conn = db.getConnection()) {
+            conn.setAutoCommit(false);
 
-            stmt.executeUpdate();
+            try (PreparedStatement stmt = conn.prepareStatement(insertSql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+                stmt.setBigDecimal(1, ticket.getTotal().value());
+                stmt.setInt(2, ticket.getPlayerId().value());
+                stmt.setInt(3, ticket.getRoomId().value());
+                stmt.executeUpdate();
 
-            ResultSet rs = stmt.getGeneratedKeys();
-            if (rs.next()) {
-                Id<Ticket> generatedId = new Id<>(rs.getInt(1));
+                try (ResultSet rs = stmt.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        Id<Ticket> generatedId = new Id<>(rs.getInt(1));
 
-                Timestamp ts = rs.getTimestamp("purchase_date");
-                LocalDateTime purchaseDate = ts != null ? ts.toLocalDateTime() : LocalDateTime.now();
+                        try (PreparedStatement selectStmt = conn.prepareStatement(selectSql)) {
+                            selectStmt.setInt(1, generatedId.value());
+                            try (ResultSet rs2 = selectStmt.executeQuery()) {
+                                if (rs2.next()) {
+                                    Timestamp ts = rs2.getTimestamp("purchase_date");
+                                    LocalDateTime purchaseDate = ts.toLocalDateTime();
 
-                return Ticket.rehydrate(
-                        generatedId,
-                        purchaseDate,
-                        ticket.getTotal(),
-                        ticket.getPlayerId(),
-                        ticket.getRoomId()
-                );
-            } else {
-                throw new RuntimeException("No Ticket ID generated");
+                                    conn.commit();
+
+                                    return Ticket.rehydrate(
+                                            generatedId,
+                                            purchaseDate,
+                                            ticket.getTotal(),
+                                            ticket.getPlayerId(),
+                                            ticket.getRoomId()
+                                    );
+                                } else {
+                                    conn.rollback();
+                                    throw new RuntimeException("Failed to retrieve purchase_date");
+                                }
+                            }
+                        }
+                    } else {
+                        conn.rollback();
+                        throw new RuntimeException("No Ticket ID generated");
+                    }
+                }
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
+            } finally {
+                conn.setAutoCommit(true);
             }
-
         } catch (SQLException e) {
             throw new RuntimeException("Error inserting Ticket", e);
         }

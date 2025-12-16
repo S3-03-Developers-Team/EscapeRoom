@@ -121,3 +121,14 @@ public class AppFactory {
         return  new ThemeMenu(themeService);
     }
 }
+    public PlayerManagementMenu playerMenuGenerate() {
+        return new PlayerManagementMenu(playerService);
+    }
+
+    public NotificationManagementMenu notificationMenuGenerate() {
+        SendNotificationService sendNotificationService = new SendNotificationService();
+        return new NotificationManagementMenu(sendNotificationService, playerService);
+    }
+}
+
+
