@@ -43,6 +43,16 @@ public class ConsoleInput {
         }
     }
 
+    public static int readPositiveInt(String prompt) {
+        while (true) {
+            int value = readInt(prompt);
+            if (value > 0) {
+                return value;
+            }
+            System.out.println("ID must be a positive number greater than 0.");
+        }
+    }
+
     public static BigDecimal readBigDecimal(String prompt) {
         while (true) {
             try {

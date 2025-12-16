@@ -114,8 +114,6 @@ public class AppFactory {
         SendNotificationService sendNotificationService = new SendNotificationService();
         return new NotificationManagementMenu(sendNotificationService, playerService);
     }
-
-
 }
 
 
