@@ -56,5 +56,13 @@ public class TicketService {
     public boolean deleteTicket(Id<Ticket> id) {
         return ticketDao.delete(id);
     }
+
+    public Price getTotalRevenue() {
+        return ticketDao.calculateTotalRevenue();
+    }
+
+    public int countTickets() {
+        return ticketDao.count();
+    }
 }
 
