@@ -4,6 +4,7 @@ import org.s3team.DataBaseConnection.Data_Base_Connection;
 import org.s3team.Player.DAO.PlayerDAO;
 import org.s3team.Player.DAO.PlayerDAOImp;
 import org.s3team.Player.Service.PlayerService;
+import org.s3team.Player.menu.PlayerManagementMenu;
 import org.s3team.certificate.dao.CertificateDao;
 import org.s3team.certificate.dao.CertificateDaoImpl;
 import org.s3team.certificate.menu.CertificateMenu;
@@ -17,6 +18,8 @@ import org.s3team.decoration.service.DecorationService;
 import org.s3team.inventoryMenu.*;
 import org.s3team.inventoryService.InventoryManagementService;
 import org.s3team.inventoryService.InventoryQueryService;
+import org.s3team.notification.NotificationManagementMenu;
+import org.s3team.notification.SendNotificationService;
 import org.s3team.playercertificate.dao.PlayerCertificateDao;
 import org.s3team.playercertificate.dao.PlayerCertificateDaoImpl;
 import org.s3team.playercertificate.service.PlayerCertificateService;
@@ -37,7 +40,6 @@ import org.s3team.ticket.service.TicketService;
  * Author: Rong Jiang
  * Create:12/12/2025 - 23:03
  * Version:v1.0
- *
  */
 public class AppFactory {
     private final Data_Base_Connection db;
@@ -92,14 +94,26 @@ public class AppFactory {
         DisplayInventoryMenu displayInventoryMenu = new DisplayInventoryMenu(inventoryQueryService);
         DisplayInventoryValueMenu displayInventoryValueMenu = new DisplayInventoryValueMenu(inventoryQueryService);
         DisplayInventoryQuantityMenu displayInventoryQuantityMenu = new DisplayInventoryQuantityMenu(inventoryQueryService);
-        return new InventoryMenu(addItemMenu,updateItemMenu,removeItemMenu,displayInventoryMenu,displayInventoryValueMenu,displayInventoryQuantityMenu);
+        return new InventoryMenu(addItemMenu, updateItemMenu, removeItemMenu, displayInventoryMenu, displayInventoryValueMenu, displayInventoryQuantityMenu);
     }
 
-    public CertificateMenu certificateMenuGenerate(){
-        return new CertificateMenu(certificateService,playerCertificateService,playerService,roomService);
+    public CertificateMenu certificateMenuGenerate() {
+        return new CertificateMenu(certificateService, playerCertificateService, playerService, roomService);
     }
 
     public TicketMenu ticketMenuGenerate() {
         return new TicketMenu(ticketService);
     }
+
+
+    public PlayerManagementMenu playerMenuGenerate() {
+        return new PlayerManagementMenu(playerService);
+    }
+
+    public NotificationManagementMenu notificationMenuGenerate() {
+        SendNotificationService sendNotificationService = new SendNotificationService();
+        return new NotificationManagementMenu(sendNotificationService, playerService);
+    }
 }
+
+

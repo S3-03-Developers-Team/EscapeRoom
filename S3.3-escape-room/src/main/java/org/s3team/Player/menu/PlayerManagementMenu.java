@@ -1,4 +1,4 @@
-package org.s3team.Menu;
+package org.s3team.Player.menu;
 
 import org.s3team.Exceptions.PlayerNotFoundException;
 import org.s3team.Player.Model.Email;
