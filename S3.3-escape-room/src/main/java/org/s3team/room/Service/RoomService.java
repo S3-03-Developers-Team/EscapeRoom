@@ -3,6 +3,8 @@ package org.s3team.room.Service;
 import org.s3team.Exceptions.RoomNotFoundException;
 import org.s3team.Exceptions.ThemeNotFoundException;
 import org.s3team.common.valueobject.*;
+import org.s3team.notification.NotificableEvent;
+import org.s3team.notification.SendNotificationService;
 import org.s3team.room.DAO.RoomDAO;
 import org.s3team.room.model.Room;
 import org.s3team.theme.dao.ThemeDao;
@@ -11,7 +13,7 @@ import org.s3team.theme.model.Theme;
 import java.util.List;
 import java.util.Optional;
 
-public class RoomService {
+public class RoomService implements NotificableEvent {
     private final RoomDAO roomDAO;
     private final ThemeDao themeDao;
 
@@ -23,8 +25,9 @@ public class RoomService {
     public Room save(Room room) {
         Id<Theme> themeId = room.getThemeId();
         themeDao.findById(themeId).orElseThrow(() ->
-                new ThemeNotFoundException("Theme with ID " + themeId.value() + " doesn't exist.")
+                new ThemeNotFoundException(themeId)
         );
+        generateNotification("A new room has been created: "+room.getName());
         return roomDAO.save(room);
     }
 
@@ -32,7 +35,7 @@ public class RoomService {
         Optional<Room> roomOptional = roomDAO.findById(id);
 
         return roomOptional.orElseThrow(
-                () -> new RoomNotFoundException("Room with ID " + id.value() + " not found.")
+                () -> new RoomNotFoundException(id)
         );
     }
 
@@ -43,12 +46,12 @@ public class RoomService {
     public boolean update(Room room) {
 
         roomDAO.findById(room.getRoomId()).orElseThrow(
-                () -> new RoomNotFoundException("Cannot update. Room with ID " + room.getRoomId().value() + " not found.")
+                () -> new RoomNotFoundException(room.getRoomId())
         );
 
         Id<Theme> themeId = room.getThemeId();
         themeDao.findById(themeId).orElseThrow(() ->
-                new ThemeNotFoundException("Cannot update. Theme with ID " + themeId.value() + " doesn't exist.")
+                new ThemeNotFoundException(themeId)
         );
 
         return roomDAO.update(room);
@@ -57,7 +60,7 @@ public class RoomService {
     public boolean delete(Id<Room> id) {
 
         roomDAO.findById(id).orElseThrow(
-                () -> new RoomNotFoundException("Cannot delete. Room with ID " + id.value() + " not found.")
+                () -> new RoomNotFoundException(id)
         );
 
         return roomDAO.delete(id);
@@ -71,4 +74,9 @@ public class RoomService {
         return roomDAO.calculateTotalPrice();
     }
 
+    @Override
+    public void generateNotification(String message) {
+        SendNotificationService newNotification = new SendNotificationService();
+        newNotification.sendNotificationToSubscribers(message);
+    }
 }

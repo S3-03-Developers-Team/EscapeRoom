@@ -1,5 +1,6 @@
 package org.s3team.inventoryMenu;
 
+import org.s3team.Exceptions.RoomNotFoundException;
 import org.s3team.clue.model.Clue;
 import org.s3team.clue.model.ClueDescription;
 import org.s3team.clue.model.ClueType;
@@ -145,23 +146,29 @@ public class AddItemMenu {
                     int roomIdValue = ConsoleInput.readInt("Enter Target Room ID: ");
 
                     try {
+                        Name nameVO = new Name(nameInput);
+                        Price priceVO = new Price(priceAmount);
+                        Id<Room> roomId = new Id<>(roomIdValue);
 
-                        Decoration newDecoration = new Decoration(
-                                nameInput,
+
+                        Decoration newDecoration = Decoration.createNew(
+                                nameVO,
                                 material,
                                 stockValue,
-                                priceAmount,
-                                roomIdValue
+                                priceVO,
+                                roomId
                         );
 
                         inventoryManagementService.addDecoration(newDecoration);
 
-                        System.out.println("✅ Decoration item creation request processed.");
+                        System.out.println("✅ Decoration item creation request processed successfully.");
 
                     } catch (IllegalArgumentException e) {
-                        System.err.println("❌ Failed to add decoration: " + e.getMessage());
+                        System.err.println("❌ Input Error: " + e.getMessage());
+                    } catch (RoomNotFoundException e) {
+                        System.err.println("❌ Business Rule Violation: " + e.getMessage());
                     } catch (RuntimeException e) {
-                        System.err.println("❌ An unexpected error occurred during saving: " + e.getMessage());
+                        System.err.println("❌ An unexpected system error occurred during creation: " + e.getMessage());
                     }
                 }
 

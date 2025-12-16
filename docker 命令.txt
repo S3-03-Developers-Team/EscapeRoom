@@ -1,0 +1,46 @@
+mvn clean package 生成jar包
+
+
+sudo umount /run/desktop/mnt/host/wsl/docker-desktop-bind-mounts/Ubuntu-22.04/* 2>/dev/null  在linux 里解除挂载
+sudo rm -rf /run/desktop/mnt/host/wsl/docker-desktop-bind-mounts/Ubuntu-22.04/*                         在linux 里删除挂载
+
+wsl --shutdown     在cmd执行关闭docker，以消除产生的临时挂载点
+
+cd /mnt/e/programing/EscapeRoomDeploy 进入docker目录
+
+docker compose down 清理容器
+
+docker compose down -v 删除旧的卷
+
+docker rmi escape-room-app:1.0 清理镜像
+docker rmi mysql:8.0
+docker compose down --volumes --remove-orphans  清理挂载卷
+docker builder prune -f  清理缓存
+docker compose up --build -d  重新部署
+
+docker compose up app   在docke r界面交互
+
+touch /mnt/e/programing/EscapeRoomDeploy/docker-compose.yaml  强制刷新文件
+
+docker exec -it java_app /bin/bash 进入运行中的容器
+
+java -jar /app/app.jar                      在容器中运行java程序
+
+docker compose logs db 查看日志
+
+nano ~/.docker/config.json 删除凭证
+
+Control + c 退出
+
+
+
+INSERT INTO `escape_room`.`theme` (`name`) VALUES ('Sci-Fi Space Station');
+INSERT INTO `escape_room`.`theme` (`name`) VALUES ('Victorian Era Mystery');
+INSERT INTO `escape_room`.`theme` (`name`) VALUES ('Ancient Tomb Expedition');
+
+SELECT * FROM theme
+
+INSERT INTO room (NAME, difficulty, price, theme_id)
+VALUES ('The Secret Library', 'MEDIUM', 45.00, 1);
+
+SELECT * FROM room

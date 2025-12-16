@@ -2,9 +2,8 @@ package org.s3team.Player.Model;
 
 import org.s3team.common.valueobject.Id;
 import org.s3team.common.valueobject.Name;
-import org.s3team.room.model.Room;
 
-public class Player implements Subscriber {
+public class Player implements EventListener {
 
     private final Id<Player> id;
     private final Name name;
@@ -46,16 +45,16 @@ public class Player implements Subscriber {
 
     @Override
     public String toString() {
-        return "Player{" +
-                "id=" + id +
-                ", name=" + name +
-                ", email=" + email +
-                ", subscribed=" + subscribed +
-                '}';
+        return "Player:" +
+                "id:" + id +
+                ", name:" + name +
+                ", email:" + email +
+                ", subscribed:" + subscribed
+                ;
     }
 
     @Override
     public void notification(String message) {
-        System.out.println("NOTIFICATION to " + name + ":" + message);
+        System.out.println("Hey user " + name + ":" + message);
     }
 }

@@ -6,12 +6,14 @@ import org.s3team.certificate.model.Certificate;
 import org.s3team.certificate.model.CertificateType;
 import org.s3team.certificate.model.Reward;
 import org.s3team.common.valueobject.Id;
+import org.s3team.notification.NotificableEvent;
+import org.s3team.notification.SendNotificationService;
 
 
 import java.util.List;
 import java.util.Objects;
 
-public class CertificateService {
+public class CertificateService implements NotificableEvent {
 
     private final CertificateDao certificateDao;
 
@@ -23,6 +25,7 @@ public class CertificateService {
         Objects.requireNonNull(certificateType, "certificateType must not be null");
 
         Certificate certificate = Certificate.createNew(certificateType, reward);
+        generateNotification("A new certificate has been created: "+certificate.toString());
         return certificateDao.save(certificate);
     }
 
@@ -52,5 +55,11 @@ public class CertificateService {
         if (!deleted) {
             throw new CertificateNotFoundException(id);
         }
+    }
+
+    @Override
+    public void generateNotification(String message) {
+        SendNotificationService newNotification = new SendNotificationService();
+        newNotification.sendNotificationToSubscribers(message);
     }
 }

@@ -1,5 +1,5 @@
 package org.s3team.Player.Model;
 
-public interface Subscriber {
+public interface EventListener {
     void notification(String message);
 }

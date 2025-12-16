@@ -1,5 +1,7 @@
 package org.s3team.inventoryMenu;
 
+import org.s3team.Exceptions.DecorationNotFoundException;
+import org.s3team.Exceptions.RoomNotFoundException;
 import org.s3team.clue.model.Clue;
 import org.s3team.clue.model.ClueDescription;
 import org.s3team.clue.model.ClueType;
@@ -146,13 +148,10 @@ public class UpdateItemMenu {
                 case 3 -> {
                     System.out.println("--- 🔄 Updating Existing Decoration Object ---");
 
-                    // 1. Get Decoration ID
                     int decorationIdValue = ConsoleInput.readInt("Enter the ID of the Decoration to Update: ");
 
-                    // 2. Get Name (New Value)
                     String nameInput = ConsoleInput.readLine("Enter the NEW Decoration Name: ");
 
-                    // 3. Get Material (New Value)
                     Material material = null;
                     while (material == null) {
                         String materialInput = ConsoleInput.readLine("Enter NEW Material (WOOD, METAL, PLASTIC): ").toUpperCase();
@@ -163,37 +162,43 @@ public class UpdateItemMenu {
                         }
                     }
 
-                    // 4. Get Stock (New Value)
                     int stockValue = ConsoleInput.readInt("Enter NEW Stock Quantity: ");
 
-                    // 5. Get Price (New Value)
                     BigDecimal priceAmount = ConsoleInput.readBigDecimal("Enter NEW Price (e.g., 10.50): ");
 
-                    // 6. Get Room ID (New Value)
                     int roomIdValue = ConsoleInput.readInt("Enter NEW Target Room ID: ");
 
                     try {
-                        Decoration decorationToUpdate = new Decoration(
-                                decorationIdValue,
-                                nameInput,
+                        Id<Decoration> decorationId = new Id<>(decorationIdValue);
+                        Id<Room> roomId = new Id<>(roomIdValue);
+                        Name nameVO = new Name(nameInput);
+                        Price priceVO = new Price(priceAmount);
+
+                        Decoration updatedDecoration = Decoration.rehydrate(
+                                decorationId,
+                                nameVO,
                                 material,
                                 stockValue,
-                                priceAmount,
-                                roomIdValue
+                                priceVO,
+                                roomId
                         );
 
-                        boolean success = inventoryManagementService.updateDecoration(decorationToUpdate);
+                        boolean success = inventoryManagementService.updateDecoration(updatedDecoration);
 
                         if (success) {
                             System.out.println("✅ Decoration with ID " + decorationIdValue + " updated successfully.");
                         } else {
-                            System.out.println("⚠️ Update for Decoration ID " + decorationIdValue + " completed, but no changes were applied (data may be identical).");
+                            System.out.println("⚠️ Update for Decoration ID " + decorationIdValue + " finished, but no changes were applied (data may be identical or update failed silently).");
                         }
 
                     } catch (IllegalArgumentException e) {
-                        System.err.println("❌ Failed to update decoration: " + e.getMessage());
+                        System.err.println("❌ Input Error: " + e.getMessage());
+                    } catch (DecorationNotFoundException e) {
+                        System.err.println("❌ Update Failed: " + e.getMessage());
+                    } catch (RoomNotFoundException e) {
+                        System.err.println("❌ Update Failed (Room Error): " + e.getMessage());
                     } catch (RuntimeException e) {
-                        System.err.println("❌ Error updating the decoration: " + e.getMessage());
+                        System.err.println("❌ An unexpected system error occurred: " + e.getMessage());
                     }
                 }
                 case 0 -> {
