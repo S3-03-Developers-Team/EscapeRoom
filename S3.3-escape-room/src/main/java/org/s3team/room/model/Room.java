@@ -59,17 +59,19 @@ public class Room {
 
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Room room = (Room) o;
-        return Objects.equals(roomId
-                , room.roomId
-        );
+        return Objects.equals(roomId, room.roomId) &&
+                Objects.equals(name, room.name) &&
+                difficulty == room.difficulty &&
+                Objects.equals(price, room.price) &&
+                Objects.equals(themeId, room.themeId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(roomId
-        );
+        return Objects.hash(roomId, name, difficulty, price, themeId);
     }
 
     @Override
