@@ -2,6 +2,8 @@ package org.s3team.Menu;
 
 import org.s3team.DataBaseConnection.MySQL_Data_Base_Connection;
 import org.s3team.common.util.ConsoleInput;
+import org.s3team.common.valueobject.Price;
+import org.s3team.ticket.service.TicketService;
 
 import java.util.InputMismatchException;
 
@@ -95,7 +97,7 @@ public class MainMenuController {
                 option = ConsoleInput.readInt("Choose an option for Sales Management: ");
                 switch (option) {
                     case 1 -> appFactory.ticketMenuGenerate().start();
-                    case 2 -> displayTotalRevenue();
+                    case 2 -> displayTotalRevenue(appFactory.ticketService());
                     case 0 -> {
                         salesMenuExit = true;
                         System.out.println("Returning to Main Menu...");
@@ -109,8 +111,16 @@ public class MainMenuController {
         }
     }
 
-    private void displayTotalRevenue() {
-        System.out.println("Displaying Total Revenue functionality coming soon...");
+    private void displayTotalRevenue(TicketService ticketService) {
+        Price revenue = ticketService.getTotalRevenue();
+        int count = ticketService.countTickets();
+
+        System.out.println("\n================================");
+        System.out.println("        📊 TOTAL REVENUE");
+        System.out.println("================================");
+        System.out.printf(" 🎟️ Tickets sold: %s%n", count);
+        System.out.printf(" 💶 Revenue: %s%n", revenue);
+        System.out.println("================================\n");
     }
 }
 

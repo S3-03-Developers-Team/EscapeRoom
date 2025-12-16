@@ -73,7 +73,7 @@ public class NotificationManagementMenu {
                             .filter(Player::isSubscribed)
                             .collect(Collectors.toList());
 
-                    subscribedPlayers.forEach(e -> e.toString());
+                    subscribedPlayers.forEach(e -> System.out.println(e.toString()));
 
                     System.out.println("---------------------------------");
 

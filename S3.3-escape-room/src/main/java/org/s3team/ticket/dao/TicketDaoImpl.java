@@ -6,6 +6,7 @@ import org.s3team.common.valueobject.Id;
 import org.s3team.common.valueobject.Price;
 import org.s3team.ticket.model.Ticket;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -140,6 +141,40 @@ public class TicketDaoImpl implements TicketDao {
 
         } catch (SQLException e) {
             throw new RuntimeException("Error deleting ticket", e);
+        }
+    }
+
+    @Override
+    public Price calculateTotalRevenue(){
+        String sql = "SELECT COALESCE(SUM(total), 0) AS revenue FROM ticket";
+
+        try (Connection conn = db.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                return new Price(rs.getBigDecimal("revenue"));
+            }
+            return new Price(BigDecimal.ZERO);
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error calculating total revenue", e);
+        }
+    }
+
+    @Override
+    public int count() {
+        String sql = "SELECT COUNT(*) FROM ticket";
+
+        try (Connection conn = db.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return 0;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error counting tickets", e);
         }
     }
 
