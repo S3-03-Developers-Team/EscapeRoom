@@ -16,7 +16,6 @@ import org.s3team.room.model.Room;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Objects;
 
 public class PlayerCertificateService {
 
@@ -34,10 +33,6 @@ public class PlayerCertificateService {
     }
 
     public PlayerCertificate assignCertificate(Id<Player> playerId, Id<Certificate> certificateId, Id<Room> roomId) {
-        Objects.requireNonNull(playerId, "Player ID cannot be null");
-        Objects.requireNonNull(certificateId, "Certificate ID cannot be null");
-        Objects.requireNonNull(roomId, "Room ID cannot be null");
-
         try {
             playerDAO.findById(playerId)
                     .orElseThrow(() -> new PlayerNotFoundException(playerId));
@@ -62,8 +57,6 @@ public class PlayerCertificateService {
     }
 
     public List<PlayerCertificate> getCertificatesByPlayer(Id<Player> playerId) {
-        Objects.requireNonNull(playerId, "Player ID cannot be null");
-
         try {
             return pcDao.findByPlayer(playerId);
         } catch (SQLException e) {
@@ -72,8 +65,6 @@ public class PlayerCertificateService {
     }
 
     public List<PlayerCertificate> getCertificatesByRoom(Id<Room> roomId) {
-        Objects.requireNonNull(roomId, "Room ID cannot be null");
-
         try {
             return pcDao.findByRoom(roomId);
         } catch (SQLException e) {
@@ -90,8 +81,6 @@ public class PlayerCertificateService {
     }
 
     public List<PlayerCertificateInfo> getCertificatesForPlayerWithInfo(Id<Player> playerId) {
-        Objects.requireNonNull(playerId, "Player ID cannot be null");
-
         try {
             return pcDao.findCertificatesByPlayerWithInfo(playerId);
         } catch (SQLException e) {
@@ -100,8 +89,6 @@ public class PlayerCertificateService {
     }
 
     public List<PlayerCertificateInfo> getCertificatesForRoomWithInfo(Id<Room> roomId) {
-        Objects.requireNonNull(roomId, "Room ID cannot be null");
-
         try {
             return pcDao.findCertificatesByRoomWithInfo(roomId);
         } catch (SQLException e) {
