@@ -1,9 +1,12 @@
 package org.s3team.Player.Service;
 
+import org.s3team.Exceptions.PlayerIsAlreadyInDataBaseException;
+import org.s3team.Exceptions.PlayerNotFoundException;
 import org.s3team.Player.DAO.PlayerDAO;
 import org.s3team.Player.Model.Player;
 import org.s3team.common.valueobject.Id;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +19,15 @@ public class PlayerService {
     }
 
     public Player save(Player player) {
-        return playerDAO.save(player);
+
+        try {
+           playerDAO.findById(player.getId()).orElseThrow(() -> new PlayerNotFoundException(player.getId()));
+
+            return playerDAO.save(player);
+        } catch (Throwable e) {
+            throw new PlayerIsAlreadyInDataBaseException("Player is already in data base: " + player.getName());
+        }
+
     }
 
     public Optional<Player> findById(Id<Player> id) {
