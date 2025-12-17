@@ -72,22 +72,7 @@ public class RoomDAOImp implements RoomDAO {
             try (ResultSet rs = ps.executeQuery()) {
 
                 if (rs.next()) {
-                    Id<Room> foundRoomId = new Id<>(rs.getInt("id_room"));
-                    Name name = new Name(rs.getString("name"));
-                    String difficultyString = rs.getString("difficulty");
-                    Difficulty difficulty = Difficulty.valueOf(difficultyString.toUpperCase());
-                    Price price = new Price(rs.getBigDecimal("price"));
-                    Id<Theme> themeId = new Id<>(rs.getInt("theme_id"));
-
-                    Room room = Room.rehydrate(
-                            foundRoomId,
-                            name,
-                            difficulty,
-                            price,
-                            themeId
-                    );
-
-                    return Optional.of(room);
+                    return Optional.of(mapRowToRoom(rs));
                 }
             }
         } catch (SQLException e) {
@@ -107,20 +92,7 @@ public class RoomDAOImp implements RoomDAO {
              PreparedStatement ps = connection.prepareStatement(SQL);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                Id<Room> foundRoomId = new Id<>(rs.getInt("id_room"));
-                Name name = new Name(rs.getString("name"));
-                String difficultyString = rs.getString("difficulty");
-                Difficulty difficulty = Difficulty.valueOf(difficultyString.toUpperCase());
-                Price price = new Price(rs.getBigDecimal("price"));
-                Id<Theme> themeId = new Id<>(rs.getInt("theme_id"));
-                Room room = Room.rehydrate(
-                        foundRoomId,
-                        name,
-                        difficulty,
-                        price,
-                        themeId
-                );
-                rooms.add(room);
+                rooms.add(mapRowToRoom(rs));
             }
 
         } catch (SQLException e) {
@@ -205,5 +177,14 @@ public class RoomDAOImp implements RoomDAO {
             throw new RuntimeException("Database error calculating total Room price.", e);
         }
         return totalPrice;
+    }
+
+    private Room mapRowToRoom(ResultSet rs) throws SQLException {
+        Id<Room> foundRoomId = new Id<>(rs.getInt("id_room"));
+        Name name = new Name(rs.getString("name"));
+        Difficulty difficulty = Difficulty.valueOf(rs.getString("difficulty").toUpperCase());
+        Price price = new Price(rs.getBigDecimal("price"));
+        Id<Theme> themeId = new Id<>(rs.getInt("theme_id"));
+        return Room.rehydrate(foundRoomId, name, difficulty, price, themeId);
     }
 }

@@ -121,9 +121,4 @@ public class AppFactory {
         return  new ThemeMenu(themeService);
     }
 
-    public TicketService ticketService() {
-        return ticketService;
-    }
 }
-
-
