@@ -3,6 +3,8 @@ package org.s3team.theme.model;
 import org.s3team.common.valueobject.Id;
 import org.s3team.common.valueobject.Name;
 
+import java.util.Objects;
+
 public class Theme {
 
     private final Id<Theme> id;
@@ -23,6 +25,19 @@ public class Theme {
 
     public Id<Theme> getId() { return id; }
     public Name getName() { return name; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Theme theme = (Theme) o;
+        return Objects.equals(id, theme.id) && Objects.equals(name, theme.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
 
     @Override
     public String toString() {

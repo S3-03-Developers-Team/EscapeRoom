@@ -18,6 +18,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Optional;
 
 /**
@@ -37,6 +40,12 @@ public class RoomDAOImpTest {
     public void setup() {
         Data_Base_Connection db = TestConnection.getInstance();
         roomDAOImp = new RoomDAOImp(db);
+        try (Connection conn = db.getConnection();
+             Statement stmt = conn.createStatement()) {
+            stmt.executeUpdate("DELETE FROM room");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
