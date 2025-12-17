@@ -58,27 +58,6 @@ class RoomServiceTest {
         verify(mockRoomDAO).findAll();
     }
 
-    // ==============================
-    // Mockito 测试 save，验证主题存在
-    // ==============================
-/*    @Test
-    void save_shouldCallDAOAndReturnRoom_whenThemeExists_mock() {
-        Room room = Room.createNew(
-                new Name("Mock Room"),
-                Difficulty.HARD,
-                new Price(new BigDecimal("50")),
-                new Id<>(1)
-        );
-
-        when(mockThemeDao.findById(room.getThemeId())).thenReturn(Optional.of(Theme.rehydrate(new Id<>(1), new Name("Mock Theme"))));
-        when(mockRoomDAO.save(room)).thenReturn(room);
-
-        Room saved = roomServiceWithMocks.save(room);
-
-        assertEquals(room, saved);
-        verify(mockThemeDao).findById(room.getThemeId());
-        verify(mockRoomDAO).save(room);
-    }*/
 
 @Test
     void save_shouldThrowException_whenThemeNotFound() {
@@ -150,7 +129,6 @@ class RoomServiceTest {
     void update_shouldReturnTrue_whenRoomExistsAndThemeExists() {
         Id<Theme> themeId = new Id<>(1);
 
-        // 使用真实对象，通过 rehydrate 构造已有 Room
         Room room = Room.rehydrate(
                 new Id<Room>(1),
                 new Name("Updated Room"),
@@ -159,20 +137,16 @@ class RoomServiceTest {
                 themeId
         );
 
-        // 模拟 DAO / ThemeDao 行为
         when(mockRoomDAO.findById(room.getRoomId())).thenReturn(Optional.of(room));
         when(mockThemeDao.findById(themeId)).thenReturn(Optional.of(
                 Theme.createNew( new Name("Mock Theme")) // 使用真实 Theme 对象，而不是 mock
         ));
         when(mockRoomDAO.update(room)).thenReturn(true);
 
-        // 调用 Service
         boolean result = roomServiceWithMocks.update(room);
 
-        // 验证结果
         assertTrue(result);
 
-        // 验证 DAO 方法被调用
         verify(mockRoomDAO).update(room);
     }
 
