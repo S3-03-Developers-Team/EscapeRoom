@@ -1,6 +1,6 @@
 package org.s3team.certificate.service;
 
-import org.s3team.Exceptions.CertificateNotFoundException;
+import org.s3team.exceptions.CertificateNotFoundException;
 import org.s3team.certificate.dao.CertificateDao;
 import org.s3team.certificate.model.Certificate;
 import org.s3team.certificate.model.CertificateType;

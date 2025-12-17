@@ -1,7 +1,7 @@
 package org.s3team.playercertificate.dao;
 
-import org.s3team.DataBaseConnection.Data_Base_Connection;
-import org.s3team.Player.Model.Player;
+import org.s3team.dataBaseConnection.DataBaseConnection;
+import org.s3team.player.model.Player;
 import org.s3team.certificate.model.Certificate;
 import org.s3team.common.valueobject.Id;
 import org.s3team.playercertificate.dto.PlayerCertificateInfo;
@@ -15,9 +15,9 @@ import java.util.List;
 
 public class PlayerCertificateDaoImpl implements PlayerCertificateDao {
 
-    private final Data_Base_Connection db;
+    private final DataBaseConnection db;
 
-    public PlayerCertificateDaoImpl(Data_Base_Connection db) {
+    public PlayerCertificateDaoImpl(DataBaseConnection db) {
         this.db = db;
     }
 

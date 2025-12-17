@@ -2,11 +2,10 @@ package org.s3team.theme;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.s3team.DataBaseConnection.Data_Base_Connection;
-import org.s3team.DataBaseConnection.TestConnection;
+import org.s3team.dataBaseConnection.DataBaseConnection;
+import org.s3team.dataBaseConnection.TestConnection;
 import org.s3team.common.valueobject.Id;
 import org.s3team.common.valueobject.Name;
-import org.s3team.room.DAO.RoomDAOImp;
 import org.s3team.theme.dao.ThemeDaoImpl;
 import org.s3team.theme.model.Theme;
 
@@ -19,7 +18,7 @@ public class ThemeDaoImpTest {
 
     @BeforeEach
     public void setup() {
-        Data_Base_Connection db = TestConnection.getInstance();
+        DataBaseConnection db = TestConnection.getInstance();
         themeDao = new ThemeDaoImpl(db);
     }
 

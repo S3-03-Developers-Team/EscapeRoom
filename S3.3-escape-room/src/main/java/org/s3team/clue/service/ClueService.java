@@ -1,8 +1,7 @@
 package org.s3team.clue.service;
 
-import org.s3team.Exceptions.RoomNotFoundException;
+import org.s3team.exceptions.RoomNotFoundException;
 import org.s3team.clue.dao.ClueDao;
-import org.s3team.clue.dao.ClueDaoImpl;
 import org.s3team.clue.model.Clue;
 import org.s3team.clue.model.ClueDescription;
 import org.s3team.clue.model.ClueType;
@@ -10,7 +9,7 @@ import org.s3team.common.valueobject.Id;
 import org.s3team.common.valueobject.Price;
 import org.s3team.notification.NotificableEvent;
 import org.s3team.notification.SendNotificationService;
-import org.s3team.room.DAO.RoomDAO;
+import org.s3team.room.dao.RoomDAO;
 import org.s3team.room.model.Room;
 import org.s3team.theme.dao.ThemeDao;
 import org.s3team.theme.model.Theme;

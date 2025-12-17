@@ -1,13 +1,13 @@
 package org.s3team.inventoryService;
 
-import org.s3team.Exceptions.ClueNotFoundException;
+import org.s3team.exceptions.ClueNotFoundException;
 import org.s3team.clue.model.Clue;
 import org.s3team.clue.service.ClueService;
 import org.s3team.common.valueobject.Id;
 import org.s3team.common.valueobject.Price;
 import org.s3team.decoration.model.Decoration;
 import org.s3team.decoration.service.DecorationService;
-import org.s3team.room.Service.RoomService;
+import org.s3team.room.service.RoomService;
 import org.s3team.room.model.Room;
 import java.util.List;
 
