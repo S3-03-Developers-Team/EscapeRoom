@@ -11,7 +11,6 @@ import org.s3team.notification.SendNotificationService;
 
 
 import java.util.List;
-import java.util.Objects;
 
 public class CertificateService implements NotificableEvent {
 
@@ -22,16 +21,12 @@ public class CertificateService implements NotificableEvent {
     }
 
     public Certificate createCertificate(CertificateType certificateType, Reward reward){
-        Objects.requireNonNull(certificateType, "certificateType must not be null");
-
         Certificate certificate = Certificate.createNew(certificateType, reward);
         generateNotification("A new certificate has been created: "+certificate.toString());
         return certificateDao.save(certificate);
     }
 
     public Certificate getCertificateById(Id<Certificate> id){
-        Objects.requireNonNull(id, "id must not be null");
-
         return certificateDao.findById(id).orElseThrow(() -> new CertificateNotFoundException(id));
     }
 
@@ -40,8 +35,6 @@ public class CertificateService implements NotificableEvent {
     }
 
     public Certificate updateCertificate(Certificate certificate) {
-        Objects.requireNonNull(certificate, "certificate must not be null");
-
         certificateDao.findById(certificate.getId()).orElseThrow(()-> new CertificateNotFoundException(certificate.getId()));
 
         certificateDao.update(certificate);
@@ -49,8 +42,6 @@ public class CertificateService implements NotificableEvent {
     }
 
     public void deleteCertificate(Id<Certificate> id) {
-        Objects.requireNonNull(id,"id must not be null");
-
         boolean deleted = certificateDao.delete(id);
         if (!deleted) {
             throw new CertificateNotFoundException(id);

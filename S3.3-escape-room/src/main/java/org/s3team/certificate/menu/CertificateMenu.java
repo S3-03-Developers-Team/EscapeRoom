@@ -14,6 +14,7 @@ import org.s3team.room.Service.RoomService;
 import org.s3team.room.model.Room;
 
 import java.util.List;
+import java.util.Optional;
 
 public class CertificateMenu {
 
@@ -70,15 +71,14 @@ public class CertificateMenu {
 
     private void assignCertificate() {
         try {
-            Id<Player> playerId = selectPlayer();
-            Id<Certificate> certificateId = selectCertificate();
-            Id<Room> roomId = selectRoom();
-
-            if (roomId == null || playerId == null || certificateId == null) { System.out.println("Operation cancelled."); return; }
-
-            playerCertificateService.assignCertificate(playerId,certificateId,roomId);
-
-            System.out.println("Certificate assigned successfully.");
+            selectPlayer().ifPresent(playerId ->
+                    selectCertificate().ifPresent(certificateId ->
+                            selectRoom().ifPresent(roomId -> {
+                                playerCertificateService.assignCertificate(playerId, certificateId, roomId);
+                                System.out.println("Certificate assigned successfully.");
+                            })
+                    )
+            );
 
         } catch (RuntimeException e) {
             System.out.println("Error: " + e.getMessage());
@@ -86,37 +86,25 @@ public class CertificateMenu {
     }
 
     private void listByPlayer() {
-        Id<Player> playerId = selectPlayer();
-
-        if (playerId == null){
-            System.out.println("No players available.");
-            return;
-        }
-
-        List<PlayerCertificateInfo> list = playerCertificateService.getCertificatesForPlayerWithInfo(playerId);
-
-        if (list.isEmpty()) {
-            System.out.println("No certificates found for this player");
-        } else {
-            list.forEach(System.out::println);
-        }
+        selectPlayer().ifPresent(playerId -> {
+            List<PlayerCertificateInfo> list = playerCertificateService.getCertificatesForPlayerWithInfo(playerId);
+            if (list.isEmpty()) {
+                System.out.println("No certificates found for this player.");
+            } else {
+                list.forEach(System.out::println);
+            }
+        });
     }
 
     private void listByRoom() {
-        Id<Room> roomId = selectRoom();
-
-        if (roomId == null){
-            System.out.println("No rooms available.");
-            return;
-        }
-
-        List<PlayerCertificateInfo> list = playerCertificateService.getCertificatesForRoomWithInfo(roomId);
-
-        if (list.isEmpty()) {
-            System.out.println("No certificates found for this room");
-        } else {
-            list.forEach(System.out::println);
-        }
+        selectRoom().ifPresent(roomId -> {
+            List<PlayerCertificateInfo> list = playerCertificateService.getCertificatesForRoomWithInfo(roomId);
+            if (list.isEmpty()) {
+                System.out.println("No certificates found for this room.");
+            } else {
+                list.forEach(System.out::println);
+            }
+        });
     }
 
     private void listAllIssued() {
@@ -132,12 +120,12 @@ public class CertificateMenu {
 
     //-------------HELPERS
 
-    private Id<Player> selectPlayer() {
+    private Optional<Id<Player>> selectPlayer() {
         List<Player> players = playerService.findAll();
 
         if (players.isEmpty()) {
             System.out.println("No players available.");
-            return null;
+            return Optional.empty();
         }
 
         players.forEach(System.out::println);
@@ -145,18 +133,18 @@ public class CertificateMenu {
         while(true) {
             int input = ConsoleInput.readInt("Select Player ID: ");
             if (players.stream().anyMatch(player -> player.getId().value() == input)) {
-                return new Id<>(input);
+                return Optional.of(new Id<>(input));
             }
             System.out.println("Invalid ID, please select again.");
         }
     }
 
-    private Id<Certificate> selectCertificate() {
+    private Optional<Id<Certificate>> selectCertificate() {
         List<Certificate> certificates = certificateService.getAllCertificates();
 
         if (certificates.isEmpty()) {
             System.out.println("No certificates available.");
-            return null;
+            return Optional.empty();
         }
 
         certificates.forEach(System.out::println);
@@ -164,18 +152,18 @@ public class CertificateMenu {
         while(true) {
             int input = ConsoleInput.readInt("Select Certificate ID: ");
             if (certificates.stream().anyMatch(certificate -> certificate.getId().value() == input)) {
-                return new Id<>(input);
+                return Optional.of(new Id<>(input));
             }
             System.out.println("Invalid ID, please select again.");
         }
     }
 
-    private Id<Room> selectRoom() {
+    private Optional<Id<Room>> selectRoom() {
         List<Room> rooms = roomService.findAll();
 
         if (rooms.isEmpty()) {
             System.out.println("No rooms available.");
-            return null;
+            return Optional.empty();
         }
 
         rooms.forEach(System.out::println);
@@ -183,7 +171,7 @@ public class CertificateMenu {
         while(true) {
             int input = ConsoleInput.readInt("Select Room ID: ");
             if (rooms.stream().anyMatch(room -> room.getRoomId().value() == input)) {
-                return new Id<>(input);
+                return Optional.of(new Id<>(input));
             }
             System.out.println("Invalid ID, please select again.");
         }
