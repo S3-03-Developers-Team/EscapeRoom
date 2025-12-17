@@ -145,7 +145,7 @@ public class TicketServiceTest {
 
     @Test
     void updateTicket_ok() {
-        Ticket updatedTicket = Ticket.createNew(new Price(BigDecimal.valueOf(50)), playerId, roomId);
+        Ticket updatedTicket = Ticket.rehydrate(ticket.getId(), ticket.getPurchaseDate(), new Price(BigDecimal.valueOf(50)), playerId, roomId);
 
         when(playerDao.findById(playerId)).thenReturn(Optional.of(player));
         when(roomDao.findById(roomId)).thenReturn(Optional.of(room));
