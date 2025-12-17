@@ -1,7 +1,6 @@
 package org.s3team.decoration.dao;
 
-import org.s3team.DataBaseConnection.Data_Base_Connection;
-import org.s3team.DataBaseConnection.MySQL_Data_Base_Connection;
+import org.s3team.dataBaseConnection.DataBaseConnection;
 import org.s3team.common.valueobject.Id;
 import org.s3team.common.valueobject.Name;
 import org.s3team.common.valueobject.Price;
@@ -20,9 +19,9 @@ import java.util.Optional;
 
 public class DecorationDaoImpl implements DecorationDao {
 
-    private final Data_Base_Connection db;
+    private final DataBaseConnection db;
 
-    public DecorationDaoImpl(Data_Base_Connection db) {
+    public DecorationDaoImpl(DataBaseConnection db) {
         this.db = db;
     }
 

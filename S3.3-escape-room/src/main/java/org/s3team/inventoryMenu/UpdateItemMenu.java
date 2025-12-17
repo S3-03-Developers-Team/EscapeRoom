@@ -1,7 +1,7 @@
 package org.s3team.inventoryMenu;
 
-import org.s3team.Exceptions.DecorationNotFoundException;
-import org.s3team.Exceptions.RoomNotFoundException;
+import org.s3team.exceptions.DecorationNotFoundException;
+import org.s3team.exceptions.RoomNotFoundException;
 import org.s3team.clue.model.Clue;
 import org.s3team.clue.model.ClueDescription;
 import org.s3team.clue.model.ClueType;
@@ -17,8 +17,6 @@ import org.s3team.room.model.Room;
 import org.s3team.theme.model.Theme;
 
 import java.math.BigDecimal;
-import java.util.InputMismatchException;
-import java.util.Scanner;
 
 /**
  * ClassName: UpdateItemMenu

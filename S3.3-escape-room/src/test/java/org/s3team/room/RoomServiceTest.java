@@ -1,8 +1,8 @@
 package org.s3team.room;
 
 import org.junit.jupiter.api.Test;
-import org.s3team.Exceptions.RoomNotFoundException;
-import org.s3team.Exceptions.ThemeNotFoundException;
+import org.s3team.exceptions.RoomNotFoundException;
+import org.s3team.exceptions.ThemeNotFoundException;
 import org.s3team.common.valueobject.Id;
 import org.s3team.common.valueobject.Price;
 import org.s3team.room.model.Room;
@@ -15,8 +15,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.s3team.common.valueobject.*;
-import org.s3team.room.DAO.RoomDAO;
-import org.s3team.room.Service.RoomService;
+import org.s3team.room.dao.RoomDAO;
+import org.s3team.room.service.RoomService;
 import org.s3team.room.model.Difficulty;
 import org.s3team.theme.dao.ThemeDao;
 

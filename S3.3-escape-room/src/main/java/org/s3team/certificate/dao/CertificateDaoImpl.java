@@ -1,6 +1,6 @@
 package org.s3team.certificate.dao;
 
-import org.s3team.DataBaseConnection.Data_Base_Connection;
+import org.s3team.dataBaseConnection.DataBaseConnection;
 import org.s3team.certificate.model.Certificate;
 import org.s3team.certificate.model.CertificateType;
 import org.s3team.certificate.model.Reward;
@@ -17,9 +17,9 @@ import java.util.Optional;
 
 public class CertificateDaoImpl implements CertificateDao{
 
-    private final Data_Base_Connection db;
+    private final DataBaseConnection db;
 
-    public CertificateDaoImpl(Data_Base_Connection db) { this.db = db; }
+    public CertificateDaoImpl(DataBaseConnection db) { this.db = db; }
 
     @Override
     public Certificate save(Certificate certificate) {

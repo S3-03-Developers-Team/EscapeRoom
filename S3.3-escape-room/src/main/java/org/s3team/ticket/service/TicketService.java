@@ -1,12 +1,12 @@
 package org.s3team.ticket.service;
 
-import org.s3team.Exceptions.PlayerNotFoundException;
-import org.s3team.Exceptions.RoomNotFoundException;
-import org.s3team.Player.DAO.PlayerDAO;
-import org.s3team.Player.Model.Player;
+import org.s3team.exceptions.PlayerNotFoundException;
+import org.s3team.exceptions.RoomNotFoundException;
+import org.s3team.player.dao.PlayerDAO;
+import org.s3team.player.model.Player;
 import org.s3team.common.valueobject.Id;
 import org.s3team.common.valueobject.Price;
-import org.s3team.room.DAO.RoomDAO;
+import org.s3team.room.dao.RoomDAO;
 import org.s3team.room.model.Room;
 import org.s3team.ticket.dao.TicketDao;
 import org.s3team.ticket.model.Ticket;

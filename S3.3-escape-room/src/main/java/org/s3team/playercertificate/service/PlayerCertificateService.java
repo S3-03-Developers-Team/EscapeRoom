@@ -1,17 +1,17 @@
 package org.s3team.playercertificate.service;
 
-import org.s3team.Exceptions.CertificateNotFoundException;
-import org.s3team.Exceptions.PlayerNotFoundException;
-import org.s3team.Exceptions.RoomNotFoundException;
-import org.s3team.Player.DAO.PlayerDAO;
-import org.s3team.Player.Model.Player;
+import org.s3team.exceptions.CertificateNotFoundException;
+import org.s3team.exceptions.PlayerNotFoundException;
+import org.s3team.exceptions.RoomNotFoundException;
+import org.s3team.player.dao.PlayerDAO;
+import org.s3team.player.model.Player;
 import org.s3team.certificate.dao.CertificateDao;
 import org.s3team.certificate.model.Certificate;
 import org.s3team.common.valueobject.Id;
 import org.s3team.playercertificate.dao.PlayerCertificateDao;
 import org.s3team.playercertificate.dto.PlayerCertificateInfo;
 import org.s3team.playercertificate.model.PlayerCertificate;
-import org.s3team.room.DAO.RoomDAO;
+import org.s3team.room.dao.RoomDAO;
 import org.s3team.room.model.Room;
 
 import java.sql.SQLException;

@@ -1,6 +1,6 @@
 package org.s3team.playercertificate.dto;
 
-import org.s3team.Player.Model.Player;
+import org.s3team.player.model.Player;
 import org.s3team.certificate.model.Certificate;
 import org.s3team.common.valueobject.Id;
 import org.s3team.room.model.Room;

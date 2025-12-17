@@ -1,7 +1,7 @@
 package org.s3team.ticket.dao;
 
 
-import org.s3team.DataBaseConnection.Data_Base_Connection;
+import org.s3team.dataBaseConnection.DataBaseConnection;
 import org.s3team.common.valueobject.Id;
 import org.s3team.common.valueobject.Price;
 import org.s3team.ticket.model.Ticket;
@@ -15,9 +15,9 @@ import java.util.Optional;
 
 public class TicketDaoImpl implements TicketDao {
 
-    private final Data_Base_Connection db;
+    private final DataBaseConnection db;
 
-    public TicketDaoImpl(Data_Base_Connection db) {
+    public TicketDaoImpl(DataBaseConnection db) {
         this.db = db;
     }
 

@@ -1,8 +1,8 @@
 package org.s3team.inventoryMenu;
 
-import org.s3team.Exceptions.ClueNotFoundException;
-import org.s3team.Exceptions.DecorationNotFoundException;
-import org.s3team.Exceptions.RoomNotFoundException;
+import org.s3team.exceptions.ClueNotFoundException;
+import org.s3team.exceptions.DecorationNotFoundException;
+import org.s3team.exceptions.RoomNotFoundException;
 import org.s3team.clue.model.Clue;
 import org.s3team.common.util.ConsoleInput;
 import org.s3team.common.valueobject.Id;

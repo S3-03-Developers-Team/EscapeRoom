@@ -1,6 +1,6 @@
 package org.s3team.theme.dao;
 
-import org.s3team.Exceptions.ThemeNotFoundException;
+import org.s3team.exceptions.ThemeNotFoundException;
 import org.s3team.common.dao.CrudDao;
 import org.s3team.common.valueobject.Id;
 import org.s3team.common.valueobject.Name;
