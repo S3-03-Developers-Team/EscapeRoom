@@ -75,15 +75,18 @@ class ClueServiceTest {
 
     @Test
     void getAllClues_ok() {
-        Clue clue1 = clue;
-        Clue clue2 = clue;
-        Clue clue3 = clue;
+        Clue clue2 =  Clue.createNew(ClueType.SOUND, new ClueDescription("desc2"), new Price(BigDecimal.valueOf(10)), new Id<>(2), new Id<>(11));
+        Clue clue3 =  Clue.createNew(ClueType.SOUND, new ClueDescription("desc3"), new Price(BigDecimal.valueOf(10)), new Id<>(3), new Id<>(11));
 
-        when(clueDao.findAll()).thenReturn(Arrays.asList(clue1, clue2, clue3));
+        when(clueDao.findAll()).thenReturn(Arrays.asList(clue, clue2, clue3));
 
         List<Clue> clues = clueService.getAllClues();
 
         assertEquals(3, clues.size());
+        assertTrue(clues.contains(clue));
+        assertTrue(clues.contains(clue2));
+        assertTrue(clues.contains(clue3));
+
         verify(clueDao).findAll();
     }
 
