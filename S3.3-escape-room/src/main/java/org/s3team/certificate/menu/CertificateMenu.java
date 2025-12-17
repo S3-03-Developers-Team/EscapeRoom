@@ -1,7 +1,7 @@
 package org.s3team.certificate.menu;
 
-import org.s3team.Player.Model.Player;
-import org.s3team.Player.Service.PlayerService;
+import org.s3team.player.model.Player;
+import org.s3team.player.service.PlayerService;
 import org.s3team.certificate.model.Certificate;
 import org.s3team.certificate.model.CertificateType;
 import org.s3team.certificate.model.Reward;
@@ -10,7 +10,7 @@ import org.s3team.common.util.ConsoleInput;
 import org.s3team.common.valueobject.Id;
 import org.s3team.playercertificate.dto.PlayerCertificateInfo;
 import org.s3team.playercertificate.service.PlayerCertificateService;
-import org.s3team.room.Service.RoomService;
+import org.s3team.room.service.RoomService;
 import org.s3team.room.model.Room;
 
 import java.util.List;

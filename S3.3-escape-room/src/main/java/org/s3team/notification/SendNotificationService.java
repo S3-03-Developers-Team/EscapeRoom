@@ -1,20 +1,20 @@
 package org.s3team.notification;
 
-import org.s3team.DataBaseConnection.Data_Base_Connection;
-import org.s3team.DataBaseConnection.MySQL_Data_Base_Connection;
-import org.s3team.Player.DAO.PlayerDAOImp;
-import org.s3team.Player.Model.EventListener;
-import org.s3team.Player.Model.Player;
+import org.s3team.dataBaseConnection.DataBaseConnection;
+import org.s3team.dataBaseConnection.MySQLDataBaseConnection;
+import org.s3team.player.dao.PlayerDaoImp;
+import org.s3team.player.model.EventListener;
+import org.s3team.player.model.Player;
 import java.util.List;
 
 import java.util.stream.Collectors;
 
 public class SendNotificationService {
-    private PlayerDAOImp playerDAOImp;
-    private final Data_Base_Connection dataBaseConnection= MySQL_Data_Base_Connection.getInstance();;
+    private PlayerDaoImp playerDAOImp;
+    private final DataBaseConnection dataBaseConnection= MySQLDataBaseConnection.getInstance();;
 
    public SendNotificationService(){
-       this.playerDAOImp = new PlayerDAOImp(dataBaseConnection);
+       this.playerDAOImp = new PlayerDaoImp(dataBaseConnection);
    }
 
     public void sendNotificationToSubscribers(String message) {

@@ -1,8 +1,8 @@
 package org.s3team.room;
 
 import org.junit.jupiter.api.Test;
-import org.s3team.Exceptions.RoomNotFoundException;
-import org.s3team.Exceptions.ThemeNotFoundException;
+import org.s3team.exceptions.RoomNotFoundException;
+import org.s3team.exceptions.ThemeNotFoundException;
 import org.s3team.common.valueobject.Id;
 import org.s3team.common.valueobject.Price;
 import org.s3team.room.model.Room;
@@ -15,8 +15,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.s3team.common.valueobject.*;
-import org.s3team.room.DAO.RoomDAO;
-import org.s3team.room.Service.RoomService;
+import org.s3team.room.dao.RoomDao;
+import org.s3team.room.service.RoomService;
 import org.s3team.room.model.Difficulty;
 import org.s3team.theme.dao.ThemeDao;
 
@@ -30,7 +30,7 @@ import static org.mockito.Mockito.*;
 class RoomServiceTest {
 
     @Mock
-    private RoomDAO mockRoomDAO;
+    private RoomDao mockRoomDao;
 
     @Mock
     private ThemeDao mockThemeDao;
@@ -50,12 +50,12 @@ class RoomServiceTest {
         fakeList.add(Room.createNew(new Name("Mock Room 1"), Difficulty.EASY, new Price(new BigDecimal("10")), new Id<>(1)));
         fakeList.add(Room.createNew(new Name("Mock Room 2"), Difficulty.MEDIUM, new Price(new BigDecimal("20")), new Id<>(2)));
 
-        when(mockRoomDAO.findAll()).thenReturn(fakeList);
+        when(mockRoomDao.findAll()).thenReturn(fakeList);
 
         List<Room> result = roomServiceWithMocks.findAll();
 
         assertEquals(2, result.size());
-        verify(mockRoomDAO).findAll();
+        verify(mockRoomDao).findAll();
     }
 
     // ==============================
@@ -88,7 +88,7 @@ class RoomServiceTest {
         when(mockThemeDao.findById(themeId)).thenReturn(Optional.empty());
 
         assertThrows(ThemeNotFoundException.class, () -> roomServiceWithMocks.save(room));
-        verify(mockRoomDAO, never()).save(any());
+        verify(mockRoomDao, never()).save(any());
     }
 
     @Test
@@ -96,7 +96,7 @@ class RoomServiceTest {
         Id<Room> roomId = new Id<>(1);
         Room room = Room.createNew(new Name("Room C"), Difficulty.HARD, new Price(new BigDecimal("200")), new Id<>(1));
 
-        when(mockRoomDAO.findById(roomId)).thenReturn(Optional.of(room));
+        when(mockRoomDao.findById(roomId)).thenReturn(Optional.of(room));
 
         Room found = roomServiceWithMocks.findById(roomId);
 
@@ -107,7 +107,7 @@ class RoomServiceTest {
     void findById_shouldThrowException_whenNotFound() {
         Id<Room> roomId = new Id<>(99);
 
-        when(mockRoomDAO.findById(roomId)).thenReturn(Optional.empty());
+        when(mockRoomDao.findById(roomId)).thenReturn(Optional.empty());
 
         assertThrows(RoomNotFoundException.class, () -> roomServiceWithMocks.findById(roomId));
     }
@@ -118,27 +118,27 @@ class RoomServiceTest {
         Room mockRoom = mock(Room.class);
 
         // 模拟 DAO 行为
-        when(mockRoomDAO.findById(roomId)).thenReturn(Optional.of(mockRoom));
-        when(mockRoomDAO.delete(roomId)).thenReturn(true);
+        when(mockRoomDao.findById(roomId)).thenReturn(Optional.of(mockRoom));
+        when(mockRoomDao.delete(roomId)).thenReturn(true);
 
         // 调用 Service 方法
         boolean result = roomServiceWithMocks.delete(roomId);
 
         // 验证
         assertTrue(result);
-        verify(mockRoomDAO).findById(roomId);
-        verify(mockRoomDAO).delete(roomId);
+        verify(mockRoomDao).findById(roomId);
+        verify(mockRoomDao).delete(roomId);
     }
 
     @Test
     void delete_shouldThrowException_whenRoomNotFound() {
         Id<Room> roomId = new Id<>(99);
 
-        when(mockRoomDAO.findById(roomId)).thenReturn(Optional.empty());
+        when(mockRoomDao.findById(roomId)).thenReturn(Optional.empty());
 
         assertThrows(RoomNotFoundException.class, () -> roomServiceWithMocks.delete(roomId));
 
-        verify(mockRoomDAO, never()).delete(any());
+        verify(mockRoomDao, never()).delete(any());
     }
 
     @Test
@@ -147,14 +147,14 @@ class RoomServiceTest {
 
         Room room = Room.rehydrate(new Id<>(1), new Name("Updated Room"), Difficulty.HARD, new Price(new BigDecimal("200")), themeId);
 
-        when(mockRoomDAO.findById(room.getRoomId())).thenReturn(Optional.of(room));
+        when(mockRoomDao.findById(room.getRoomId())).thenReturn(Optional.of(room));
         when(mockThemeDao.findById(themeId)).thenReturn(Optional.of(mock(Theme.class)));
-        when(mockRoomDAO.update(room)).thenReturn(true);
+        when(mockRoomDao.update(room)).thenReturn(true);
 
         boolean result = roomServiceWithMocks.update(room);
 
         assertTrue(result);
-        verify(mockRoomDAO).update(room);
+        verify(mockRoomDao).update(room);
     }
 
     @Test
@@ -163,31 +163,31 @@ class RoomServiceTest {
         Id<Theme> themeId = new Id<>(1);
         Room room = Room.createNew(new Name("Nonexistent Room"), Difficulty.EASY, new Price(new BigDecimal("50")), themeId);
 
-        when(mockRoomDAO.findById(roomId)).thenReturn(Optional.empty());
+        when(mockRoomDao.findById(roomId)).thenReturn(Optional.empty());
 
         assertThrows(RoomNotFoundException.class, () -> roomServiceWithMocks.update(room));
 
-        verify(mockRoomDAO, never()).update(any());
+        verify(mockRoomDao, never()).update(any());
     }
 
     @Test
     void count_shouldReturnValueFromDAO() {
-        when(mockRoomDAO.count()).thenReturn(5);
+        when(mockRoomDao.count()).thenReturn(5);
 
         int result = roomServiceWithMocks.count();
 
         assertEquals(5, result);
-        verify(mockRoomDAO).count();
+        verify(mockRoomDao).count();
     }
 
     @Test
     void calculateTotalPrice_shouldReturnValueFromDAO() {
         Price expectedPrice = new Price(new BigDecimal("150.00"));
-        when(mockRoomDAO.calculateTotalPrice()).thenReturn(expectedPrice);
+        when(mockRoomDao.calculateTotalPrice()).thenReturn(expectedPrice);
 
         Price result = roomServiceWithMocks.calculateTotalPrice();
 
         assertEquals(expectedPrice, result);
-        verify(mockRoomDAO).calculateTotalPrice();
+        verify(mockRoomDao).calculateTotalPrice();
     }
 }

@@ -1,17 +1,17 @@
 package org.s3team.playercertificate.service;
 
-import org.s3team.Exceptions.CertificateNotFoundException;
-import org.s3team.Exceptions.PlayerNotFoundException;
-import org.s3team.Exceptions.RoomNotFoundException;
-import org.s3team.Player.DAO.PlayerDAO;
-import org.s3team.Player.Model.Player;
+import org.s3team.exceptions.CertificateNotFoundException;
+import org.s3team.exceptions.PlayerNotFoundException;
+import org.s3team.exceptions.RoomNotFoundException;
+import org.s3team.player.dao.PlayerDao;
+import org.s3team.player.model.Player;
 import org.s3team.certificate.dao.CertificateDao;
 import org.s3team.certificate.model.Certificate;
 import org.s3team.common.valueobject.Id;
 import org.s3team.playercertificate.dao.PlayerCertificateDao;
 import org.s3team.playercertificate.dto.PlayerCertificateInfo;
 import org.s3team.playercertificate.model.PlayerCertificate;
-import org.s3team.room.DAO.RoomDAO;
+import org.s3team.room.dao.RoomDao;
 import org.s3team.room.model.Room;
 
 import java.sql.SQLException;
@@ -21,11 +21,11 @@ public class PlayerCertificateService {
 
     private final PlayerCertificateDao pcDao;
     private final CertificateDao certificateDao;
-    private final PlayerDAO playerDAO;
-    private final RoomDAO roomDAO;
+    private final PlayerDao playerDAO;
+    private final RoomDao roomDAO;
 
 
-    public PlayerCertificateService(PlayerCertificateDao pcDao, CertificateDao certificateDao, PlayerDAO playerDAO, RoomDAO roomDAO) {
+    public PlayerCertificateService(PlayerCertificateDao pcDao, CertificateDao certificateDao, PlayerDao playerDAO, RoomDao roomDAO) {
         this.pcDao = pcDao;
         this.certificateDao = certificateDao;
         this.playerDAO = playerDAO;

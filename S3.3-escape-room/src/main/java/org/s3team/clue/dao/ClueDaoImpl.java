@@ -1,6 +1,6 @@
 package org.s3team.clue.dao;
 
-import org.s3team.DataBaseConnection.Data_Base_Connection;
+import org.s3team.dataBaseConnection.DataBaseConnection;
 import org.s3team.clue.model.Clue;
 import org.s3team.clue.model.ClueDescription;
 import org.s3team.clue.model.ClueType;
@@ -18,9 +18,9 @@ import java.util.Optional;
 
 public class ClueDaoImpl implements ClueDao{
 
-    private final Data_Base_Connection db;
+    private final DataBaseConnection db;
 
-    public ClueDaoImpl(Data_Base_Connection db) { this.db = db; }
+    public ClueDaoImpl(DataBaseConnection db) { this.db = db; }
 
     @Override
     public Clue save(Clue clue) {

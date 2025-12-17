@@ -1,12 +1,12 @@
 package org.s3team.ticket.service;
 
-import org.s3team.Exceptions.PlayerNotFoundException;
-import org.s3team.Exceptions.RoomNotFoundException;
-import org.s3team.Player.DAO.PlayerDAO;
-import org.s3team.Player.Model.Player;
+import org.s3team.exceptions.PlayerNotFoundException;
+import org.s3team.exceptions.RoomNotFoundException;
+import org.s3team.player.dao.PlayerDao;
+import org.s3team.player.model.Player;
 import org.s3team.common.valueobject.Id;
 import org.s3team.common.valueobject.Price;
-import org.s3team.room.DAO.RoomDAO;
+import org.s3team.room.dao.RoomDao;
 import org.s3team.room.model.Room;
 import org.s3team.ticket.dao.TicketDao;
 import org.s3team.ticket.model.Ticket;
@@ -17,10 +17,10 @@ import java.util.Optional;
 public class TicketService {
 
     private final TicketDao ticketDao;
-    private final RoomDAO roomDao;
-    private final PlayerDAO playerDao;
+    private final RoomDao roomDao;
+    private final PlayerDao playerDao;
 
-    public TicketService(TicketDao ticketDao, RoomDAO roomDao, PlayerDAO playerDao){
+    public TicketService(TicketDao ticketDao, RoomDao roomDao, PlayerDao playerDao){
         this.ticketDao = ticketDao;
         this.roomDao = roomDao;
         this.playerDao = playerDao;

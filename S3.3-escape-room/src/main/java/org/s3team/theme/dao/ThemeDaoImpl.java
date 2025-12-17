@@ -1,6 +1,6 @@
 package org.s3team.theme.dao;
 
-import org.s3team.DataBaseConnection.Data_Base_Connection;
+import org.s3team.dataBaseConnection.DataBaseConnection;
 import org.s3team.common.valueobject.Id;
 import org.s3team.common.valueobject.Name;
 import org.s3team.theme.model.Theme;
@@ -12,9 +12,9 @@ import java.util.Optional;
 
 public class ThemeDaoImpl implements ThemeDao{
 
-    private final Data_Base_Connection db;
+    private final DataBaseConnection db;
 
-    public ThemeDaoImpl(Data_Base_Connection db){
+    public ThemeDaoImpl(DataBaseConnection db){
         this.db = db;
     }
 

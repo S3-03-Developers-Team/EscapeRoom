@@ -1,6 +1,6 @@
 package org.s3team.ticket.model;
 
-import org.s3team.Player.Model.Player;
+import org.s3team.player.model.Player;
 import org.s3team.common.valueobject.Id;
 import org.s3team.common.valueobject.Price;
 import org.s3team.room.model.Room;

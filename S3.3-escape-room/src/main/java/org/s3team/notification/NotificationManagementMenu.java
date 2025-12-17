@@ -1,7 +1,7 @@
 package org.s3team.notification;
 
-import org.s3team.Player.Model.Player;
-import org.s3team.Player.Service.PlayerService;
+import org.s3team.player.model.Player;
+import org.s3team.player.service.PlayerService;
 import org.s3team.common.util.ConsoleInput;
 import org.s3team.common.valueobject.Id;
 

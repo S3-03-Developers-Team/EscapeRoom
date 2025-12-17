@@ -1,16 +1,14 @@
 package org.s3team.decoration.service;
 
-import org.s3team.Exceptions.DecorationNotFoundException;
-import org.s3team.Exceptions.RoomNotFoundException;
+import org.s3team.exceptions.DecorationNotFoundException;
+import org.s3team.exceptions.RoomNotFoundException;
 import org.s3team.common.valueobject.Id;
 import org.s3team.common.valueobject.Price;
 import org.s3team.decoration.dao.DecorationDao;
-import org.s3team.decoration.dao.DecorationDaoImpl;
 import org.s3team.decoration.model.Decoration;
-import org.s3team.decoration.model.Material;
 import org.s3team.notification.NotificableEvent;
 import org.s3team.notification.SendNotificationService;
-import org.s3team.room.DAO.RoomDAO;
+import org.s3team.room.dao.RoomDao;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,10 +16,10 @@ import java.util.Optional;
 public class DecorationService implements NotificableEvent {
 
     private final DecorationDao decorationDao;
-    private final RoomDAO roomDAO;
+    private final RoomDao roomDAO;
 
 
-    public DecorationService(DecorationDao decorationDao, RoomDAO roomDAO) {
+    public DecorationService(DecorationDao decorationDao, RoomDao roomDAO) {
         this.decorationDao = decorationDao;
         this.roomDAO = roomDAO;
     }

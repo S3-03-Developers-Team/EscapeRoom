@@ -2,14 +2,14 @@ package org.s3team.room;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.s3team.DataBaseConnection.TestConnection;
-import org.s3team.Exceptions.ThemeNotFoundException;
+import org.s3team.dataBaseConnection.TestConnection;
+import org.s3team.exceptions.ThemeNotFoundException;
 import org.s3team.common.valueobject.Id;
 import org.s3team.common.valueobject.Name;
 import org.s3team.common.valueobject.Price;
-import org.s3team.room.DAO.RoomDAO;
-import org.s3team.room.DAO.RoomDAOImp;
-import org.s3team.room.Service.RoomService;
+import org.s3team.room.dao.RoomDao;
+import org.s3team.room.dao.RoomDaoImp;
+import org.s3team.room.service.RoomService;
 import org.s3team.room.model.Difficulty;
 import org.s3team.room.model.Room;
 import org.s3team.theme.dao.ThemeDao;
@@ -35,21 +35,21 @@ public class RoomServiceSaveTest {
     // ==============================
     // 2️⃣ 真实数据库测试 save 方法
     // ==============================
-    private RoomDAO realRoomDAO;
+    private RoomDao realRoomDao;
     private ThemeDao realThemeDao;
     private RoomService roomServiceReal;
 
     @BeforeEach
     void setup() {
 
-        realRoomDAO = new RoomDAOImp(TestConnection.getInstance());
+        realRoomDao = new RoomDaoImp(TestConnection.getInstance());
         realThemeDao = new ThemeDaoImpl(TestConnection.getInstance()) {
             @Override
             public Optional<Theme> findById(Id<Theme> id) {
                 return Optional.of(Theme.rehydrate(id, new Name("TestTheme")));
             }
         };
-        roomServiceReal = new RoomService(realRoomDAO, realThemeDao) {
+        roomServiceReal = new RoomService(realRoomDao, realThemeDao) {
             @Override
             public void generateNotification(String message) {
                 // do nothing
@@ -83,7 +83,7 @@ public class RoomServiceSaveTest {
                 new Id<>(99)
         );
 
-        RoomService roomServiceWithFakeTheme = new RoomService(realRoomDAO, new ThemeDaoImpl(TestConnection.getInstance()) {
+        RoomService roomServiceWithFakeTheme = new RoomService(realRoomDao, new ThemeDaoImpl(TestConnection.getInstance()) {
             @Override
             public Optional<Theme> findById(Id<Theme> id) {
                 return Optional.empty();
