@@ -112,23 +112,28 @@ class RoomServiceTest {
         assertThrows(RoomNotFoundException.class, () -> roomServiceWithMocks.findById(roomId));
     }
 
-    /*@Test
+    @Test
     void delete_shouldCallDAOAndReturnTrue_whenRoomExists() {
         Id<Room> roomId = new Id<>(1);
-        Room mockRoom = mock(Room.class);
 
-        // 模拟 DAO 行为
-        when(mockRoomDAO.findById(roomId)).thenReturn(Optional.of(mockRoom));
+        Room realRoom = Room.rehydrate(
+                roomId,
+                new Name("Test Room"),
+                Difficulty.MEDIUM,
+                new Price(new BigDecimal(100)),
+                new Id<Theme>(10)
+        );
+
+        when(mockRoomDAO.findById(roomId)).thenReturn(Optional.of(realRoom));
         when(mockRoomDAO.delete(roomId)).thenReturn(true);
 
-        // 调用 Service 方法
         boolean result = roomServiceWithMocks.delete(roomId);
 
-        // 验证
         assertTrue(result);
+
         verify(mockRoomDAO).findById(roomId);
         verify(mockRoomDAO).delete(roomId);
-    }*/
+    }
 
     @Test
     void delete_shouldThrowException_whenRoomNotFound() {
@@ -141,21 +146,35 @@ class RoomServiceTest {
         verify(mockRoomDAO, never()).delete(any());
     }
 
-  /*  @Test
+    @Test
     void update_shouldReturnTrue_whenRoomExistsAndThemeExists() {
         Id<Theme> themeId = new Id<>(1);
 
-        Room room = Room.rehydrate(new Id<>(1), new Name("Updated Room"), Difficulty.HARD, new Price(new BigDecimal("200")), themeId);
+        // 使用真实对象，通过 rehydrate 构造已有 Room
+        Room room = Room.rehydrate(
+                new Id<Room>(1),
+                new Name("Updated Room"),
+                Difficulty.HARD,
+                new Price(new BigDecimal("200")),
+                themeId
+        );
 
+        // 模拟 DAO / ThemeDao 行为
         when(mockRoomDAO.findById(room.getRoomId())).thenReturn(Optional.of(room));
-        when(mockThemeDao.findById(themeId)).thenReturn(Optional.of(mock(Theme.class)));
+        when(mockThemeDao.findById(themeId)).thenReturn(Optional.of(
+                Theme.createNew( new Name("Mock Theme")) // 使用真实 Theme 对象，而不是 mock
+        ));
         when(mockRoomDAO.update(room)).thenReturn(true);
 
+        // 调用 Service
         boolean result = roomServiceWithMocks.update(room);
 
+        // 验证结果
         assertTrue(result);
+
+        // 验证 DAO 方法被调用
         verify(mockRoomDAO).update(room);
-    }*/
+    }
 
     @Test
     void update_shouldThrowException_whenRoomNotFound() {
