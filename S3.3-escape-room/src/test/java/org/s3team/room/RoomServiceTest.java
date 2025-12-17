@@ -58,27 +58,6 @@ class RoomServiceTest {
         verify(mockRoomDAO).findAll();
     }
 
-    // ==============================
-    // Mockito 测试 save，验证主题存在
-    // ==============================
-/*    @Test
-    void save_shouldCallDAOAndReturnRoom_whenThemeExists_mock() {
-        Room room = Room.createNew(
-                new Name("Mock Room"),
-                Difficulty.HARD,
-                new Price(new BigDecimal("50")),
-                new Id<>(1)
-        );
-
-        when(mockThemeDao.findById(room.getThemeId())).thenReturn(Optional.of(Theme.rehydrate(new Id<>(1), new Name("Mock Theme"))));
-        when(mockRoomDAO.save(room)).thenReturn(room);
-
-        Room saved = roomServiceWithMocks.save(room);
-
-        assertEquals(room, saved);
-        verify(mockThemeDao).findById(room.getThemeId());
-        verify(mockRoomDAO).save(room);
-    }*/
 
 @Test
     void save_shouldThrowException_whenThemeNotFound() {
@@ -112,23 +91,28 @@ class RoomServiceTest {
         assertThrows(RoomNotFoundException.class, () -> roomServiceWithMocks.findById(roomId));
     }
 
-    /*@Test
+    @Test
     void delete_shouldCallDAOAndReturnTrue_whenRoomExists() {
         Id<Room> roomId = new Id<>(1);
-        Room mockRoom = mock(Room.class);
 
-        // 模拟 DAO 行为
-        when(mockRoomDAO.findById(roomId)).thenReturn(Optional.of(mockRoom));
+        Room realRoom = Room.rehydrate(
+                roomId,
+                new Name("Test Room"),
+                Difficulty.MEDIUM,
+                new Price(new BigDecimal(100)),
+                new Id<Theme>(10)
+        );
+
+        when(mockRoomDAO.findById(roomId)).thenReturn(Optional.of(realRoom));
         when(mockRoomDAO.delete(roomId)).thenReturn(true);
 
-        // 调用 Service 方法
         boolean result = roomServiceWithMocks.delete(roomId);
 
-        // 验证
         assertTrue(result);
+
         verify(mockRoomDAO).findById(roomId);
         verify(mockRoomDAO).delete(roomId);
-    }*/
+    }
 
     @Test
     void delete_shouldThrowException_whenRoomNotFound() {
@@ -141,21 +125,30 @@ class RoomServiceTest {
         verify(mockRoomDAO, never()).delete(any());
     }
 
-  /*  @Test
+    @Test
     void update_shouldReturnTrue_whenRoomExistsAndThemeExists() {
         Id<Theme> themeId = new Id<>(1);
 
-        Room room = Room.rehydrate(new Id<>(1), new Name("Updated Room"), Difficulty.HARD, new Price(new BigDecimal("200")), themeId);
+        Room room = Room.rehydrate(
+                new Id<Room>(1),
+                new Name("Updated Room"),
+                Difficulty.HARD,
+                new Price(new BigDecimal("200")),
+                themeId
+        );
 
         when(mockRoomDAO.findById(room.getRoomId())).thenReturn(Optional.of(room));
-        when(mockThemeDao.findById(themeId)).thenReturn(Optional.of(mock(Theme.class)));
+        when(mockThemeDao.findById(themeId)).thenReturn(Optional.of(
+                Theme.createNew( new Name("Mock Theme")) // 使用真实 Theme 对象，而不是 mock
+        ));
         when(mockRoomDAO.update(room)).thenReturn(true);
 
         boolean result = roomServiceWithMocks.update(room);
 
         assertTrue(result);
+
         verify(mockRoomDAO).update(room);
-    }*/
+    }
 
     @Test
     void update_shouldThrowException_whenRoomNotFound() {
