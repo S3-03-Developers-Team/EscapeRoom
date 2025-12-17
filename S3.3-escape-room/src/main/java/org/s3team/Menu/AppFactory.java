@@ -84,7 +84,7 @@ public class AppFactory {
         this.inventoryManagementService = new InventoryManagementService(clueService, decorationService, roomService);
         this.inventoryQueryService = new InventoryQueryService(clueService, decorationService, roomService);
         this.certificateService = new CertificateService(certificateDao);
-        this.playerService = new PlayerService(new PlayerDAOImp(db));
+        this.playerService = new PlayerService(playerDAO);
         this.playerCertificateService = new PlayerCertificateService(playerCertificateDao, certificateDao, playerDAO, roomDAO);
         this.ticketService = new TicketService(ticketDao, roomDAO, playerDAO);
     }
