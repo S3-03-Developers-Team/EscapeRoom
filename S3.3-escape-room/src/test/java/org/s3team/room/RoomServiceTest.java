@@ -112,7 +112,7 @@ class RoomServiceTest {
         assertThrows(RoomNotFoundException.class, () -> roomServiceWithMocks.findById(roomId));
     }
 
-    /*@Test
+    @Test
     void delete_shouldCallDAOAndReturnTrue_whenRoomExists() {
         Id<Room> roomId = new Id<>(1);
         Room mockRoom = mock(Room.class);
@@ -128,7 +128,7 @@ class RoomServiceTest {
         assertTrue(result);
         verify(mockRoomDAO).findById(roomId);
         verify(mockRoomDAO).delete(roomId);
-    }*/
+    }
 
     @Test
     void delete_shouldThrowException_whenRoomNotFound() {
@@ -141,7 +141,7 @@ class RoomServiceTest {
         verify(mockRoomDAO, never()).delete(any());
     }
 
-  /*  @Test
+    @Test
     void update_shouldReturnTrue_whenRoomExistsAndThemeExists() {
         Id<Theme> themeId = new Id<>(1);
 
@@ -155,7 +155,7 @@ class RoomServiceTest {
 
         assertTrue(result);
         verify(mockRoomDAO).update(room);
-    }*/
+    }
 
     @Test
     void update_shouldThrowException_whenRoomNotFound() {
