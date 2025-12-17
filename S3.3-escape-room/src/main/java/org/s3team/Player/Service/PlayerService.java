@@ -1,5 +1,7 @@
 package org.s3team.Player.Service;
 
+import org.s3team.Exceptions.DataBaseConnectionException;
+import org.s3team.Exceptions.PlayerIsAlreadyInDataBaseException;
 import org.s3team.Player.DAO.PlayerDAO;
 import org.s3team.Player.Model.Player;
 import org.s3team.common.valueobject.Id;
@@ -16,7 +18,25 @@ public class PlayerService {
     }
 
     public Player save(Player player) {
-        return playerDAO.save(player);
+        try {
+            if (player.getId() != null) {
+                throw new IllegalArgumentException("Cannot save existing player. Use update() instead.");
+            }
+
+            playerDAO.findByEmail(player.getEmail().value())
+                    .ifPresent(existing -> {
+                        throw new PlayerIsAlreadyInDataBaseException(
+                                "Player with email '" + player.getEmail() + "' already exists"
+                        );
+                    });
+
+            return playerDAO.save(player);
+
+        } catch (PlayerIsAlreadyInDataBaseException | IllegalArgumentException e) {
+            throw e;
+        } catch (RuntimeException e) {
+            throw new DataBaseConnectionException("Database error", e);
+        }
     }
 
     public Optional<Player> findById(Id<Player> id) {
