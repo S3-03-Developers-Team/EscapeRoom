@@ -34,17 +34,11 @@ import java.sql.SQLException;
                     "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=MYSQL", "sa", "");
 
             try (Statement stmt = conn.createStatement()) {
+                stmt.execute("CREATE TABLE IF NOT EXISTS theme (" +
+                        "id_theme INT PRIMARY KEY, " +
+                        "name VARCHAR(255) NOT NULL)");
 
-                stmt.execute("""
-                CREATE TABLE IF NOT EXISTS theme (
-                    id_theme INT AUTO_INCREMENT PRIMARY KEY,
-                    name VARCHAR(255) NOT NULL)""");
-
-                        stmt.execute("""
-                MERGE INTO theme (id_theme, name)
-                KEY(id_theme)
-                VALUES (1, 'Default Theme')""");
-
+                stmt.execute("MERGE INTO theme (id_theme, name) KEY(id_theme) VALUES (1, 'Default Theme')");
 
                 stmt.execute("CREATE TABLE IF NOT EXISTS room (" +
                         "id_room INT AUTO_INCREMENT PRIMARY KEY, " +
