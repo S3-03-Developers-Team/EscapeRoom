@@ -42,7 +42,10 @@ To run this project, you will need to have Docker and Docker Compose installed o
 
 ## Contributors
 
--   
+-   Pedro Navarro - Developer
+-   Rong Jiang - Developer
+-   Cesar Castelló - Developer
+-   Rafael di Candia - Developer
 
 ## Further Contributions
 
