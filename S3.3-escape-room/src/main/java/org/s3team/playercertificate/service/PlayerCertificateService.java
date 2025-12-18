@@ -1,0 +1,106 @@
+package org.s3team.playercertificate.service;
+
+import org.s3team.exceptions.CertificateNotFoundException;
+import org.s3team.exceptions.PlayerNotFoundException;
+import org.s3team.exceptions.RoomNotFoundException;
+import org.s3team.player.dao.PlayerDAO;
+import org.s3team.player.model.Player;
+import org.s3team.certificate.dao.CertificateDao;
+import org.s3team.certificate.model.Certificate;
+import org.s3team.common.valueobject.Id;
+import org.s3team.playercertificate.dao.PlayerCertificateDao;
+import org.s3team.playercertificate.dto.PlayerCertificateInfo;
+import org.s3team.playercertificate.model.PlayerCertificate;
+import org.s3team.room.dao.RoomDAO;
+import org.s3team.room.model.Room;
+
+import java.sql.SQLException;
+import java.util.List;
+
+public class PlayerCertificateService {
+
+    private final PlayerCertificateDao pcDao;
+    private final CertificateDao certificateDao;
+    private final PlayerDAO playerDAO;
+    private final RoomDAO roomDAO;
+
+
+    public PlayerCertificateService(PlayerCertificateDao pcDao, CertificateDao certificateDao, PlayerDAO playerDAO, RoomDAO roomDAO) {
+        this.pcDao = pcDao;
+        this.certificateDao = certificateDao;
+        this.playerDAO = playerDAO;
+        this.roomDAO = roomDAO;
+    }
+
+    public PlayerCertificate assignCertificate(Id<Player> playerId, Id<Certificate> certificateId, Id<Room> roomId) {
+        try {
+            playerDAO.findById(playerId)
+                    .orElseThrow(() -> new PlayerNotFoundException(playerId));
+
+            certificateDao.findById(certificateId)
+                    .orElseThrow(() -> new CertificateNotFoundException(certificateId));
+
+            roomDAO.findById(roomId)
+                    .orElseThrow(() -> new RoomNotFoundException(roomId));
+
+            if (pcDao.exists(playerId, certificateId, roomId)) {
+                throw new IllegalStateException("Certificate " + certificateId + " already assigned to player " + playerId + " in room " + roomId);
+            }
+
+
+            PlayerCertificate pc = PlayerCertificate.createNew(playerId, certificateId, roomId);
+            return pcDao.add(pc);
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error assigning certificate", e);
+        }
+    }
+
+    public List<PlayerCertificate> getCertificatesByPlayer(Id<Player> playerId) {
+        try {
+            return pcDao.findByPlayer(playerId);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error fetching certificates by player", e);
+        }
+    }
+
+    public List<PlayerCertificate> getCertificatesByRoom(Id<Room> roomId) {
+        try {
+            return pcDao.findByRoom(roomId);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error fetching certificates by room", e);
+        }
+    }
+
+    public List<PlayerCertificate> getAllCertificates() {
+        try {
+            return pcDao.findAll();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error fetching all certificates", e);
+        }
+    }
+
+    public List<PlayerCertificateInfo> getCertificatesForPlayerWithInfo(Id<Player> playerId) {
+        try {
+            return pcDao.findCertificatesByPlayerWithInfo(playerId);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error fetching certificates for player", e);
+        }
+    }
+
+    public List<PlayerCertificateInfo> getCertificatesForRoomWithInfo(Id<Room> roomId) {
+        try {
+            return pcDao.findCertificatesByRoomWithInfo(roomId);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error fetching certificates for room", e);
+        }
+    }
+
+    public List<PlayerCertificateInfo> getAllCertificatesWithInfo() {
+        try {
+            return pcDao.findAllWithInfo();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error fetching all certificates with info", e);
+        }
+    }
+}
